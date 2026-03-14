@@ -1,0 +1,1506 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cityfurnish — Influencer Dashboard</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+  /* ═════════════════════════════════════════════════ */
+  /* RESET & BASE STYLES */
+  /* ═════════════════════════════════════════════════ */
+  *{margin:0;padding:0;box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    font-family:'Inter',sans-serif;
+    background:#FAFAFA;
+    color:#1C1B1F;
+    min-height:100vh;
+    line-height:1.5;
+  }
+
+  /* ═════════════════════════════════════════════════ */
+  /* HEADER (Cityfurnish Brand) */
+  /* ═════════════════════════════════════════════════ */
+  .header{
+    background:linear-gradient(135deg, #222222 0%, #2a2a2a 100%);
+    border-bottom:3px solid #F6B704;
+    padding:18px 36px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    position:sticky;
+    top:0;
+    z-index:100;
+    box-shadow:0 2px 12px rgba(0,0,0,0.08);
+  }
+
+  .header-left{
+    display:flex;
+    align-items:center;
+    gap:14px;
+  }
+
+  .logo{
+    width:40px;
+    height:40px;
+    background:#F6B704;
+    border-radius:8px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-weight:700;
+    font-size:13px;
+    color:#222222;
+    letter-spacing:0.5px;
+  }
+
+  .brand-name{
+    font-size:18px;
+    font-weight:700;
+    color:#FFFFFF;
+    letter-spacing:-0.5px;
+  }
+
+  .brand-sub{
+    font-size:12px;
+    color:#F6B704;
+    font-weight:500;
+    margin-left:8px;
+  }
+
+  .header-right{
+    font-size:12px;
+    color:#B0B0B0;
+    display:flex;
+    align-items:center;
+    gap:8px;
+  }
+
+  /* ═════════════════════════════════════════════════ */
+  /* TABS (Gold Underline for Active) */
+  /* ═════════════════════════════════════════════════ */
+  .tabs{
+    display:flex;
+    gap:0;
+    background:#FFFFFF;
+    border-bottom:1px solid #E8E8E8;
+    padding:0 36px;
+    position:sticky;
+    top:77px;
+    z-index:50;
+  }
+
+  .tab{
+    padding:14px 20px;
+    font-size:14px;
+    font-weight:500;
+    color:#45454A;
+    cursor:pointer;
+    border-bottom:3px solid transparent;
+    transition:all 0.2s ease;
+    position:relative;
+  }
+
+  .tab:hover{
+    color:#1C1B1F;
+  }
+
+  .tab.active{
+    color:#222222;
+    border-bottom-color:#F6B704;
+    font-weight:600;
+  }
+
+  /* ═════════════════════════════════════════════════ */
+  /* MAIN LAYOUT */
+  /* ═════════════════════════════════════════════════ */
+  .main{
+    max-width:1280px;
+    margin:0 auto;
+    padding:24px 36px 40px;
+  }
+
+  .view{display:none;}
+  .view.active{display:block;}
+
+  /* ═════════════════════════════════════════════════ */
+  /* CARDS & CONTAINERS */
+  /* ═════════════════════════════════════════════════ */
+  .card{
+    background:#FFFFFF;
+    border:1px solid #E8E8E8;
+    border-radius:12px;
+    padding:20px;
+    margin-bottom:16px;
+    transition:all 0.2s ease;
+    box-shadow:0 1px 3px rgba(0,0,0,0.05);
+  }
+
+  .card:hover{
+    box-shadow:0 4px 16px rgba(246,183,4,0.08);
+    border-color:#F6B704;
+  }
+
+  .card-title{
+    font-size:11px;
+    font-weight:700;
+    color:#222222;
+    margin-bottom:14px;
+    text-transform:uppercase;
+    letter-spacing:0.5px;
+    display:flex;
+    align-items:center;
+    gap:8px;
+  }
+
+  /* ═════════════════════════════════════════════════ */
+  /* KPI ROW (RESPONSIVE) */
+  /* ═════════════════════════════════════════════════ */
+  .kpi-row{
+    display:grid;
+    grid-template-columns:repeat(auto-fit, minmax(150px, 1fr));
+    gap:12px;
+    margin-bottom:20px;
+  }
+
+  .kpi{
+    background:#FFFFFF;
+    border:1px solid #E8E8E8;
+    border-left:4px solid #F6B704;
+    border-radius:10px;
+    padding:16px;
+    transition:all 0.2s ease;
+  }
+
+  .kpi:hover{
+    box-shadow:0 4px 12px rgba(246,183,4,0.1);
+    transform:translateY(-2px);
+  }
+
+  .kpi-label{
+    font-size:10px;
+    color:#45454A;
+    font-weight:600;
+    text-transform:uppercase;
+    letter-spacing:0.3px;
+    margin-bottom:6px;
+  }
+
+  .kpi-val{
+    font-size:22px;
+    font-weight:700;
+    color:#1C1B1F;
+    margin-bottom:4px;
+  }
+
+  .kpi-sub{
+    font-size:10px;
+    color:#45454A;
+    margin-top:2px;
+  }
+
+  /* ═════════════════════════════════════════════════ */
+  /* FILTER CONTROLS */
+  /* ═════════════════════════════════════════════════ */
+  .filter-section{
+    background:#FFFFFF;
+    border:1px solid #E8E8E8;
+    border-radius:10px;
+    padding:14px 16px;
+    margin-bottom:16px;
+    display:flex;
+    align-items:center;
+    gap:12px;
+    flex-wrap:wrap;
+  }
+
+  .filter-label{
+    font-size:12px;
+    font-weight:600;
+    color:#1C1B1F;
+    text-transform:uppercase;
+    letter-spacing:0.3px;
+  }
+
+  .filter-row{
+    display:flex;
+    gap:8px;
+    flex-wrap:wrap;
+  }
+
+  .filter-btn{
+    padding:7px 14px;
+    border-radius:6px;
+    font-size:12px;
+    font-weight:500;
+    border:1px solid #E8E8E8;
+    background:#FFFFFF;
+    cursor:pointer;
+    color:#45454A;
+    transition:all 0.15s ease;
+    white-space:nowrap;
+  }
+
+  .filter-btn:hover{
+    border-color:#F6B704;
+    color:#222222;
+  }
+
+  .filter-btn.active{
+    background:#F6B704;
+    color:#222222;
+    border-color:#F6B704;
+    font-weight:600;
+  }
+
+  /* ═════════════════════════════════════════════════ */
+  /* INFO BANNER */
+  /* ═════════════════════════════════════════════════ */
+  .info-banner{
+    background:linear-gradient(135deg, #FFF8E7 0%, #FFFBF0 100%);
+    border:1px solid #F6B704;
+    border-radius:10px;
+    padding:12px 16px;
+    margin-bottom:16px;
+    font-size:12px;
+    color:#45454A;
+    display:flex;
+    align-items:center;
+    gap:8px;
+  }
+
+  .info-banner::before{
+    content:'ℹ';
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    width:20px;
+    height:20px;
+    background:#F6B704;
+    color:#FFFFFF;
+    border-radius:50%;
+    font-weight:700;
+    font-size:11px;
+    flex-shrink:0;
+  }
+
+  /* ═════════════════════════════════════════════════ */
+  /* CHARTS */
+  /* ═════════════════════════════════════════════════ */
+  .charts-row{
+    display:grid;
+    grid-template-columns:repeat(auto-fit, minmax(300px, 1fr));
+    gap:14px;
+    margin-bottom:16px;
+  }
+
+  .chart-wrap{
+    position:relative;
+    height:220px;
+  }
+
+  /* ═════════════════════════════════════════════════ */
+  /* TABLE STYLING */
+  /* ═════════════════════════════════════════════════ */
+  .tbl-wrap{
+    overflow-x:auto;
+    border-radius:8px;
+  }
+
+  table{
+    width:100%;
+    border-collapse:collapse;
+    font-size:12px;
+  }
+
+  thead tr{
+    background:#F5F5F5;
+  }
+
+  th{
+    text-align:left;
+    padding:10px 12px;
+    font-size:10px;
+    font-weight:700;
+    color:#1C1B1F;
+    text-transform:uppercase;
+    letter-spacing:0.3px;
+    border-bottom:1px solid #E8E8E8;
+    cursor:pointer;
+    white-space:nowrap;
+  }
+
+  td{
+    padding:11px 12px;
+    border-bottom:1px solid #F5F5F5;
+    color:#45454A;
+    white-space:nowrap;
+  }
+
+  tbody tr:nth-child(odd){
+    background:#FAFAFA;
+  }
+
+  tbody tr:hover{
+    background:#F5F5F5;
+  }
+
+  .inf-cell{
+    display:flex;
+    align-items:center;
+    gap:10px;
+  }
+
+  .inf-av{
+    width:32px;
+    height:32px;
+    border-radius:8px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-weight:700;
+    font-size:11px;
+    color:#FFFFFF;
+    flex-shrink:0;
+  }
+
+  .inf-name{
+    font-weight:600;
+    color:#1C1B1F;
+    font-size:12px;
+  }
+
+  .inf-handle{
+    font-size:10px;
+    color:#45454A;
+  }
+
+  .badge{
+    display:inline-block;
+    padding:3px 8px;
+    border-radius:4px;
+    font-size:9px;
+    font-weight:700;
+    text-transform:uppercase;
+    white-space:nowrap;
+  }
+
+  .badge-gold{
+    background:#FFF3E0;
+    color:#E65100;
+  }
+
+  .badge-gray{
+    background:#F0F0F0;
+    color:#45454A;
+  }
+
+  .badge-instagram{
+    background:#FCE4EC;
+    color:#E91E63;
+  }
+
+  .badge-carousel{
+    background:#E3F2FD;
+    color:#1565C0;
+  }
+
+  .badge-barter{
+    background:#F3E5F5;
+    color:#7B1FA2;
+  }
+
+  /* ═════════════════════════════════════════════════ */
+  /* INDIVIDUAL PERFORMANCE */
+  /* ═════════════════════════════════════════════════ */
+  .collab-row{
+    background:#FFFFFF;
+    border:1px solid #E8E8E8;
+    border-radius:10px;
+    padding:14px 16px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    cursor:pointer;
+    transition:all 0.12s ease;
+    margin-bottom:8px;
+  }
+
+  .collab-row:hover{
+    border-color:#F6B704;
+    background:#FFFBF0;
+    box-shadow:0 2px 8px rgba(246,183,4,0.08);
+  }
+
+  .collab-row.expanded{
+    border-color:#F6B704;
+    background:#FFFBF0;
+    border-radius:10px 10px 0 0;
+    margin-bottom:0;
+    box-shadow:0 2px 8px rgba(246,183,4,0.08);
+  }
+
+  .collab-left{
+    display:flex;
+    align-items:center;
+    gap:12px;
+    flex:1;
+    min-width:0;
+  }
+
+  .collab-meta{
+    min-width:0;
+  }
+
+  .collab-inf{
+    font-weight:600;
+    font-size:13px;
+    white-space:nowrap;
+    overflow:hidden;
+    text-overflow:ellipsis;
+    display:flex;
+    align-items:center;
+    gap:8px;
+  }
+
+  .collab-sub{
+    font-size:11px;
+    color:#45454A;
+    white-space:nowrap;
+    overflow:hidden;
+    text-overflow:ellipsis;
+    margin-top:2px;
+  }
+
+  .collab-right{
+    display:flex;
+    align-items:center;
+    gap:18px;
+    flex-shrink:0;
+  }
+
+  .collab-stat{
+    text-align:right;
+  }
+
+  .collab-stat-val{
+    font-size:14px;
+    font-weight:700;
+    color:#1C1B1F;
+  }
+
+  .collab-stat-lbl{
+    font-size:9px;
+    color:#45454A;
+    text-transform:uppercase;
+    letter-spacing:0.2px;
+    margin-top:2px;
+  }
+
+  .collab-arrow{
+    color:#C0C0C0;
+    font-size:14px;
+    transition:transform 0.2s ease;
+    margin-left:8px;
+  }
+
+  .collab-row.expanded .collab-arrow{
+    transform:rotate(90deg);
+    color:#F6B704;
+  }
+
+  /* ═════════════════════════════════════════════════ */
+  /* DETAIL PANEL */
+  /* ═════════════════════════════════════════════════ */
+  .collab-detail{
+    display:none;
+    background:#FFFFFF;
+    border:1px solid #F6B704;
+    border-top:none;
+    border-radius:0 0 10px 10px;
+    margin-bottom:8px;
+    padding:20px;
+    animation:slideDown 0.15s ease;
+    box-shadow:0 2px 8px rgba(246,183,4,0.08);
+  }
+
+  .collab-detail.open{
+    display:block;
+  }
+
+  @keyframes slideDown{
+    from{
+      opacity:0;
+      transform:translateY(-8px);
+    }
+    to{
+      opacity:1;
+      transform:translateY(0);
+    }
+  }
+
+  .detail-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit, minmax(110px, 1fr));
+    gap:10px;
+    margin-bottom:16px;
+  }
+
+  .d-stat{
+    background:#F5F5F5;
+    border-radius:8px;
+    padding:12px;
+    border-left:3px solid #F6B704;
+  }
+
+  .d-stat .lbl{
+    font-size:9px;
+    color:#45454A;
+    text-transform:uppercase;
+    letter-spacing:0.2px;
+    margin-bottom:4px;
+    font-weight:600;
+  }
+
+  .d-stat .val{
+    font-size:16px;
+    font-weight:700;
+    color:#1C1B1F;
+  }
+
+  .d-stat .sub{
+    font-size:9px;
+    color:#45454A;
+    margin-top:3px;
+  }
+
+  /* ═════════════════════════════════════════════════ */
+  /* PLACEHOLDER BOX (Retention Curve) */
+  /* ═════════════════════════════════════════════════ */
+  .placeholder-box{
+    background:#FAFAFA;
+    border:2px dashed #E8E8E8;
+    border-radius:8px;
+    padding:24px;
+    text-align:center;
+    margin-bottom:16px;
+    transition:all 0.2s ease;
+  }
+
+  .placeholder-box:hover{
+    border-color:#F6B704;
+    background:#FFFBF0;
+  }
+
+  .placeholder-icon{
+    font-size:32px;
+    margin-bottom:8px;
+    opacity:0.5;
+  }
+
+  .placeholder-text{
+    font-size:12px;
+    color:#45454A;
+    line-height:1.5;
+  }
+
+  /* ═════════════════════════════════════════════════ */
+  /* SUMMARY BOX */
+  /* ═════════════════════════════════════════════════ */
+  .summary-box{
+    background:linear-gradient(135deg, #FFF8E7 0%, #FFFBF0 100%);
+    border:1px solid #F6B704;
+    border-radius:8px;
+    padding:14px 16px;
+    margin-top:12px;
+  }
+
+  .summary-title{
+    font-size:11px;
+    font-weight:700;
+    color:#E65100;
+    text-transform:uppercase;
+    letter-spacing:0.4px;
+    margin-bottom:8px;
+  }
+
+  .summary-text{
+    font-size:12px;
+    color:#1C1B1F;
+    line-height:1.6;
+  }
+
+  .summary-text strong{
+    color:#222222;
+    font-weight:600;
+  }
+
+  /* ═════════════════════════════════════════════════ */
+  /* SEARCH INPUT */
+  /* ═════════════════════════════════════════════════ */
+  .search-input{
+    background:#FFFFFF;
+    border:1px solid #E8E8E8;
+    border-radius:8px;
+    padding:8px 12px;
+    font-family:inherit;
+    font-size:12px;
+    outline:none;
+    color:#1C1B1F;
+    transition:all 0.2s ease;
+    min-width:200px;
+  }
+
+  .search-input::placeholder{
+    color:#45454A;
+  }
+
+  .search-input:focus{
+    border-color:#F6B704;
+    box-shadow:0 0 0 3px rgba(246,183,4,0.1);
+  }
+
+  /* ═════════════════════════════════════════════════ */
+  /* FOOTER */
+  /* ═════════════════════════════════════════════════ */
+  .footer{
+    text-align:center;
+    font-size:11px;
+    color:#45454A;
+    padding:20px 36px;
+    margin-top:40px;
+    border-top:1px solid #E8E8E8;
+    background:#FAFAFA;
+  }
+
+  .footer-badge{
+    display:inline-block;
+    background:#F6B704;
+    color:#222222;
+    padding:3px 8px;
+    border-radius:4px;
+    font-weight:600;
+    font-size:10px;
+    margin:0 4px;
+    letter-spacing:0.2px;
+  }
+
+  /* ═════════════════════════════════════════════════ */
+  /* RESPONSIVE DESIGN */
+  /* ═════════════════════════════════════════════════ */
+  @media(max-width:1000px){
+    .kpi-row{
+      grid-template-columns:repeat(2, 1fr);
+    }
+
+    .charts-row{
+      grid-template-columns:1fr;
+    }
+
+    .detail-grid{
+      grid-template-columns:repeat(2, 1fr);
+    }
+  }
+
+  @media(max-width:768px){
+    .header{
+      padding:14px 20px;
+      flex-direction:column;
+      gap:10px;
+      align-items:flex-start;
+    }
+
+    .header-right{
+      font-size:10px;
+      width:100%;
+    }
+
+    .main{
+      padding:16px 16px 24px;
+    }
+
+    .tabs{
+      padding:0 16px;
+    }
+
+    .tab{
+      padding:12px 14px;
+      font-size:12px;
+    }
+
+    .kpi-row{
+      grid-template-columns:1fr;
+    }
+
+    .filter-section{
+      flex-direction:column;
+      align-items:flex-start;
+    }
+
+    .collab-right{
+      gap:12px;
+      font-size:11px;
+    }
+
+    .collab-stat:nth-child(n+3){
+      display:none;
+    }
+
+    .search-input{
+      min-width:100%;
+    }
+
+    .detail-grid{
+      grid-template-columns:1fr;
+    }
+  }
+
+  /* UTM & Conversions Section */
+  .utm-section{
+    margin-top:24px;
+  }
+  .utm-kpi-row{
+    display:grid;
+    grid-template-columns:repeat(auto-fit, minmax(160px,1fr));
+    gap:14px;
+    margin-bottom:20px;
+  }
+  .utm-kpi{
+    background:#FFFFFF;
+    border:1px solid #E8E8E8;
+    border-left:3px solid #7c4dff;
+    border-radius:10px;
+    padding:16px;
+    text-align:center;
+  }
+  .utm-kpi .kpi-label{color:#45454A;font-size:11px;font-weight:500;margin-bottom:4px;}
+  .utm-kpi .kpi-val{font-size:22px;font-weight:700;color:#7c4dff;}
+  .utm-kpi .kpi-sub{font-size:10px;color:#999;margin-top:2px;}
+
+  .utm-table{width:100%;border-collapse:collapse;font-size:12px;}
+  .utm-table th{text-align:left;padding:10px 12px;background:#F9F9F9;color:#45454A;font-weight:600;font-size:11px;border-bottom:2px solid #E8E8E8;}
+  .utm-table td{padding:10px 12px;border-bottom:1px solid #F0F0F0;vertical-align:middle;}
+  .utm-table tr:hover{background:#FAFAFA;}
+  .utm-bar{height:6px;border-radius:3px;background:#E8E8E8;position:relative;min-width:60px;}
+  .utm-bar-fill{height:100%;border-radius:3px;background:linear-gradient(90deg,#7c4dff,#b388ff);}
+  .utm-campaign-name{font-weight:600;color:#1C1B1F;}
+  .utm-source-badge{display:inline-block;padding:2px 8px;border-radius:4px;font-size:10px;font-weight:500;background:#F3E5F5;color:#7c4dff;}
+  .ga4-badge{display:inline-block;padding:2px 8px;border-radius:4px;font-size:9px;font-weight:600;background:#E8F5E9;color:#2e7d32;margin-left:6px;}
+</style>
+</head>
+<body>
+
+<!-- ═══════════════════════════════════════════════ -->
+<!-- HEADER -->
+<!-- ═══════════════════════════════════════════════ -->
+<header class="header">
+  <div class="header-left">
+    <div class="logo">CF</div>
+    <div>
+      <div class="brand-name">cityfurnish</div>
+      <div class="brand-sub">Influencer Collaborations</div>
+    </div>
+  </div>
+  <div class="header-right">Last updated: 14 Mar 2026 · Live Instagram Data</div>
+</header>
+
+<!-- ═══════════════════════════════════════════════ -->
+<!-- TABS -->
+<!-- ═══════════════════════════════════════════════ -->
+<div class="tabs">
+  <div class="tab active" onclick="switchTab('aggregate')">Aggregate Overview</div>
+  <div class="tab" onclick="switchTab('individual')">Individual Performance</div>
+</div>
+
+<!-- ═══════════════════════════════════════════════ -->
+<!-- MAIN CONTENT -->
+<!-- ═══════════════════════════════════════════════ -->
+<div class="main">
+
+  <!-- ═══════ AGGREGATE TAB ═══════ -->
+  <div class="view active" id="view-aggregate">
+
+    <!-- Time Period Filter -->
+    <div class="filter-section">
+      <div class="filter-label">📅 Time Period:</div>
+      <div class="filter-row" id="timeFilters"></div>
+    </div>
+
+    <!-- KPI Row -->
+    <div class="kpi-row" id="agg-kpis"></div>
+
+    <!-- Charts Row 1 -->
+    <div class="charts-row">
+      <div class="card">
+        <div class="card-title">📊 Engagement Breakdown</div>
+        <div class="chart-wrap"><canvas id="aggEngChart"></canvas></div>
+      </div>
+      <div class="card">
+        <div class="card-title">📱 Platform Distribution</div>
+        <div class="chart-wrap"><canvas id="aggPlatChart"></canvas></div>
+      </div>
+    </div>
+
+    <!-- Charts Row 2 -->
+    <div class="charts-row">
+      <div class="card">
+        <div class="card-title">📝 Content Type Split</div>
+        <div class="chart-wrap"><canvas id="aggTypeChart"></canvas></div>
+      </div>
+      <div class="card">
+        <div class="card-title">⭐ Top Engagement Posts</div>
+        <div class="chart-wrap"><canvas id="aggTopChart"></canvas></div>
+      </div>
+    </div>
+
+    <!-- Aggregate Table -->
+    <div class="card">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;flex-wrap:wrap;gap:12px;">
+        <div class="card-title" style="margin-bottom:0;">📋 All Posts</div>
+        <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap;">
+          <div class="filter-row" id="channelFilters"></div>
+          <input type="text" class="search-input" id="aggSearch" placeholder="Search influencer...">
+        </div>
+      </div>
+      <div class="tbl-wrap">
+        <table>
+          <thead><tr>
+            <th>Influencer</th><th>Platform</th><th>Date</th><th>Type</th><th>Likes</th><th>Comments</th><th>Saves</th><th>Shares</th><th>Data Source</th>
+          </tr></thead>
+          <tbody id="aggTableBody"></tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- UTM & Conversions Section (GA4 Data) -->
+    <div class="utm-section">
+      <div class="card">
+        <div class="card-title">🔗 UTM & Conversions Tracking <span class="ga4-badge">GA4 Live Data</span></div>
+        <div style="font-size:11px;color:#45454A;margin-bottom:16px;">Data pulled from Google Analytics 4 (Dec 14, 2025 — Mar 13, 2026). Tracks UTM link clicks, website sessions, and conversions from influencer campaigns.</div>
+
+        <!-- UTM KPIs -->
+        <div class="utm-kpi-row" id="utm-kpis"></div>
+
+        <!-- UTM Charts -->
+        <div class="charts-row" style="margin-bottom:16px;">
+          <div style="flex:1;min-width:300px;">
+            <div style="font-weight:600;font-size:12px;color:#1C1B1F;margin-bottom:8px;">Sessions by Campaign</div>
+            <div class="chart-wrap"><canvas id="utmSessionsChart"></canvas></div>
+          </div>
+          <div style="flex:1;min-width:300px;">
+            <div style="font-weight:600;font-size:12px;color:#1C1B1F;margin-bottom:8px;">Users by Campaign</div>
+            <div class="chart-wrap"><canvas id="utmUsersChart"></canvas></div>
+          </div>
+        </div>
+
+        <!-- UTM Table -->
+        <div class="tbl-wrap">
+          <table class="utm-table">
+            <thead><tr>
+              <th>Campaign</th><th>Influencer</th><th>Source / Medium</th><th>GA4 Users</th><th>GA4 Sessions</th><th>Transactions</th><th>Revenue</th><th>Short Link</th><th>Traffic Share</th>
+            </tr></thead>
+            <tbody id="utmTableBody"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ═══════ INDIVIDUAL TAB ═══════ -->
+  <div class="view" id="view-individual">
+
+    <!-- Info Banner -->
+    <div class="info-banner">
+      Watch Time, Skip Rate, and Retention data require the Instagram mobile app. These metrics are not available through the web interface for collaboration posts.
+    </div>
+
+    <!-- Search -->
+    <div style="display:flex;justify-content:flex-end;margin-bottom:12px;">
+      <input type="text" class="search-input" id="indSearch" placeholder="Search influencer...">
+    </div>
+
+    <!-- Collab List -->
+    <div id="collabList"></div>
+
+  </div>
+
+</div>
+
+<!-- ═══════════════════════════════════════════════ -->
+<!-- FOOTER -->
+<!-- ═══════════════════════════════════════════════ -->
+<div class="footer">
+  Powered by <span class="footer-badge">Cityfurnish Analytics</span> · Data from Instagram Insights
+</div>
+
+<script>
+// ═════════════════════════════════════════════════
+// DATA: 11 Posts (Dec 2025 - Mar 2026)
+// ═════════════════════════════════════════════════
+const posts = [
+  { id:1, inf:"krantiveer005", handle:"@krantiveer005", channel:"Instagram Reel", date:"28/02/26", cpv:null, cpvType:"paid", views:3420, likes:142, comments:17, shares:5, saves:8, reach:1867, accountsEngaged:159, avgWatch:null, avgWatchSec:null, skipRate:null, utmClicks:null, conversions:null, reposts:0, utmLink:null, utm:null, postedLink:"https://www.instagram.com/p/DVSf5VzATCl/", color:"#ff6b6b", caption:"Chhattisgarh se Delhi aaya sapne leke... (Paid partnership with View Insights)", dataType:"Full Insights" },
+  { id:2, inf:"littlethings_by_shruvi", handle:"@littlethings_by_shruvi", channel:"Instagram Reel", date:"21/02/26", cpv:null, cpvType:"barter", views:0, likes:612, comments:11, shares:0, saves:0, reach:0, accountsEngaged:0, avgWatch:null, avgWatchSec:null, skipRate:null, utmClicks:null, conversions:null, reposts:0, utmLink:null, utm:null, postedLink:"https://www.instagram.com/p/DVAaIvajPuV/", color:"#4ecdc4", caption:"Mumbai to Pune - buy or rent?", dataType:"Public Data Only" },
+  { id:3, inf:"shekartech93", handle:"@shekartech93", channel:"Instagram Reel", date:"14/02/26", cpv:null, cpvType:"barter", views:0, likes:104, comments:5, shares:0, saves:0, reach:0, accountsEngaged:0, avgWatch:null, avgWatchSec:null, skipRate:null, utmClicks:18, conversions:null, reposts:0, utmLink:"https://bit.ly/4qz5kJQ", utm:"https://cityfurnish.com/?utm_source=commonlink&utm_medium=allcommon&utm_campaign=commoon", postedLink:"https://www.instagram.com/p/DUvRZeiCWmJ/", color:"#95e1d3", caption:"Cityfurnish makes furniture affordable", dataType:"Public Data Only" },
+  { id:4, inf:"markyvichara", handle:"@markyvichara", channel:"Instagram Reel", date:"07/02/26", cpv:null, cpvType:"barter", views:0, likes:1021, comments:16, shares:0, saves:0, reach:0, accountsEngaged:0, avgWatch:null, avgWatchSec:null, skipRate:null, utmClicks:null, conversions:null, reposts:0, utmLink:null, utm:null, postedLink:"https://www.instagram.com/p/DUddsJhCXfI/", color:"#f38181", caption:"First salary → furniture EMI?", dataType:"Public Data Only" },
+  { id:5, inf:"behind_visions", handle:"@behind_visions", channel:"Instagram Reel", date:"28/01/26", cpv:null, cpvType:"barter", views:0, likes:143, comments:13, shares:0, saves:0, reach:0, accountsEngaged:0, avgWatch:null, avgWatchSec:null, skipRate:null, utmClicks:32, conversions:0, reposts:0, utmLink:"https://shorturl.at/cueeJ", utm:"https://cityfurnish.com/?utm_source=instagramstory&utm_medium=insta&utm_campaign=Aravind", postedLink:"https://www.instagram.com/p/DUDZetSCU2A/", color:"#aa96da", caption:"Turn empty spaces into effortless living", dataType:"Public Data Only" },
+  { id:6, inf:"ashitha__varma", handle:"@ashitha__varma", channel:"Instagram Reel", date:"27/01/26", cpv:null, cpvType:"barter", views:0, likes:1966, comments:15, shares:0, saves:0, reach:0, accountsEngaged:0, avgWatch:null, avgWatchSec:null, skipRate:null, utmClicks:27, conversions:null, reposts:0, utmLink:"https://url-shortener.me/9O54", utm:"https://cityfurnish.com/?utm_source=instagramstory&utm_medium=insta&utm_campaign=Ashithastory", postedLink:"https://www.instagram.com/p/DUBBY_Nkqun/", color:"#fcbad3", caption:"Why buy when you can rent & save BIG?", dataType:"Public Data Only" },
+  { id:7, inf:"gautamvigim", handle:"@gautamvigim", channel:"Instagram Carousel", date:"25/01/26", cpv:null, cpvType:"barter", views:0, likes:500, comments:10, shares:0, saves:0, reach:0, accountsEngaged:0, avgWatch:null, avgWatchSec:null, skipRate:null, utmClicks:null, conversions:null, reposts:0, utmLink:null, utm:null, postedLink:"https://www.instagram.com/p/DT77WtijJqY/", color:"#ffffd2", caption:"No buying furniture. No heavy investment.", dataType:"Public Data Only" },
+  { id:8, inf:"mayursanap_", handle:"@mayursanap_", channel:"Instagram Reel", date:"10/01/26", cpv:null, cpvType:"barter", views:0, likes:9089, comments:12, shares:0, saves:0, reach:0, accountsEngaged:0, avgWatch:null, avgWatchSec:null, skipRate:null, utmClicks:null, conversions:null, reposts:0, utmLink:null, utm:null, postedLink:"https://www.instagram.com/p/DTVcctiCf-S/", color:"#ffa502", caption:"Moving to Bangalore felt overwhelming", dataType:"Public Data Only" },
+  { id:9, inf:"upasanakochhar", handle:"@upasanakochhar", channel:"Instagram Carousel", date:"17/12/25", cpv:null, cpvType:"barter", views:0, likes:300, comments:6, shares:0, saves:0, reach:0, accountsEngaged:0, avgWatch:null, avgWatchSec:null, skipRate:null, utmClicks:null, conversions:null, reposts:0, utmLink:null, utm:null, postedLink:"https://www.instagram.com/p/DSXjyUrgeAz/", color:"#ffccb3", caption:"Belle Wardrobe by Cityfurnish", dataType:"Public Data Only" },
+  { id:10, inf:"gautamvigim", handle:"@gautamvigim", channel:"Instagram Reel", date:"29/11/25", cpv:null, cpvType:"barter", views:0, likes:400, comments:6, shares:0, saves:0, reach:0, accountsEngaged:0, avgWatch:null, avgWatchSec:null, skipRate:null, utmClicks:null, conversions:null, reposts:0, utmLink:null, utm:null, postedLink:"https://www.instagram.com/p/DRpTyG0ksdt/", color:"#ffffd2", caption:"Life gets way easier when you stop buying everything", dataType:"Public Data Only" },
+  { id:11, inf:"richa_mehta", handle:"@richa_mehta", channel:"Instagram Reel", date:"27/11/25", cpv:null, cpvType:"barter", views:0, likes:4050, comments:16, shares:0, saves:0, reach:0, accountsEngaged:0, avgWatch:null, avgWatchSec:null, skipRate:null, utmClicks:null, conversions:null, reposts:0, utmLink:null, utm:null, postedLink:"https://www.instagram.com/p/DRkNR7XE2bi/", color:"#a8d8d8", caption:"Why buy when you can live smarter?", dataType:"Public Data Only" },
+];
+
+const utmCampaigns = [
+  { campaign:"Aravind", source:"instagramstory", medium:"insta", shortLink:"https://shorturl.at/cueeJ", fullUtm:"https://cityfurnish.com/?utm_source=instagramstory&utm_medium=insta&utm_campaign=Aravind", ga4Users:22, ga4Sessions:32, ga4Transactions:0, ga4Revenue:0, sheetClicks:27, influencer:"Aravind", matchPostId:5, color:"#aa96da" },
+  { campaign:"Aravind2", source:"instagramstory", medium:"insta", shortLink:"https://shorturl.at/TlGz9", fullUtm:"https://cityfurnish.com/?utm_source=instagramstory&utm_medium=insta&utm_campaign=Aravind2", ga4Users:16, ga4Sessions:58, ga4Transactions:0, ga4Revenue:0, sheetClicks:55, influencer:"Aravind (Story)", matchPostId:null, color:"#b39ddb" },
+  { campaign:"Ashithastory", source:"instagramstory", medium:"insta", shortLink:"https://url-shortener.me/9O54", fullUtm:"https://cityfurnish.com/?utm_source=instagramstory&utm_medium=insta&utm_campaign=Ashithastory", ga4Users:21, ga4Sessions:27, ga4Transactions:0, ga4Revenue:0, sheetClicks:27, influencer:"Ashitha", matchPostId:6, color:"#fcbad3" },
+  { campaign:"commoon", source:"commonlink", medium:"allcommon", shortLink:"https://bit.ly/4qz5kJQ", fullUtm:"https://cityfurnish.com/?utm_source=commonlink&utm_medium=allcommon&utm_campaign=commoon", ga4Users:7, ga4Sessions:18, ga4Transactions:0, ga4Revenue:0, sheetClicks:18, influencer:"Shekar", matchPostId:3, color:"#95e1d3" },
+  { campaign:"Vipul ", source:"instagram", medium:"story", shortLink:"https://bit.ly/4s2HHuj", fullUtm:"https://cityfurnish.com/?utm_source=instagram&utm_medium=story&utm_campaign=Vipul+&utm_id=influencer", ga4Users:110, ga4Sessions:129, ga4Transactions:0, ga4Revenue:0, sheetClicks:129, influencer:"Vipul", matchPostId:null, color:"#7c4dff" },
+  { campaign:"Sourav", source:"instagram", medium:"story", shortLink:"https://shorturl.at/VAleV", fullUtm:"https://cityfurnish.com/?utm_source=instagram&utm_medium=story&utm_campaign=Sourav", ga4Users:8, ga4Sessions:9, ga4Transactions:0, ga4Revenue:0, sheetClicks:6, influencer:"Sourav", matchPostId:null, color:"#26a69a" },
+  { campaign:"raghupaydaystory", source:"payday", medium:"storyinsta", shortLink:"https://shorturl.at/OOApu", fullUtm:"https://cityfurnish.com/?utm_source=payday&utm_medium=storyinsta&utm_campaign=raghupaydaystory", ga4Users:16, ga4Sessions:24, ga4Transactions:0, ga4Revenue:0, sheetClicks:18, influencer:"Raghu", matchPostId:null, color:"#ff7043" },
+];
+
+// ═════════════════════════════════════════════════
+// HELPER FUNCTIONS
+// ═════════════════════════════════════════════════
+function fmt(v){
+  if(v==null||v===0)return'—';
+  if(v>=1000000)return(v/1000000).toFixed(1)+'M';
+  if(v>=1000)return(v/1000).toFixed(1)+'K';
+  return v.toString();
+}
+
+function parseDate(dateStr){
+  const [d,m,y]=dateStr.split('/');
+  return new Date(2000+parseInt(y),parseInt(m)-1,parseInt(d));
+}
+
+function isWithinRange(dateStr,days){
+  const postDate=parseDate(dateStr);
+  const today=new Date(2026,2,14);
+  const rangeStart=new Date(today);
+  rangeStart.setDate(today.getDate()-days);
+  return postDate>=rangeStart&&postDate<=today;
+}
+
+function totalEng(p){
+  return(p.likes||0)+(p.comments||0)+(p.shares||0)+(p.saves||0);
+}
+
+function engRate(p){
+  return p.views>0?((totalEng(p)/p.views)*100):0;
+}
+
+// ═════════════════════════════════════════════════
+// TAB SWITCHING
+// ═════════════════════════════════════════════════
+function switchTab(t){
+  document.querySelectorAll('.tab').forEach(e=>e.classList.remove('active'));
+  document.querySelectorAll('.view').forEach(e=>e.classList.remove('active'));
+  if(t==='aggregate'){
+    document.querySelector('.tab:nth-child(1)').classList.add('active');
+    document.getElementById('view-aggregate').classList.add('active');
+  }else{
+    document.querySelector('.tab:nth-child(2)').classList.add('active');
+    document.getElementById('view-individual').classList.add('active');
+  }
+}
+
+// ═════════════════════════════════════════════════
+// TIME PERIOD FILTER
+// ═════════════════════════════════════════════════
+let selectedPeriod='all';
+
+function applyTimePeriod(period,el){
+  selectedPeriod=period;
+  document.querySelectorAll('#timeFilters .filter-btn').forEach(b=>b.classList.remove('active'));
+  el.classList.add('active');
+  updateAggregate();
+}
+
+const timeFiltersEl=document.getElementById('timeFilters');
+timeFiltersEl.innerHTML=`
+  <div class="filter-btn active" onclick="applyTimePeriod('all',this)">All Time</div>
+  <div class="filter-btn" onclick="applyTimePeriod('30',this)">Last 30 Days</div>
+  <div class="filter-btn" onclick="applyTimePeriod('60',this)">Last 60 Days</div>
+  <div class="filter-btn" onclick="applyTimePeriod('90',this)">Last 90 Days</div>
+`;
+
+function getFilteredPosts(){
+  if(selectedPeriod==='all')return posts;
+  const days=parseInt(selectedPeriod);
+  return posts.filter(p=>isWithinRange(p.date,days));
+}
+
+// ═════════════════════════════════════════════════
+// AGGREGATE KPIs (Dynamic)
+// ═════════════════════════════════════════════════
+function updateAggregateKPIs(){
+  const filtered=getFilteredPosts();
+  const postsWithViews=filtered.filter(p=>p.views>0);
+  const totalViews=postsWithViews.reduce((s,p)=>s+p.views,0);
+  const totalLikes=filtered.reduce((s,p)=>s+(p.likes||0),0);
+  const totalComments=filtered.reduce((s,p)=>s+(p.comments||0),0);
+  const totalSaves=filtered.reduce((s,p)=>s+(p.saves||0),0);
+  const totalShares=filtered.reduce((s,p)=>s+(p.shares||0),0);
+  const totalEngagement=totalLikes+totalComments+totalShares+totalSaves;
+  const avgEngRate=totalViews>0?(totalEngagement/totalViews*100):0;
+  const uniqueInfluencers=[...new Set(filtered.map(p=>p.inf))].length;
+  const reelCount=filtered.filter(p=>p.channel.includes('Reel')).length;
+  const carouselCount=filtered.filter(p=>p.channel.includes('Carousel')).length;
+
+  const kpiData=[
+    {label:'Total Posts',val:filtered.length,sub:uniqueInfluencers+' creators'},
+    {label:'Total Likes',val:fmt(totalLikes),sub:'all posts'},
+    {label:'Total Comments',val:fmt(totalComments),sub:'engagement'},
+    {label:'Total Engagement',val:fmt(totalEngagement),sub:'all interactions'},
+    {label:'Engagement Rate',val:(totalViews>0?engRate({likes:totalLikes,comments:totalComments,shares:totalShares,saves:totalSaves,views:totalViews}).toFixed(1):0)+'%',sub:'avg per post'},
+    {label:'Unique Creators',val:uniqueInfluencers,sub:'collaborating'},
+  ];
+
+  const kpiEl=document.getElementById('agg-kpis');
+  kpiEl.innerHTML=kpiData.map(k=>`
+    <div class="kpi">
+      <div class="kpi-label">${k.label}</div>
+      <div class="kpi-val">${k.val}</div>
+      <div class="kpi-sub">${k.sub}</div>
+    </div>
+  `).join('');
+}
+
+// ═════════════════════════════════════════════════
+// CHART CONFIGURATION
+// ═════════════════════════════════════════════════
+Chart.defaults.color='#45454A';
+Chart.defaults.borderColor='#E8E8E8';
+Chart.defaults.font.family="'Inter',sans-serif";
+const tp={
+  backgroundColor:'#FFFFFF',
+  borderColor:'#E8E8E8',
+  borderWidth:1,
+  padding:10,
+  titleColor:'#1C1B1F',
+  bodyColor:'#45454A',
+  bodyFont:{size:11}
+};
+
+// ═════════════════════════════════════════════════
+// CHART INSTANCES (Global)
+// ═════════════════════════════════════════════════
+let chartInstances={};
+
+function updateCharts(){
+  const filtered=getFilteredPosts();
+
+  // Engagement Chart
+  if(chartInstances.engChart)chartInstances.engChart.destroy();
+  const eLabels=filtered.map(p=>p.inf.slice(0,10));
+  chartInstances.engChart=new Chart(document.getElementById('aggEngChart'),{
+    type:'bar',
+    data:{
+      labels:eLabels,
+      datasets:[
+        {label:'Likes',data:filtered.map(p=>p.likes||0),backgroundColor:'#F6B704',borderRadius:4},
+        {label:'Comments',data:filtered.map(p=>p.comments||0),backgroundColor:'#22c55e',borderRadius:4},
+        {label:'Shares',data:filtered.map(p=>p.shares||0),backgroundColor:'#3b82f6',borderRadius:4},
+        {label:'Saves',data:filtered.map(p=>p.saves||0),backgroundColor:'#ef4444',borderRadius:4}
+      ]
+    },
+    options:{
+      responsive:true,
+      maintainAspectRatio:false,
+      plugins:{
+        legend:{labels:{boxWidth:8,padding:10,usePointStyle:true,font:{size:10}}},
+        tooltip:{...tp}
+      },
+      scales:{
+        y:{stacked:true,grid:{color:'#F5F5F5'},ticks:{callback:v=>fmt(v),font:{size:10}}},
+        x:{stacked:true,grid:{display:false},ticks:{font:{size:9},maxRotation:45}}
+      }
+    }
+  });
+
+  // Platform Distribution
+  if(chartInstances.platChart)chartInstances.platChart.destroy();
+  const platforms={};filtered.forEach(p=>{platforms[p.channel]=(platforms[p.channel]||0)+1;});
+  const platLabels=Object.keys(platforms);
+  const platColors={'Instagram Reel':'#E91E63','Instagram Carousel':'#3B82F6'};
+  chartInstances.platChart=new Chart(document.getElementById('aggPlatChart'),{
+    type:'doughnut',
+    data:{
+      labels:platLabels,
+      datasets:[{
+        data:platLabels.map(l=>platforms[l]),
+        backgroundColor:platLabels.map(l=>platColors[l]||'#CCC'),
+        borderWidth:0
+      }]
+    },
+    options:{
+      responsive:true,
+      maintainAspectRatio:false,
+      cutout:'60%',
+      plugins:{
+        legend:{position:'right',labels:{boxWidth:8,padding:10,usePointStyle:true,font:{size:10}}},
+        tooltip:{...tp,callbacks:{label:c=>c.label+': '+c.raw+' posts'}}
+      }
+    }
+  });
+
+  // Content Type
+  if(chartInstances.typeChart)chartInstances.typeChart.destroy();
+  const reelCount=filtered.filter(p=>p.channel.includes('Reel')).length;
+  const carouselCount=filtered.filter(p=>p.channel.includes('Carousel')).length;
+  chartInstances.typeChart=new Chart(document.getElementById('aggTypeChart'),{
+    type:'bar',
+    data:{
+      labels:['Reels','Carousels'],
+      datasets:[{
+        data:[reelCount,carouselCount],
+        backgroundColor:['#F6B704','#3B82F6'],
+        borderRadius:5,
+        barPercentage:0.6
+      }]
+    },
+    options:{
+      responsive:true,
+      maintainAspectRatio:false,
+      plugins:{legend:{display:false},tooltip:{...tp}},
+      scales:{
+        y:{grid:{color:'#F5F5F5'},ticks:{font:{size:10}}},
+        x:{grid:{display:false},ticks:{font:{size:10}}}
+      }
+    }
+  });
+
+  // Top Posts
+  if(chartInstances.topChart)chartInstances.topChart.destroy();
+  const topPosts=filtered.slice().sort((a,b)=>((b.likes||0)-(a.likes||0))).slice(0,6);
+  chartInstances.topChart=new Chart(document.getElementById('aggTopChart'),{
+    type:'bar',
+    data:{
+      labels:topPosts.map(p=>p.inf.slice(0,8)),
+      datasets:[{
+        label:'Likes',
+        data:topPosts.map(p=>p.likes||0),
+        backgroundColor:topPosts.map(p=>p.color),
+        borderRadius:5,
+        barPercentage:0.6
+      }]
+    },
+    options:{
+      indexAxis:'y',
+      responsive:true,
+      maintainAspectRatio:false,
+      plugins:{legend:{display:false},tooltip:{...tp}},
+      scales:{
+        x:{grid:{color:'#F5F5F5'},ticks:{callback:v=>fmt(v),font:{size:10}}},
+        y:{grid:{display:false},ticks:{font:{size:9}}}
+      }
+    }
+  });
+}
+
+// ═════════════════════════════════════════════════
+// AGGREGATE TABLE
+// ═════════════════════════════════════════════════
+const channels=[...new Set(posts.map(p=>p.channel))];
+const filterRow=document.getElementById('channelFilters');
+filterRow.innerHTML='<div class="filter-btn active" onclick="filterChannel(\'all\',this)">All</div>'+
+  channels.map(c=>`<div class="filter-btn" onclick="filterChannel('${c}',this)">${c}</div>`).join('');
+
+let activeChannel='all';
+function filterChannel(ch,el){
+  activeChannel=ch;
+  document.querySelectorAll('#channelFilters .filter-btn').forEach(b=>b.classList.remove('active'));
+  el.classList.add('active');
+  renderAggTable();
+}
+
+function renderAggTable(){
+  const filtered=getFilteredPosts();
+  const q=(document.getElementById('aggSearch').value||'').toLowerCase();
+  const final=filtered.filter(p=>{
+    if(activeChannel!=='all'&&p.channel!==activeChannel)return false;
+    if(q&&!p.inf.toLowerCase().includes(q))return false;
+    return true;
+  });
+
+  document.getElementById('aggTableBody').innerHTML=final.map(p=>`<tr>
+    <td><div class="inf-cell"><div class="inf-av" style="background:${p.color}">${p.inf[0]}</div><span class="inf-name">${p.inf}</span></div></td>
+    <td><span class="badge badge-${p.channel.includes('Carousel')?'carousel':'instagram'}">${p.channel}</span></td>
+    <td style="font-size:11px;color:#45454A">${p.date}</td>
+    <td><span class="badge badge-barter">Barter</span></td>
+    <td><strong>${fmt(p.likes)}</strong></td>
+    <td>${p.comments||0}</td>
+    <td>${fmt(p.saves)}</td>
+    <td>${fmt(p.shares)}</td>
+    <td><span class="badge ${p.dataType==='Full Insights'?'badge-gold':'badge-gray'}">${p.dataType==='Full Insights'?'Full Insights':'Public Data'}</span></td>
+  </tr>`).join('');
+}
+
+function updateAggregate(){
+  updateAggregateKPIs();
+  updateCharts();
+  renderAggTable();
+}
+
+document.getElementById('aggSearch').addEventListener('input',renderAggTable);
+
+// ═════════════════════════════════════════════════
+// INDIVIDUAL PERFORMANCE
+// ═════════════════════════════════════════════════
+function generateSummary(p){
+  let lines=[];
+
+  if(p.dataType==='Public Data Only'){
+    lines.push(`<strong>Data Type:</strong> Public data only (no View Insights available). Evaluate based on likes/comments engagement.`);
+  }else{
+    lines.push(`<strong>Data Type:</strong> Full insights available from Instagram paid partnership tracking.`);
+  }
+
+  if(p.views>0){
+    lines.push(`<strong>Reach:</strong> ${fmt(p.views)} views, ${fmt(p.reach)} reach (${p.accountsEngaged} accounts engaged).`);
+  }
+
+  const te=totalEng(p);
+  if(p.likes>0){
+    if(p.likes>=1000)lines.push(`<strong>High engagement (${fmt(p.likes)} likes):</strong> Strong audience response, top-performing post.`);
+    else if(p.likes>=500)lines.push(`<strong>Good engagement (${fmt(p.likes)} likes):</strong> Solid audience interaction.`);
+    else if(p.likes>=100)lines.push(`<strong>Moderate engagement (${fmt(p.likes)} likes):</strong> Fair audience response.`);
+    else lines.push(`<strong>Engagement (${fmt(p.likes)} likes):</strong> Lower interaction rate.`);
+  }
+
+  if(p.comments>0){
+    lines.push(`<strong>Comments (${p.comments}):</strong> ${p.comments>=10?'Strong comment volume indicates high content relevance.':'Some discussion and engagement.'}`);
+  }
+
+  if(p.saves>0){
+    lines.push(`<strong>Saves (${p.saves}):</strong> Content bookmarked for future reference.`);
+  }
+
+  if(p.inf.includes('mayursanap'))lines.push(`<strong>Performance:</strong> Highest likes count (9,089) in collaboration batch.`);
+  else if(p.likes>1000)lines.push(`<strong>Performance:</strong> Consistently high engagement for barter format.`);
+
+  lines.push(`<strong>Recommendation:</strong> ${p.cpvType==='paid'?'Paid partnership with insights — good for data-driven optimization':'Barter collab — assess content quality and audience for future paid campaigns'}.`);
+
+  return lines.join('<br>');
+}
+
+const listEl=document.getElementById('collabList');
+posts.forEach((p,i)=>{
+  const div=document.createElement('div');
+  div.innerHTML=`
+    <div class="collab-row" onclick="toggleDetail(${i})">
+      <div class="collab-left">
+        <div class="inf-av" style="background:${p.color};width:40px;height:40px;font-size:13px;">${p.inf[0]}</div>
+        <div class="collab-meta">
+          <div class="collab-inf">${p.inf} <span class="badge badge-${p.channel.includes('Carousel')?'carousel':'instagram'}" style="font-size:9px;">${p.channel}</span></div>
+          <div class="collab-sub">${p.date} · ${p.dataType}</div>
+        </div>
+      </div>
+      <div class="collab-right">
+        <div class="collab-stat"><div class="collab-stat-val">${fmt(p.likes)}</div><div class="collab-stat-lbl">Likes</div></div>
+        <div class="collab-stat"><div class="collab-stat-val">${p.comments||0}</div><div class="collab-stat-lbl">Comments</div></div>
+        <div class="collab-stat"><div class="collab-stat-val">${fmt(p.views)}</div><div class="collab-stat-lbl">Views</div></div>
+        <div class="collab-arrow">▶</div>
+      </div>
+    </div>
+    <div class="collab-detail" id="detail-${i}">
+      <div style="font-size:11px;color:#45454A;margin-bottom:10px;"><strong>Caption:</strong> ${p.caption}</div>
+      <div style="margin-bottom:12px;"><a href="${p.postedLink}" target="_blank" style="font-size:11px;color:#F6B704;text-decoration:none;font-weight:600;">View on Instagram →</a></div>
+
+      <div class="detail-grid">
+        <div class="d-stat"><div class="lbl">Likes</div><div class="val">${(p.likes||0).toLocaleString()}</div></div>
+        <div class="d-stat"><div class="lbl">Comments</div><div class="val">${p.comments||0}</div></div>
+        <div class="d-stat"><div class="lbl">Shares</div><div class="val">${p.shares||0}</div></div>
+        <div class="d-stat"><div class="lbl">Saves</div><div class="val">${p.saves||0}</div></div>
+        ${p.views>0?'<div class="d-stat"><div class="lbl">Views</div><div class="val">'+p.views.toLocaleString()+'</div></div>':''}
+        ${p.reach>0?'<div class="d-stat"><div class="lbl">Reach</div><div class="val">'+p.reach.toLocaleString()+'</div></div>':''}
+      </div>
+
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px;margin-bottom:16px;">
+        <div class="d-stat">
+          <div class="lbl">⏱ Average Watch Time</div>
+          <div class="val">—</div>
+          <div class="sub">Available via mobile app</div>
+        </div>
+        <div class="d-stat">
+          <div class="lbl">⏭ Skip Rate</div>
+          <div class="val">—</div>
+          <div class="sub">Available via mobile app</div>
+        </div>
+      </div>
+
+      <div class="placeholder-box">
+        <div class="placeholder-icon">📊</div>
+        <div class="placeholder-text"><strong>Retention Curve</strong><br>Retention data available via Instagram mobile app. Tap 'View Insights' on the post in the Instagram app to see the audience retention graph.</div>
+      </div>
+
+      ${p.utm?'<div style="margin-bottom:12px;"><span style="font-size:10px;color:#45454A;font-weight:600;">UTM LINK:</span><br><a style="font-size:11px;color:#F6B704;word-break:break-all;text-decoration:none;" href="'+p.utm+'" target="_blank">'+p.utm+'</a></div>':''}
+
+      ${p.views>0?'<div style="background:#F5F5F5;border-radius:8px;padding:14px;margin-bottom:12px;"><div class="card-title" style="margin-bottom:12px;">Engagement Split</div><div style="position:relative;height:140px;"><canvas id="pie-'+i+'"></canvas></div></div>':''}
+
+      <div class="summary-box">
+        <div class="summary-title">Performance Summary</div>
+        <div class="summary-text">${generateSummary(p)}</div>
+      </div>
+    </div>
+  `;
+  listEl.appendChild(div);
+});
+
+document.getElementById('indSearch').addEventListener('input',e=>{
+  const q=e.target.value.toLowerCase();
+  document.querySelectorAll('#collabList > div').forEach((div,i)=>{
+    const p=posts[i];
+    div.style.display=(p.inf.toLowerCase().includes(q)||p.channel.toLowerCase().includes(q))?'':'none';
+  });
+});
+
+function toggleDetail(i){
+  const d=document.getElementById('detail-'+i);
+  const row=d.previousElementSibling;
+  const isOpen=d.classList.contains('open');
+  document.querySelectorAll('.collab-detail').forEach(x=>x.classList.remove('open'));
+  document.querySelectorAll('.collab-row').forEach(x=>x.classList.remove('expanded'));
+  if(!isOpen){d.classList.add('open');row.classList.add('expanded');renderDetailCharts(i);}
+}
+
+const rendered={};
+function renderDetailCharts(i){
+  if(rendered[i])return;rendered[i]=true;
+  const p=posts[i];if(p.views<=0)return;
+
+  new Chart(document.getElementById('pie-'+i),{
+    type:'doughnut',
+    data:{
+      labels:['Likes','Comments','Shares','Saves'],
+      datasets:[{
+        data:[p.likes||0,p.comments||0,p.shares||0,p.saves||0],
+        backgroundColor:['#F6B704','#22c55e','#3b82f6','#ef4444'],
+        borderWidth:0
+      }]
+    },
+    options:{
+      responsive:true,
+      maintainAspectRatio:false,
+      cutout:'55%',
+      plugins:{
+        legend:{position:'right',labels:{boxWidth:8,padding:8,usePointStyle:true,font:{size:9}}},
+        tooltip:{...tp}
+      }
+    }
+  });
+}
+
+// ═════════════════════════════════════════════════
+// UTM & CONVERSIONS (GA4 DATA)
+// ═════════════════════════════════════════════════
+function renderUtmSection(){
+  const totalUsers=utmCampaigns.reduce((s,c)=>s+c.ga4Users,0);
+  const totalSessions=utmCampaigns.reduce((s,c)=>s+c.ga4Sessions,0);
+  const totalTransactions=utmCampaigns.reduce((s,c)=>s+c.ga4Transactions,0);
+  const totalRevenue=utmCampaigns.reduce((s,c)=>s+c.ga4Revenue,0);
+  const totalSheetClicks=utmCampaigns.reduce((s,c)=>s+c.sheetClicks,0);
+  const avgSessionRate=totalSessions>0?((totalUsers/totalSessions)*100):0;
+
+  // KPIs
+  const utmKpis=[
+    {label:'Total UTM Sessions',val:totalSessions,sub:'from GA4'},
+    {label:'Unique Users',val:totalUsers,sub:'via UTM links'},
+    {label:'Sheet UTM Clicks',val:totalSheetClicks,sub:'from spreadsheet'},
+    {label:'Campaigns Tracked',val:utmCampaigns.length,sub:'active UTMs'},
+    {label:'Transactions',val:totalTransactions,sub:'conversions'},
+    {label:'Revenue',val:totalRevenue>0?'₹'+totalRevenue.toLocaleString():'₹0',sub:'from UTM traffic'},
+  ];
+
+  document.getElementById('utm-kpis').innerHTML=utmKpis.map(k=>`
+    <div class="utm-kpi">
+      <div class="kpi-label">${k.label}</div>
+      <div class="kpi-val">${k.val}</div>
+      <div class="kpi-sub">${k.sub}</div>
+    </div>
+  `).join('');
+
+  // Table
+  const maxSessions=Math.max(...utmCampaigns.map(c=>c.ga4Sessions));
+  document.getElementById('utmTableBody').innerHTML=utmCampaigns.sort((a,b)=>b.ga4Sessions-a.ga4Sessions).map(c=>{
+    const pct=maxSessions>0?((c.ga4Sessions/maxSessions)*100):0;
+    const sharePct=totalSessions>0?((c.ga4Sessions/totalSessions)*100).toFixed(1):0;
+    return `<tr>
+      <td><span class="utm-campaign-name">${c.campaign}</span></td>
+      <td>${c.influencer}</td>
+      <td><span class="utm-source-badge">${c.source} / ${c.medium}</span></td>
+      <td><strong>${c.ga4Users}</strong></td>
+      <td><strong>${c.ga4Sessions}</strong></td>
+      <td>${c.ga4Transactions}</td>
+      <td>${c.ga4Revenue>0?'₹'+c.ga4Revenue.toLocaleString():'₹0'}</td>
+      <td><a href="${c.shortLink}" target="_blank" style="color:#7c4dff;font-size:11px;text-decoration:none;">${c.shortLink.replace('https://','')}</a></td>
+      <td><div class="utm-bar"><div class="utm-bar-fill" style="width:${pct}%"></div></div><span style="font-size:10px;color:#666;margin-left:4px;">${sharePct}%</span></td>
+    </tr>`;
+  }).join('');
+
+  // Charts
+  if(chartInstances.utmSessions)chartInstances.utmSessions.destroy();
+  const sorted=utmCampaigns.slice().sort((a,b)=>b.ga4Sessions-a.ga4Sessions);
+  chartInstances.utmSessions=new Chart(document.getElementById('utmSessionsChart'),{
+    type:'bar',
+    data:{
+      labels:sorted.map(c=>c.campaign),
+      datasets:[{
+        label:'Sessions',
+        data:sorted.map(c=>c.ga4Sessions),
+        backgroundColor:sorted.map(c=>c.color),
+        borderRadius:5,
+        barPercentage:0.6
+      }]
+    },
+    options:{
+      indexAxis:'y',
+      responsive:true,
+      maintainAspectRatio:false,
+      plugins:{legend:{display:false},tooltip:{...tp}},
+      scales:{
+        x:{grid:{color:'#F5F5F5'},ticks:{font:{size:10}}},
+        y:{grid:{display:false},ticks:{font:{size:9}}}
+      }
+    }
+  });
+
+  if(chartInstances.utmUsers)chartInstances.utmUsers.destroy();
+  chartInstances.utmUsers=new Chart(document.getElementById('utmUsersChart'),{
+    type:'doughnut',
+    data:{
+      labels:sorted.map(c=>c.campaign),
+      datasets:[{
+        data:sorted.map(c=>c.ga4Users),
+        backgroundColor:sorted.map(c=>c.color),
+        borderWidth:0
+      }]
+    },
+    options:{
+      responsive:true,
+      maintainAspectRatio:false,
+      cutout:'55%',
+      plugins:{
+        legend:{position:'right',labels:{boxWidth:8,padding:8,usePointStyle:true,font:{size:9}}},
+        tooltip:{...tp,callbacks:{label:ctx=>ctx.label+': '+ctx.raw+' users'}}
+      }
+    }
+  });
+}
+
+// ═════════════════════════════════════════════════
+// INITIALIZE
+// ═════════════════════════════════════════════════
+updateAggregate();
+renderUtmSection();
+</script>
+
+</body>
+</html>
