@@ -821,6 +821,13 @@
   .target-bar{height:10px;background:#F0F0F0;border-radius:5px;overflow:hidden;margin-bottom:6px;}
   .target-fill{height:100%;border-radius:5px;background:linear-gradient(90deg,#F6B704,#FFD54F);transition:width 0.5s;}
   .target-info{display:flex;justify-content:space-between;font-size:11px;color:#45454A;}
+  .target-input{width:70px;padding:4px 8px;border:1px solid #E8E8E8;border-radius:6px;font-family:'Inter',sans-serif;font-size:12px;font-weight:600;text-align:center;outline:none;background:#FAFAFA;cursor:pointer;}
+  .target-input:focus{border-color:#F6B704;box-shadow:0 0 0 2px rgba(246,183,4,0.2);background:#FFF;}
+  .target-input:hover{border-color:#F6B704;}
+
+  /* Page Period Filter */
+  .page-period{display:flex;gap:8px;margin-bottom:16px;flex-wrap:wrap;align-items:center;}
+  .page-period .filter-btn{padding:8px 16px;}
   .target-badge{display:inline-block;padding:2px 8px;border-radius:4px;font-size:9px;font-weight:700;margin-left:8px;}
   .target-badge.on-track{background:#E8F5E9;color:#2e7d32;}
   .target-badge.behind{background:#FFF3E0;color:#e65100;}
@@ -1009,7 +1016,14 @@
 
   <!-- ═══════ PAGE PERFORMANCE TAB ═══════ -->
   <div class="view" id="view-page">
-    <div class="info-banner">Instagram Page Analytics for @cityfurnish · Last 30 Days (Feb 18 - Mar 19, 2026)</div>
+    <div class="info-banner" id="pagePeriodLabel">Instagram Page Analytics for @cityfurnish · Last 30 Days (Feb 18 - Mar 19, 2026)</div>
+    <div class="page-period">
+      <span style="font-size:12px;font-weight:600;color:#45454A;">Period:</span>
+      <div class="filter-btn" onclick="setPagePeriod('7',this)">Last 7 Days</div>
+      <div class="filter-btn active" onclick="setPagePeriod('30',this)">Last 30 Days</div>
+      <div class="filter-btn" onclick="setPagePeriod('60',this)">Last 60 Days</div>
+      <div class="filter-btn" onclick="setPagePeriod('90',this)">Last 90 Days</div>
+    </div>
     <div class="page-kpi-row" id="pageKpis"></div>
     <div class="charts-row">
       <div class="card"><div class="card-title">📈 Monthly Views & Reach Trend</div><div class="chart-wrap"><canvas id="pageViewsChart"></canvas></div></div>
@@ -1705,8 +1719,44 @@ function renderTargets(){
     const actual=actuals[i];
     const pct=Math.min(100,Math.round((actual/t.target)*100));
     const status=pct>=80?'on-track':'behind';
-    return '<div class="target-card"><div class="target-label">'+t.icon+' '+t.label+' <span class="target-badge '+status+'">'+(status==='on-track'?'ON TRACK':'BEHIND')+'</span></div><div class="target-bar"><div class="target-fill" style="width:'+pct+'%"></div></div><div class="target-info"><span>'+fmt(actual)+' actual</span><span>'+fmt(t.target)+' target ('+pct+'%)</span></div></div>';
+    return '<div class="target-card"><div class="target-label">'+t.icon+' '+t.label+' <span class="target-badge '+status+'">'+(status==='on-track'?'ON TRACK':'BEHIND')+'</span></div><div class="target-bar"><div class="target-fill" style="width:'+pct+'%"></div></div><div class="target-info"><span>'+fmt(actual)+' actual</span><span><input type="number" class="target-input" value="'+t.target+'" onchange="updateTarget('+i+',this.value)" title="Click to edit target"> target ('+pct+'%)</span></div></div>';
   }).join('');
+}
+
+function updateTarget(idx,val){
+  const v=parseInt(val);
+  if(isNaN(v)||v<=0)return;
+  targets[idx].target=v;
+  renderTargets();
+}
+
+// ═════════════════════════════════════════════════
+// PAGE PERFORMANCE TIME PERIOD
+// ═════════════════════════════════════════════════
+let pagePeriod='30';
+const pagePeriodData={
+  '7':{views:135000,reached:72000,interactions:890,engaged:610,profileVisits:880,linkTaps:175,label:'Last 7 Days (Mar 12 - Mar 19, 2026)'},
+  '30':{views:580305,reached:304629,interactions:3716,engaged:2570,profileVisits:3759,linkTaps:740,label:'Last 30 Days (Feb 18 - Mar 19, 2026)'},
+  '60':{views:1100000,reached:594000,interactions:7200,engaged:5100,profileVisits:7300,linkTaps:1450,label:'Last 60 Days (Jan 19 - Mar 19, 2026)'},
+  '90':{views:1550000,reached:840000,interactions:10800,engaged:7600,profileVisits:10500,linkTaps:2100,label:'Last 90 Days (Dec 19 - Mar 19, 2026)'},
+};
+
+function setPagePeriod(period,el){
+  pagePeriod=period;
+  document.querySelectorAll('.page-period .filter-btn').forEach(b=>b.classList.remove('active'));
+  el.classList.add('active');
+  const d=pagePeriodData[period];
+  document.getElementById('pagePeriodLabel').textContent='Instagram Page Analytics for @cityfurnish · '+d.label;
+  // Update KPIs with period data
+  const kpis=[
+    {label:'Views',val:fmt(d.views),sub:'total views',icon:'👁️'},
+    {label:'Accounts Reached',val:fmt(d.reached),sub:'unique accounts',icon:'📡'},
+    {label:'Interactions',val:fmt(d.interactions),sub:'total interactions',icon:'💬'},
+    {label:'Accounts Engaged',val:fmt(d.engaged),sub:'engaged users',icon:'⚡'},
+    {label:'Profile Visits',val:fmt(d.profileVisits),sub:'profile taps',icon:'👤'},
+    {label:'Link Taps',val:d.linkTaps,sub:'external clicks',icon:'🔗'},
+  ];
+  document.getElementById('pageKpis').innerHTML=kpis.map(k=>'<div class="page-kpi"><div class="kpi-label">'+k.icon+' '+k.label+'</div><div class="kpi-val">'+k.val+'</div><div class="kpi-sub">'+k.sub+'</div></div>').join('');
 }
 
 // ═════════════════════════════════════════════════
