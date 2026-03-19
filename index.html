@@ -61,1793 +61,1739 @@
     font-size:18px;
     font-weight:700;
     color:#FFFFFF;
-    letter-spacing:0.3px;
+    letter-spacing:-0.5px;
+  }
+
+  .brand-sub{
+    font-size:12px;
+    color:#F6B704;
+    font-weight:500;
+    margin-left:8px;
   }
 
   .header-right{
+    font-size:12px;
+    color:#B0B0B0;
     display:flex;
     align-items:center;
     gap:8px;
-    font-size:13px;
-    color:#B0B0B0;
   }
 
   /* ═════════════════════════════════════════════════ */
-  /* MAIN CONTAINER & LAYOUT */
+  /* TABS (Gold Underline for Active) */
   /* ═════════════════════════════════════════════════ */
-  .container{
-    max-width:1400px;
-    margin:0 auto;
-    padding:32px 24px;
-  }
-
-  /* ═════════════════════════════════════════════════ */
-  /* TAB NAVIGATION */
-  /* ═════════════════════════════════════════════════ */
-  .tab-navigation{
+  .tabs{
     display:flex;
-    gap:2px;
+    gap:0;
     background:#FFFFFF;
-    border-radius:10px 10px 0 0;
-    box-shadow:0 2px 8px rgba(0,0,0,0.04);
-    overflow:hidden;
-    margin-bottom:0;
+    border-bottom:1px solid #E8E8E8;
+    padding:0 36px;
+    position:sticky;
+    top:77px;
+    z-index:50;
   }
 
-  .tab-btn{
-    flex:1;
+  .tab{
     padding:14px 20px;
-    background:#FFFFFF;
-    border:none;
-    cursor:pointer;
     font-size:14px;
-    font-weight:600;
+    font-weight:500;
     color:#45454A;
-    transition:all 0.3s ease;
+    cursor:pointer;
     border-bottom:3px solid transparent;
+    transition:all 0.2s ease;
     position:relative;
   }
 
-  .tab-btn.active{
-    color:#F6B704;
+  .tab:hover{
+    color:#1C1B1F;
+  }
+
+  .tab.active{
+    color:#222222;
     border-bottom-color:#F6B704;
-  }
-
-  .tab-btn:hover{
-    background:#F9F9F9;
+    font-weight:600;
   }
 
   /* ═════════════════════════════════════════════════ */
-  /* TAB CONTENT */
+  /* MAIN LAYOUT */
   /* ═════════════════════════════════════════════════ */
-  .tab-content{
-    display:none;
+  .main{
+    max-width:1280px;
+    margin:0 auto;
+    padding:24px 36px 40px;
+  }
+
+  .view{display:none;}
+  .view.active{display:block;}
+
+  /* ═════════════════════════════════════════════════ */
+  /* CARDS & CONTAINERS */
+  /* ═════════════════════════════════════════════════ */
+  .card{
     background:#FFFFFF;
-    border-radius:0 0 10px 10px;
-    padding:28px;
-    box-shadow:0 2px 8px rgba(0,0,0,0.04);
+    border:1px solid #E8E8E8;
+    border-radius:12px;
+    padding:20px;
+    margin-bottom:16px;
+    transition:all 0.2s ease;
+    box-shadow:0 1px 3px rgba(0,0,0,0.05);
   }
 
-  .tab-content.active{
-    display:block;
+  .card:hover{
+    box-shadow:0 4px 16px rgba(246,183,4,0.08);
+    border-color:#F6B704;
   }
 
-  /* ═════════════════════════════════════════════════ */
-  /* DATE FILTER */
-  /* ═════════════════════════════════════════════════ */
-  .date-filter{
-    background:#FFFFFF;
-    border-radius:10px;
-    padding:20px 24px;
-    margin-bottom:24px;
-    box-shadow:0 2px 8px rgba(0,0,0,0.04);
+  .card-title{
+    font-size:11px;
+    font-weight:700;
+    color:#222222;
+    margin-bottom:14px;
+    text-transform:uppercase;
+    letter-spacing:0.5px;
     display:flex;
     align-items:center;
-    gap:16px;
+    gap:8px;
+  }
+
+  /* ═════════════════════════════════════════════════ */
+  /* KPI ROW (RESPONSIVE) */
+  /* ═════════════════════════════════════════════════ */
+  .kpi-row{
+    display:grid;
+    grid-template-columns:repeat(auto-fit, minmax(150px, 1fr));
+    gap:12px;
+    margin-bottom:20px;
+  }
+
+  .kpi{
+    background:#FFFFFF;
+    border:1px solid #E8E8E8;
+    border-left:4px solid #F6B704;
+    border-radius:10px;
+    padding:16px;
+    transition:all 0.2s ease;
+  }
+
+  .kpi:hover{
+    box-shadow:0 4px 12px rgba(246,183,4,0.1);
+    transform:translateY(-2px);
+  }
+
+  .kpi-label{
+    font-size:10px;
+    color:#45454A;
+    font-weight:600;
+    text-transform:uppercase;
+    letter-spacing:0.3px;
+    margin-bottom:6px;
+  }
+
+  .kpi-val{
+    font-size:22px;
+    font-weight:700;
+    color:#1C1B1F;
+    margin-bottom:4px;
+  }
+
+  .kpi-sub{
+    font-size:10px;
+    color:#45454A;
+    margin-top:2px;
+  }
+
+  /* ═════════════════════════════════════════════════ */
+  /* FILTER CONTROLS */
+  /* ═════════════════════════════════════════════════ */
+  .filter-section{
+    background:#FFFFFF;
+    border:1px solid #E8E8E8;
+    border-radius:10px;
+    padding:14px 16px;
+    margin-bottom:16px;
+    display:flex;
+    align-items:center;
+    gap:12px;
     flex-wrap:wrap;
   }
 
   .filter-label{
-    font-size:13px;
+    font-size:12px;
     font-weight:600;
-    color:#45454A;
+    color:#1C1B1F;
     text-transform:uppercase;
-    letter-spacing:0.5px;
+    letter-spacing:0.3px;
   }
 
-  .filter-buttons{
+  .filter-row{
     display:flex;
     gap:8px;
     flex-wrap:wrap;
   }
 
   .filter-btn{
-    padding:8px 16px;
+    padding:7px 14px;
+    border-radius:6px;
+    font-size:12px;
+    font-weight:500;
     border:1px solid #E8E8E8;
     background:#FFFFFF;
-    border-radius:6px;
-    font-size:13px;
-    font-weight:500;
-    color:#45454A;
     cursor:pointer;
-    transition:all 0.2s ease;
+    color:#45454A;
+    transition:all 0.15s ease;
+    white-space:nowrap;
   }
 
   .filter-btn:hover{
     border-color:#F6B704;
-    color:#F6B704;
+    color:#222222;
   }
 
   .filter-btn.active{
     background:#F6B704;
+    color:#222222;
     border-color:#F6B704;
-    color:#FFFFFF;
-  }
-
-  .custom-date-inputs{
-    display:none;
-    gap:8px;
-    align-items:center;
-  }
-
-  .custom-date-inputs.visible{
-    display:flex;
-  }
-
-  .date-input{
-    padding:8px 12px;
-    border:1px solid #E8E8E8;
-    border-radius:6px;
-    font-size:13px;
-    font-family:'Inter',sans-serif;
-    color:#1C1B1F;
-  }
-
-  .date-input:focus{
-    outline:none;
-    border-color:#F6B704;
-    box-shadow:0 0 0 3px rgba(246,183,4,0.1);
+    font-weight:600;
   }
 
   /* ═════════════════════════════════════════════════ */
-  /* KPI CARDS */
+  /* INFO BANNER */
   /* ═════════════════════════════════════════════════ */
-  .kpi-grid{
-    display:grid;
-    grid-template-columns:repeat(auto-fit, minmax(180px, 1fr));
-    gap:16px;
-    margin-bottom:24px;
-  }
-
-  .kpi-card{
-    background:#FFFFFF;
-    border:1px solid #E8E8E8;
+  .info-banner{
+    background:linear-gradient(135deg, #FFF8E7 0%, #FFFBF0 100%);
+    border:1px solid #F6B704;
     border-radius:10px;
-    padding:16px;
-    text-align:center;
-    transition:all 0.3s ease;
-  }
-
-  .kpi-card:hover{
-    box-shadow:0 4px 12px rgba(0,0,0,0.08);
-    border-color:#F6B704;
-  }
-
-  .kpi-label{
-    font-size:12px;
-    font-weight:500;
-    color:#45454A;
-    text-transform:uppercase;
-    letter-spacing:0.3px;
-    margin-bottom:8px;
-  }
-
-  .kpi-value{
-    font-size:24px;
-    font-weight:700;
-    color:#222222;
-  }
-
-  .kpi-subtext{
-    font-size:11px;
-    color:#999999;
-    margin-top:6px;
-  }
-
-  /* ═════════════════════════════════════════════════ */
-  /* SECTION TITLES */
-  /* ═════════════════════════════════════════════════ */
-  .section-title{
-    font-size:18px;
-    font-weight:700;
-    color:#222222;
-    margin:24px 0 16px 0;
-    padding-bottom:8px;
-    border-bottom:2px solid #F6B704;
-    display:inline-block;
-  }
-
-  /* ═════════════════════════════════════════════════ */
-  /* CARDS */
-  /* ═════════════════════════════════════════════════ */
-  .card{
-    background:#FFFFFF;
-    border:1px solid #E8E8E8;
-    border-radius:10px;
-    padding:20px;
-    margin-bottom:24px;
-    box-shadow:0 1px 3px rgba(0,0,0,0.04);
-  }
-
-  .card-title{
-    font-size:16px;
-    font-weight:700;
-    color:#222222;
+    padding:12px 16px;
     margin-bottom:16px;
+    font-size:12px;
+    color:#45454A;
+    display:flex;
+    align-items:center;
+    gap:8px;
+  }
+
+  .info-banner::before{
+    content:'ℹ';
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    width:20px;
+    height:20px;
+    background:#F6B704;
+    color:#FFFFFF;
+    border-radius:50%;
+    font-weight:700;
+    font-size:11px;
+    flex-shrink:0;
   }
 
   /* ═════════════════════════════════════════════════ */
   /* CHARTS */
   /* ═════════════════════════════════════════════════ */
-  .chart-container{
-    position:relative;
-    height:300px;
+  .charts-row{
+    display:grid;
+    grid-template-columns:repeat(auto-fit, minmax(300px, 1fr));
+    gap:14px;
     margin-bottom:16px;
   }
 
-  .chart-container.tall{
-    height:400px;
-  }
-
-  .chart-container.small{
-    height:250px;
+  .chart-wrap{
+    position:relative;
+    height:220px;
   }
 
   /* ═════════════════════════════════════════════════ */
-  /* TABLES */
+  /* TABLE STYLING */
   /* ═════════════════════════════════════════════════ */
-  .table-wrapper{
+  .tbl-wrap{
     overflow-x:auto;
+    border-radius:8px;
   }
 
   table{
     width:100%;
     border-collapse:collapse;
-    font-size:13px;
+    font-size:12px;
   }
 
-  thead{
-    background:#F9F9F9;
+  thead tr{
+    background:#F5F5F5;
   }
 
   th{
-    padding:12px;
     text-align:left;
-    font-weight:600;
-    color:#45454A;
-    border-bottom:2px solid #E8E8E8;
+    padding:10px 12px;
+    font-size:10px;
+    font-weight:700;
+    color:#1C1B1F;
     text-transform:uppercase;
-    font-size:11px;
     letter-spacing:0.3px;
+    border-bottom:1px solid #E8E8E8;
+    cursor:pointer;
+    white-space:nowrap;
   }
 
   td{
-    padding:12px;
-    border-bottom:1px solid #E8E8E8;
+    padding:11px 12px;
+    border-bottom:1px solid #F5F5F5;
+    color:#45454A;
+    white-space:nowrap;
+  }
+
+  tbody tr:nth-child(odd){
+    background:#FAFAFA;
+  }
+
+  tbody tr:hover{
+    background:#F5F5F5;
+  }
+
+  .inf-cell{
+    display:flex;
+    align-items:center;
+    gap:10px;
+  }
+
+  .inf-av{
+    width:32px;
+    height:32px;
+    border-radius:8px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-weight:700;
+    font-size:11px;
+    color:#FFFFFF;
+    flex-shrink:0;
+  }
+
+  .inf-name{
+    font-weight:600;
     color:#1C1B1F;
+    font-size:12px;
   }
 
-  tr:hover{
-    background:#F9F9F9;
+  .inf-handle{
+    font-size:10px;
+    color:#45454A;
   }
 
-  /* ═════════════════════════════════════════════════ */
-  /* BADGES & TAGS */
-  /* ═════════════════════════════════════════════════ */
   .badge{
     display:inline-block;
-    padding:4px 10px;
+    padding:3px 8px;
     border-radius:4px;
-    font-size:11px;
-    font-weight:600;
+    font-size:9px;
+    font-weight:700;
     text-transform:uppercase;
-    letter-spacing:0.3px;
+    white-space:nowrap;
   }
 
-  .badge.success{
-    background:#E8F5E9;
-    color:#2E7D32;
-  }
-
-  .badge.warning{
+  .badge-gold{
     background:#FFF3E0;
     color:#E65100;
   }
 
-  .badge.danger{
-    background:#FFEBEE;
-    color:#C62828;
-  }
-
-  .badge.gold{
-    background:#FFF8E1;
-    color:#F57F17;
-  }
-
-  /* ═════════════════════════════════════════════════ */
-  /* PROGRESS BARS */
-  /* ═════════════════════════════════════════════════ */
-  .progress-container{
-    margin-bottom:16px;
-  }
-
-  .progress-label{
-    display:flex;
-    justify-content:space-between;
-    margin-bottom:6px;
-    font-size:13px;
-    font-weight:500;
+  .badge-gray{
+    background:#F0F0F0;
     color:#45454A;
   }
 
-  .progress-bar{
-    background:#E8E8E8;
-    border-radius:8px;
-    height:10px;
-    overflow:hidden;
+  .badge-instagram{
+    background:#FCE4EC;
+    color:#E91E63;
   }
 
-  .progress-fill{
-    background:#F6B704;
-    height:100%;
-    transition:width 0.3s ease;
+  .badge-carousel{
+    background:#E3F2FD;
+    color:#1565C0;
   }
 
-  /* ═════════════════════════════════════════════════ */
-  /* GRID LAYOUTS */
-  /* ═════════════════════════════════════════════════ */
-  .grid-2{
-    display:grid;
-    grid-template-columns:repeat(auto-fit, minmax(300px, 1fr));
-    gap:24px;
-    margin-bottom:24px;
-  }
-
-  .grid-3{
-    display:grid;
-    grid-template-columns:repeat(auto-fit, minmax(250px, 1fr));
-    gap:20px;
+  .badge-barter{
+    background:#F3E5F5;
+    color:#7B1FA2;
   }
 
   /* ═════════════════════════════════════════════════ */
-  /* COMPETITOR CARDS */
+  /* INDIVIDUAL PERFORMANCE */
   /* ═════════════════════════════════════════════════ */
-  .competitor-card{
+  .collab-row{
     background:#FFFFFF;
     border:1px solid #E8E8E8;
     border-radius:10px;
-    padding:20px;
-    text-align:center;
+    padding:14px 16px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    cursor:pointer;
+    transition:all 0.12s ease;
+    margin-bottom:8px;
   }
 
-  .competitor-card.featured{
+  .collab-row:hover{
     border-color:#F6B704;
-    box-shadow:0 4px 12px rgba(246,183,4,0.15);
+    background:#FFFBF0;
+    box-shadow:0 2px 8px rgba(246,183,4,0.08);
   }
 
-  .competitor-header{
-    padding-bottom:12px;
-    border-bottom:2px solid #E8E8E8;
-    margin-bottom:12px;
+  .collab-row.expanded{
+    border-color:#F6B704;
+    background:#FFFBF0;
+    border-radius:10px 10px 0 0;
+    margin-bottom:0;
+    box-shadow:0 2px 8px rgba(246,183,4,0.08);
   }
 
-  .competitor-name{
-    font-size:16px;
-    font-weight:700;
-    color:#222222;
+  .collab-left{
+    display:flex;
+    align-items:center;
+    gap:12px;
+    flex:1;
+    min-width:0;
   }
 
-  .competitor-handle{
-    font-size:12px;
-    color:#999999;
-    margin-top:4px;
+  .collab-meta{
+    min-width:0;
   }
 
-  .competitor-metric{
-    padding:8px 0;
+  .collab-inf{
+    font-weight:600;
     font-size:13px;
+    white-space:nowrap;
+    overflow:hidden;
+    text-overflow:ellipsis;
+    display:flex;
+    align-items:center;
+    gap:8px;
   }
 
-  .competitor-metric-value{
-    font-size:18px;
-    font-weight:700;
-    color:#222222;
-  }
-
-  .competitor-metric-label{
+  .collab-sub{
     font-size:11px;
-    color:#999999;
+    color:#45454A;
+    white-space:nowrap;
+    overflow:hidden;
+    text-overflow:ellipsis;
     margin-top:2px;
   }
 
-  /* ═════════════════════════════════════════════════ */
-  /* RESPONSIVE */
-  /* ═════════════════════════════════════════════════ */
-  @media (max-width: 768px) {
-    .container{
-      padding:20px 16px;
-    }
-
-    .header{
-      padding:14px 16px;
-      flex-direction:column;
-      align-items:flex-start;
-      gap:12px;
-    }
-
-    .header-right{
-      width:100%;
-      justify-content:flex-start;
-    }
-
-    .tab-btn{
-      font-size:12px;
-      padding:12px 10px;
-    }
-
-    .date-filter{
-      flex-direction:column;
-      align-items:flex-start;
-    }
-
-    .filter-buttons{
-      width:100%;
-    }
-
-    .custom-date-inputs{
-      width:100%;
-      flex-direction:column;
-    }
-
-    .date-input{
-      width:100%;
-    }
-
-    .kpi-grid{
-      grid-template-columns:repeat(auto-fit, minmax(120px, 1fr));
-      gap:12px;
-    }
-
-    .kpi-value{
-      font-size:18px;
-    }
-
-    .grid-2, .grid-3{
-      grid-template-columns:1fr;
-    }
-
-    .chart-container{
-      height:250px;
-    }
+  .collab-right{
+    display:flex;
+    align-items:center;
+    gap:18px;
+    flex-shrink:0;
   }
 
-  /* ═════════════════════════════════════════════════ */
-  /* UTILITY */
-  /* ═════════════════════════════════════════════════ */
-  .text-center{
-    text-align:center;
-  }
-
-  .text-right{
+  .collab-stat{
     text-align:right;
   }
 
-  .mt-24{
+  .collab-stat-val{
+    font-size:14px;
+    font-weight:700;
+    color:#1C1B1F;
+  }
+
+  .collab-stat-lbl{
+    font-size:9px;
+    color:#45454A;
+    text-transform:uppercase;
+    letter-spacing:0.2px;
+    margin-top:2px;
+  }
+
+  .collab-arrow{
+    color:#C0C0C0;
+    font-size:14px;
+    transition:transform 0.2s ease;
+    margin-left:8px;
+  }
+
+  .collab-row.expanded .collab-arrow{
+    transform:rotate(90deg);
+    color:#F6B704;
+  }
+
+  /* ═════════════════════════════════════════════════ */
+  /* DETAIL PANEL */
+  /* ═════════════════════════════════════════════════ */
+  .collab-detail{
+    display:none;
+    background:#FFFFFF;
+    border:1px solid #F6B704;
+    border-top:none;
+    border-radius:0 0 10px 10px;
+    margin-bottom:8px;
+    padding:20px;
+    animation:slideDown 0.15s ease;
+    box-shadow:0 2px 8px rgba(246,183,4,0.08);
+  }
+
+  .collab-detail.open{
+    display:block;
+  }
+
+  @keyframes slideDown{
+    from{
+      opacity:0;
+      transform:translateY(-8px);
+    }
+    to{
+      opacity:1;
+      transform:translateY(0);
+    }
+  }
+
+  .detail-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit, minmax(110px, 1fr));
+    gap:10px;
+    margin-bottom:16px;
+  }
+
+  .d-stat{
+    background:#F5F5F5;
+    border-radius:8px;
+    padding:12px;
+    border-left:3px solid #F6B704;
+  }
+
+  .d-stat .lbl{
+    font-size:9px;
+    color:#45454A;
+    text-transform:uppercase;
+    letter-spacing:0.2px;
+    margin-bottom:4px;
+    font-weight:600;
+  }
+
+  .d-stat .val{
+    font-size:16px;
+    font-weight:700;
+    color:#1C1B1F;
+  }
+
+  .d-stat .sub{
+    font-size:9px;
+    color:#45454A;
+    margin-top:3px;
+  }
+
+  /* ═════════════════════════════════════════════════ */
+  /* PLACEHOLDER BOX (Retention Curve) */
+  /* ═════════════════════════════════════════════════ */
+  .placeholder-box{
+    background:#FAFAFA;
+    border:2px dashed #E8E8E8;
+    border-radius:8px;
+    padding:24px;
+    text-align:center;
+    margin-bottom:16px;
+    transition:all 0.2s ease;
+  }
+
+  .placeholder-box:hover{
+    border-color:#F6B704;
+    background:#FFFBF0;
+  }
+
+  .placeholder-icon{
+    font-size:32px;
+    margin-bottom:8px;
+    opacity:0.5;
+  }
+
+  .placeholder-text{
+    font-size:12px;
+    color:#45454A;
+    line-height:1.5;
+  }
+
+  /* ═════════════════════════════════════════════════ */
+  /* SUMMARY BOX */
+  /* ═════════════════════════════════════════════════ */
+  .summary-box{
+    background:linear-gradient(135deg, #FFF8E7 0%, #FFFBF0 100%);
+    border:1px solid #F6B704;
+    border-radius:8px;
+    padding:14px 16px;
+    margin-top:12px;
+  }
+
+  .summary-title{
+    font-size:11px;
+    font-weight:700;
+    color:#E65100;
+    text-transform:uppercase;
+    letter-spacing:0.4px;
+    margin-bottom:8px;
+  }
+
+  .summary-text{
+    font-size:12px;
+    color:#1C1B1F;
+    line-height:1.6;
+  }
+
+  .summary-text strong{
+    color:#222222;
+    font-weight:600;
+  }
+
+  /* ═════════════════════════════════════════════════ */
+  /* SEARCH INPUT */
+  /* ═════════════════════════════════════════════════ */
+  .search-input{
+    background:#FFFFFF;
+    border:1px solid #E8E8E8;
+    border-radius:8px;
+    padding:8px 12px;
+    font-family:inherit;
+    font-size:12px;
+    outline:none;
+    color:#1C1B1F;
+    transition:all 0.2s ease;
+    min-width:200px;
+  }
+
+  .search-input::placeholder{
+    color:#45454A;
+  }
+
+  .search-input:focus{
+    border-color:#F6B704;
+    box-shadow:0 0 0 3px rgba(246,183,4,0.1);
+  }
+
+  /* ═════════════════════════════════════════════════ */
+  /* FOOTER */
+  /* ═════════════════════════════════════════════════ */
+  .footer{
+    text-align:center;
+    font-size:11px;
+    color:#45454A;
+    padding:20px 36px;
+    margin-top:40px;
+    border-top:1px solid #E8E8E8;
+    background:#FAFAFA;
+  }
+
+  .footer-badge{
+    display:inline-block;
+    background:#F6B704;
+    color:#222222;
+    padding:3px 8px;
+    border-radius:4px;
+    font-weight:600;
+    font-size:10px;
+    margin:0 4px;
+    letter-spacing:0.2px;
+  }
+
+  /* ═════════════════════════════════════════════════ */
+  /* RESPONSIVE DESIGN */
+  /* ═════════════════════════════════════════════════ */
+  @media(max-width:1000px){
+    .kpi-row{
+      grid-template-columns:repeat(2, 1fr);
+    }
+
+    .charts-row{
+      grid-template-columns:1fr;
+    }
+
+    .detail-grid{
+      grid-template-columns:repeat(2, 1fr);
+    }
+  }
+
+  @media(max-width:768px){
+    .header{
+      padding:14px 20px;
+      flex-direction:column;
+      gap:10px;
+      align-items:flex-start;
+    }
+
+    .header-right{
+      font-size:10px;
+      width:100%;
+    }
+
+    .main{
+      padding:16px 16px 24px;
+    }
+
+    .tabs{
+      padding:0 16px;
+    }
+
+    .tab{
+      padding:12px 14px;
+      font-size:12px;
+    }
+
+    .kpi-row{
+      grid-template-columns:1fr;
+    }
+
+    .filter-section{
+      flex-direction:column;
+      align-items:flex-start;
+    }
+
+    .collab-right{
+      gap:12px;
+      font-size:11px;
+    }
+
+    .collab-stat:nth-child(n+3){
+      display:none;
+    }
+
+    .search-input{
+      min-width:100%;
+    }
+
+    .detail-grid{
+      grid-template-columns:1fr;
+    }
+  }
+
+  /* UTM & Conversions Section */
+  .utm-section{
     margin-top:24px;
   }
-
-  .mb-24{
-    margin-bottom:24px;
+  .utm-kpi-row{
+    display:grid;
+    grid-template-columns:repeat(auto-fit, minmax(160px,1fr));
+    gap:14px;
+    margin-bottom:20px;
   }
-
-  .separator{
-    height:1px;
-    background:#E8E8E8;
-    margin:16px 0;
+  .utm-kpi{
+    background:#FFFFFF;
+    border:1px solid #E8E8E8;
+    border-left:3px solid #7c4dff;
+    border-radius:10px;
+    padding:16px;
+    text-align:center;
   }
+  .utm-kpi .kpi-label{color:#45454A;font-size:11px;font-weight:500;margin-bottom:4px;}
+  .utm-kpi .kpi-val{font-size:22px;font-weight:700;color:#7c4dff;}
+  .utm-kpi .kpi-sub{font-size:10px;color:#999;margin-top:2px;}
+
+  .utm-table{width:100%;border-collapse:collapse;font-size:12px;}
+  .utm-table th{text-align:left;padding:10px 12px;background:#F9F9F9;color:#45454A;font-weight:600;font-size:11px;border-bottom:2px solid #E8E8E8;}
+  .utm-table td{padding:10px 12px;border-bottom:1px solid #F0F0F0;vertical-align:middle;}
+  .utm-table tr:hover{background:#FAFAFA;}
+  .utm-bar{height:6px;border-radius:3px;background:#E8E8E8;position:relative;min-width:60px;}
+  .utm-bar-fill{height:100%;border-radius:3px;background:linear-gradient(90deg,#7c4dff,#b388ff);}
+  .utm-campaign-name{font-weight:600;color:#1C1B1F;}
+  .utm-source-badge{display:inline-block;padding:2px 8px;border-radius:4px;font-size:10px;font-weight:500;background:#F3E5F5;color:#7c4dff;}
+  .ga4-badge{display:inline-block;padding:2px 8px;border-radius:4px;font-size:9px;font-weight:600;background:#E8F5E9;color:#2e7d32;margin-left:6px;}
+
+  /* Date Input */
+  .date-input{padding:8px 12px;border:1px solid #E8E8E8;border-radius:8px;font-family:'Inter',sans-serif;font-size:12px;outline:none;}
+  .date-input:focus{border-color:#F6B704;box-shadow:0 0 0 2px rgba(246,183,4,0.2);}
+  .custom-dates{display:none;gap:8px;align-items:center;margin-top:8px;flex-wrap:wrap;}
+  .custom-dates.show{display:flex;}
+
+  /* Competitor Tab */
+  .comp-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px;margin-bottom:20px;}
+  .comp-card{background:#FFF;border:1px solid #E8E8E8;border-radius:12px;padding:18px;text-align:center;}
+  .comp-card.featured{border:2px solid #F6B704;box-shadow:0 2px 12px rgba(246,183,4,0.15);}
+  .comp-name{font-size:15px;font-weight:700;color:#1C1B1F;margin-bottom:2px;}
+  .comp-handle{font-size:11px;color:#999;margin-bottom:12px;}
+  .comp-stat{margin-bottom:8px;}
+  .comp-stat-val{font-size:20px;font-weight:700;}
+  .comp-stat-lbl{font-size:10px;color:#45454A;text-transform:uppercase;letter-spacing:0.5px;}
+
+  /* Page Performance */
+  .page-kpi-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:14px;margin-bottom:20px;}
+  .page-kpi{background:#FFF;border:1px solid #E8E8E8;border-radius:10px;padding:16px;text-align:center;}
+  .page-kpi .kpi-val{color:#7c4dff;}
+  .kpi-label{font-size:11px;font-weight:600;color:#45454A;text-transform:uppercase;margin-bottom:6px;}
+  .kpi-val{font-size:18px;font-weight:700;color:#1C1B1F;}
+  .kpi-sub{font-size:10px;color:#999;margin-top:4px;}
+
+  /* Targets */
+  .target-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:14px;margin-bottom:20px;}
+  .target-card{background:#FFF;border:1px solid #E8E8E8;border-radius:10px;padding:16px;}
+  .target-label{font-size:12px;font-weight:600;color:#1C1B1F;margin-bottom:8px;}
+  .target-bar{height:10px;background:#F0F0F0;border-radius:5px;overflow:hidden;margin-bottom:6px;}
+  .target-fill{height:100%;border-radius:5px;background:linear-gradient(90deg,#F6B704,#FFD54F);transition:width 0.5s;}
+  .target-info{display:flex;justify-content:space-between;font-size:11px;color:#45454A;}
+  .target-badge{display:inline-block;padding:2px 8px;border-radius:4px;font-size:9px;font-weight:700;margin-left:8px;}
+  .target-badge.on-track{background:#E8F5E9;color:#2e7d32;}
+  .target-badge.behind{background:#FFF3E0;color:#e65100;}
+
+  /* Monthly Summary */
+  .monthly-tbl{width:100%;border-collapse:collapse;font-size:12px;margin-top:12px;}
+  .monthly-tbl th{text-align:left;padding:10px;background:#F9F9F9;font-weight:600;font-size:11px;border-bottom:2px solid #E8E8E8;color:#45454A;}
+  .monthly-tbl td{padding:10px;border-bottom:1px solid #F0F0F0;}
+  .monthly-tbl tr:hover{background:#FAFAFA;}
 </style>
 </head>
 <body>
 
+<!-- ═══════════════════════════════════════════════ -->
 <!-- HEADER -->
-<div class="header">
+<!-- ═══════════════════════════════════════════════ -->
+<header class="header">
   <div class="header-left">
     <div class="logo">CF</div>
-    <div class="brand-name">Cityfurnish Influencer Dashboard</div>
+    <div>
+      <div class="brand-name">cityfurnish</div>
+      <div class="brand-sub">Influencer Collaborations</div>
+    </div>
   </div>
-  <div class="header-right">
-    <span>Last updated: 19 Mar 2026</span>
-  </div>
+  <div class="header-right">Last updated: 19 Mar 2026 · Live Instagram Data</div>
+</header>
+
+<!-- ═══════════════════════════════════════════════ -->
+<!-- TABS -->
+<!-- ═══════════════════════════════════════════════ -->
+<div class="tabs">
+  <div class="tab active" onclick="switchTab('aggregate')">Aggregate Overview</div>
+  <div class="tab" onclick="switchTab('individual')">Individual Performance</div>
+  <div class="tab" onclick="switchTab('competitor')">Competitor Analysis</div>
+  <div class="tab" onclick="switchTab('page')">Page Performance</div>
 </div>
 
-<!-- MAIN CONTAINER -->
-<div class="container">
-  
-  <!-- GLOBAL DATE FILTER (FEATURE 2) -->
-  <div class="date-filter">
-    <div class="filter-label">Period</div>
-    <div class="filter-buttons">
-      <button class="filter-btn active" onclick="setDateFilter('7d')">Last 7 Days</button>
-      <button class="filter-btn" onclick="setDateFilter('30d')">Last 30 Days</button>
-      <button class="filter-btn" onclick="setDateFilter('60d')">Last 60 Days</button>
-      <button class="filter-btn" onclick="toggleCustomDates()">Custom</button>
-    </div>
-    <div class="custom-date-inputs" id="customDates">
-      <label style="display:flex;align-items:center;gap:8px;font-size:13px;color:#45454A;">
-        From: <input type="date" class="date-input" id="dateFrom" onchange="setCustomDateFilter()">
-      </label>
-      <label style="display:flex;align-items:center;gap:8px;font-size:13px;color:#45454A;">
-        To: <input type="date" class="date-input" id="dateTo" onchange="setCustomDateFilter()">
-      </label>
-    </div>
-  </div>
+<!-- ═══════════════════════════════════════════════ -->
+<!-- MAIN CONTENT -->
+<!-- ═══════════════════════════════════════════════ -->
+<div class="main">
 
-  <!-- TAB NAVIGATION -->
-  <div class="tab-navigation">
-    <button class="tab-btn active" onclick="switchTab('aggregate')">Aggregate Overview</button>
-    <button class="tab-btn" onclick="switchTab('individual')">Individual Performance</button>
-    <button class="tab-btn" onclick="switchTab('competitor')">Competitor Analysis</button>
-    <button class="tab-btn" onclick="switchTab('page')">Page Performance</button>
-  </div>
+  <!-- ═══════ AGGREGATE TAB ═══════ -->
+  <div class="view active" id="view-aggregate">
 
-  <!-- TAB 1: AGGREGATE OVERVIEW -->
-  <div class="tab-content active" id="aggregate">
-    
-    <!-- KPIs -->
-    <div class="kpi-grid">
-      <div class="kpi-card">
-        <div class="kpi-label">Total Posts</div>
-        <div class="kpi-value" id="kpiTotalPosts">12</div>
-        <div class="kpi-subtext">In Period</div>
+    <!-- Time Period Filter -->
+    <div class="filter-section">
+      <div class="filter-label">📅 Time Period:</div>
+      <div class="filter-row" id="timeFilters"></div>
+    </div>
+
+    <!-- KPI Row -->
+    <div class="kpi-row" id="agg-kpis"></div>
+
+    <!-- Charts Row 1 -->
+    <div class="charts-row">
+      <div class="card">
+        <div class="card-title">📊 Engagement Breakdown</div>
+        <div class="chart-wrap"><canvas id="aggEngChart"></canvas></div>
       </div>
-      <div class="kpi-card">
-        <div class="kpi-label">Total Likes</div>
-        <div class="kpi-value" id="kpiTotalLikes">14,623</div>
-        <div class="kpi-subtext">Engagement</div>
-      </div>
-      <div class="kpi-card">
-        <div class="kpi-label">Avg Likes/Post</div>
-        <div class="kpi-value" id="kpiAvgLikes">1,218</div>
-        <div class="kpi-subtext">Per Post</div>
-      </div>
-      <div class="kpi-card">
-        <div class="kpi-label">Total Comments</div>
-        <div class="kpi-value" id="kpiTotalComments">156</div>
-        <div class="kpi-subtext">Engagement</div>
-      </div>
-      <div class="kpi-card">
-        <div class="kpi-label">Engagement Rate</div>
-        <div class="kpi-value" id="kpiEngRate">10.4%</div>
-        <div class="kpi-subtext">Overall</div>
-      </div>
-      <div class="kpi-card">
-        <div class="kpi-label">Current Followers</div>
-        <div class="kpi-value" id="kpiFollowers">13.7K</div>
-        <div class="kpi-subtext">Total</div>
+      <div class="card">
+        <div class="card-title">📱 Platform Distribution</div>
+        <div class="chart-wrap"><canvas id="aggPlatChart"></canvas></div>
       </div>
     </div>
 
-    <!-- GROWTH TARGETS (FEATURE 4) -->
-    <div class="section-title">Growth Targets</div>
+    <!-- Charts Row 2 -->
+    <div class="charts-row">
+      <div class="card">
+        <div class="card-title">📝 Content Type Split</div>
+        <div class="chart-wrap"><canvas id="aggTypeChart"></canvas></div>
+      </div>
+      <div class="card">
+        <div class="card-title">⭐ Top Engagement Posts</div>
+        <div class="chart-wrap"><canvas id="aggTopChart"></canvas></div>
+      </div>
+    </div>
+
+    <!-- Aggregate Table -->
     <div class="card">
-      <div id="targetsContainer"></div>
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;flex-wrap:wrap;gap:12px;">
+        <div class="card-title" style="margin-bottom:0;">📋 All Posts</div>
+        <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap;">
+          <div class="filter-row" id="channelFilters"></div>
+          <input type="text" class="search-input" id="aggSearch" placeholder="Search influencer...">
+        </div>
+      </div>
+      <div class="tbl-wrap">
+        <table>
+          <thead><tr>
+            <th>Influencer</th><th>Platform</th><th>Date</th><th>Type</th><th>Likes</th><th>Comments</th><th>Saves</th><th>Shares</th><th>Data Source</th>
+          </tr></thead>
+          <tbody id="aggTableBody"></tbody>
+        </table>
+      </div>
     </div>
 
-    <!-- MONTHLY SUMMARY (FEATURE 3) -->
-    <div class="section-title">Monthly Summary</div>
-    <div class="card">
-      <div class="chart-container tall">
-        <canvas id="monthlyEngagementChart"></canvas>
+    <!-- UTM & Conversions Section (GA4 Data) -->
+    <div class="utm-section">
+      <div class="card">
+        <div class="card-title">🔗 UTM & Conversions Tracking <span class="ga4-badge">GA4 Live Data</span></div>
+        <div style="font-size:11px;color:#45454A;margin-bottom:16px;">Data pulled from Google Analytics 4 (Dec 14, 2025 — Mar 13, 2026). Tracks UTM link clicks, website sessions, and conversions from influencer campaigns.</div>
+
+        <!-- UTM KPIs -->
+        <div class="utm-kpi-row" id="utm-kpis"></div>
+
+        <!-- UTM Charts -->
+        <div class="charts-row" style="margin-bottom:16px;">
+          <div style="flex:1;min-width:300px;">
+            <div style="font-weight:600;font-size:12px;color:#1C1B1F;margin-bottom:8px;">Sessions by Campaign</div>
+            <div class="chart-wrap"><canvas id="utmSessionsChart"></canvas></div>
+          </div>
+          <div style="flex:1;min-width:300px;">
+            <div style="font-weight:600;font-size:12px;color:#1C1B1F;margin-bottom:8px;">Users by Campaign</div>
+            <div class="chart-wrap"><canvas id="utmUsersChart"></canvas></div>
+          </div>
+        </div>
+
+        <!-- UTM Table -->
+        <div class="tbl-wrap">
+          <table class="utm-table">
+            <thead><tr>
+              <th>Campaign</th><th>Influencer</th><th>Source / Medium</th><th>GA4 Users</th><th>GA4 Sessions</th><th>Transactions</th><th>Revenue</th><th>Short Link</th><th>Traffic Share</th>
+            </tr></thead>
+            <tbody id="utmTableBody"></tbody>
+          </table>
+        </div>
       </div>
-      <div class="table-wrapper" style="margin-top:24px;">
-        <table id="monthlySummaryTable">
-          <thead>
-            <tr>
-              <th>Month</th>
-              <th>Posts</th>
-              <th>Total Likes</th>
-              <th>Total Comments</th>
-              <th>Total Engagement</th>
-              <th>Avg/Post</th>
-              <th>Top Post</th>
-            </tr>
-          </thead>
+    </div>
+
+    <!-- Monthly Summary -->
+    <div class="card" style="margin-top:24px;">
+      <div class="card-title">📅 Monthly Summary</div>
+      <div class="chart-wrap" style="margin-bottom:16px;"><canvas id="monthlyTrendChart"></canvas></div>
+      <div class="tbl-wrap">
+        <table class="monthly-tbl">
+          <thead><tr><th>Month</th><th>Posts</th><th>Total Likes</th><th>Comments</th><th>Total Engagement</th><th>Avg/Post</th><th>Top Performer</th></tr></thead>
           <tbody id="monthlySummaryBody"></tbody>
         </table>
       </div>
     </div>
 
-    <!-- ENGAGEMENT BY TYPE -->
-    <div class="section-title">Engagement by Post Type</div>
-    <div class="grid-2">
-      <div class="card">
-        <div class="card-title">Likes Distribution</div>
-        <div class="chart-container">
-          <canvas id="typeDistributionChart"></canvas>
-        </div>
-      </div>
-      <div class="card">
-        <div class="card-title">Comments Distribution</div>
-        <div class="chart-container">
-          <canvas id="commentsDistributionChart"></canvas>
-        </div>
-      </div>
-    </div>
-
-    <!-- UTM TRACKING -->
-    <div class="section-title">UTM Campaign Performance</div>
-    <div class="grid-2">
-      <div class="card">
-        <div class="card-title">Clicks by Campaign</div>
-        <div class="chart-container">
-          <canvas id="utmCampaignChart"></canvas>
-        </div>
-      </div>
-      <div class="card">
-        <div class="card-title">Conversion by Source</div>
-        <div class="chart-container">
-          <canvas id="utmSourceChart"></canvas>
-        </div>
-      </div>
-    </div>
-
-    <!-- GA4 TRACKING -->
-    <div class="section-title">GA4 Traffic Source</div>
-    <div class="card">
-      <div class="chart-container">
-        <canvas id="ga4TrafficChart"></canvas>
-      </div>
+    <!-- Growth Targets -->
+    <div class="card" style="margin-top:24px;">
+      <div class="card-title">🎯 Growth Targets</div>
+      <div class="target-row" id="targetCards"></div>
     </div>
 
   </div>
 
-  <!-- TAB 2: INDIVIDUAL PERFORMANCE -->
-  <div class="tab-content" id="individual">
-    
-    <!-- SEARCH & FILTER -->
-    <div style="margin-bottom:24px;display:flex;gap:12px;align-items:center;">
-      <input type="text" id="searchInput" placeholder="Search by post caption..." 
-             style="flex:1;padding:10px 14px;border:1px solid #E8E8E8;border-radius:6px;font-size:13px;font-family:Inter,sans-serif;"
-             onkeyup="filterPosts()">
-      <select id="sortSelect" onchange="filterPosts()" 
-             style="padding:10px 14px;border:1px solid #E8E8E8;border-radius:6px;font-size:13px;font-family:Inter,sans-serif;">
-        <option value="recent">Most Recent</option>
-        <option value="likes">Most Likes</option>
-        <option value="engagement">Highest Engagement</option>
-      </select>
+  <!-- ═══════ INDIVIDUAL TAB ═══════ -->
+  <div class="view" id="view-individual">
+
+    <!-- Info Banner -->
+    <div class="info-banner">
+      Watch Time, Skip Rate, and Retention data require the Instagram mobile app. These metrics are not available through the web interface for collaboration posts.
     </div>
 
-    <!-- POSTS GRID -->
-    <div id="postsContainer" class="grid-2"></div>
+    <!-- Search -->
+    <div style="display:flex;justify-content:flex-end;margin-bottom:12px;">
+      <input type="text" class="search-input" id="indSearch" placeholder="Search influencer...">
+    </div>
+
+    <!-- Collab List -->
+    <div id="collabList"></div>
 
   </div>
 
-  <!-- TAB 3: COMPETITOR ANALYSIS (FEATURE 1) -->
-  <div class="tab-content" id="competitor">
-    
-    <!-- COMPETITOR KPIs -->
-    <div class="grid-3" id="competitorCardsContainer"></div>
-
-    <div class="section-title">Competitor Comparison</div>
-    
-    <!-- FOLLOWER COMPARISON -->
-    <div class="grid-2">
-      <div class="card">
-        <div class="card-title">Followers</div>
-        <div class="chart-container">
-          <canvas id="followerComparisonChart"></canvas>
-        </div>
-      </div>
-      <div class="card">
-        <div class="card-title">Engagement Rate Comparison</div>
-        <div class="chart-container">
-          <canvas id="engagementRateChart"></canvas>
-        </div>
-      </div>
+  <!-- ═══════ COMPETITOR TAB ═══════ -->
+  <div class="view" id="view-competitor">
+    <div class="comp-grid" id="compCards"></div>
+    <div class="charts-row">
+      <div class="card"><div class="card-title">👥 Follower Comparison</div><div class="chart-wrap"><canvas id="compFollowersChart"></canvas></div></div>
+      <div class="card"><div class="card-title">⚡ Engagement Rate (%)</div><div class="chart-wrap"><canvas id="compEngChart"></canvas></div></div>
     </div>
-
-    <!-- METRICS TABLE -->
-    <div class="card">
-      <div class="card-title">All Metrics Comparison</div>
-      <div class="table-wrapper">
-        <table id="competitorTable">
-          <thead>
-            <tr>
-              <th>Brand</th>
-              <th>Posts</th>
-              <th>Followers</th>
-              <th>Avg Likes</th>
-              <th>Avg Comments</th>
-              <th>Eng. Rate</th>
-              <th>Post Freq</th>
-            </tr>
-          </thead>
-          <tbody id="competitorTableBody"></tbody>
+    <div class="card" style="margin-top:16px;">
+      <div class="card-title">📊 Full Comparison</div>
+      <div class="tbl-wrap">
+        <table class="monthly-tbl">
+          <thead><tr><th>Brand</th><th>Handle</th><th>Posts</th><th>Followers</th><th>Avg Likes</th><th>Avg Comments</th><th>Eng Rate %</th><th>Post Freq</th></tr></thead>
+          <tbody id="compTableBody"></tbody>
         </table>
       </div>
     </div>
-
   </div>
 
-  <!-- TAB 4: PAGE PERFORMANCE (FEATURE 5) -->
-  <div class="tab-content" id="page">
-    
-    <!-- PAGE STATS KPIs -->
-    <div class="kpi-grid">
-      <div class="kpi-card">
-        <div class="kpi-label">Page Views</div>
-        <div class="kpi-value" id="pageViews">580K</div>
-        <div class="kpi-subtext">Last 30 Days</div>
-      </div>
-      <div class="kpi-card">
-        <div class="kpi-label">Accounts Reached</div>
-        <div class="kpi-value" id="pageReached">305K</div>
-        <div class="kpi-subtext">Unique</div>
-      </div>
-      <div class="kpi-card">
-        <div class="kpi-label">Interactions</div>
-        <div class="kpi-value" id="pageInteractions">3,716</div>
-        <div class="kpi-subtext">Total</div>
-      </div>
-      <div class="kpi-card">
-        <div class="kpi-label">Accounts Engaged</div>
-        <div class="kpi-value" id="pageEngaged">2,570</div>
-        <div class="kpi-subtext">Unique</div>
-      </div>
-      <div class="kpi-card">
-        <div class="kpi-label">Profile Visits</div>
-        <div class="kpi-value" id="pageVisits">3,759</div>
-        <div class="kpi-subtext">Total</div>
-      </div>
-      <div class="kpi-card">
-        <div class="kpi-label">Link Taps</div>
-        <div class="kpi-value" id="pageLinkTaps">740</div>
-        <div class="kpi-subtext">External</div>
-      </div>
+  <!-- ═══════ PAGE PERFORMANCE TAB ═══════ -->
+  <div class="view" id="view-page">
+    <div class="info-banner">Instagram Page Analytics for @cityfurnish · Last 30 Days (Feb 18 - Mar 19, 2026)</div>
+    <div class="page-kpi-row" id="pageKpis"></div>
+    <div class="charts-row">
+      <div class="card"><div class="card-title">📈 Monthly Views & Reach Trend</div><div class="chart-wrap"><canvas id="pageViewsChart"></canvas></div></div>
+      <div class="card"><div class="card-title">📱 Content Type Breakdown</div><div class="chart-wrap"><canvas id="pageContentChart"></canvas></div></div>
     </div>
-
-    <!-- FOLLOWER GROWTH CARD -->
-    <div class="card">
-      <div class="card-title">Follower Growth (Last 5 Months)</div>
-      <div class="chart-container tall">
-        <canvas id="followerGrowthChart"></canvas>
-      </div>
+    <div class="charts-row" style="margin-top:16px;">
+      <div class="card"><div class="card-title">👥 Follower Growth</div><div class="chart-wrap"><canvas id="pageFollowerChart"></canvas></div></div>
+      <div class="card"><div class="card-title">💬 Interactions & Profile Visits</div><div class="chart-wrap"><canvas id="pageInteractionsChart"></canvas></div></div>
     </div>
-
-    <!-- PERFORMANCE TRENDS -->
-    <div class="section-title">Monthly Performance Trend</div>
-    <div class="grid-2">
-      <div class="card">
-        <div class="card-title">Views & Reach</div>
-        <div class="chart-container">
-          <canvas id="viewsReachChart"></canvas>
-        </div>
-      </div>
-      <div class="card">
-        <div class="card-title">Interactions & Engagement</div>
-        <div class="chart-container">
-          <canvas id="interactionsChart"></canvas>
-        </div>
-      </div>
-    </div>
-
-    <!-- CONTENT BREAKDOWN -->
-    <div class="section-title">Content Breakdown</div>
-    <div class="grid-2">
-      <div class="card">
-        <div class="card-title">Content Type Distribution</div>
-        <div class="chart-container">
-          <canvas id="contentBreakdownChart"></canvas>
-        </div>
-      </div>
-      <div class="card">
-        <div class="card-title">Interaction by Content Type</div>
-        <div class="chart-container">
-          <canvas id="interactionBreakdownChart"></canvas>
-        </div>
-      </div>
-    </div>
-
   </div>
 
 </div>
 
+<!-- ═══════════════════════════════════════════════ -->
+<!-- FOOTER -->
+<!-- ═══════════════════════════════════════════════ -->
+<div class="footer">
+  Powered by <span class="footer-badge">Cityfurnish Analytics</span> · Data from Instagram Insights
+</div>
+
 <script>
-// ═════════════════════════════════════════════════════════════
-// DATA & INITIALIZATION
-// ═════════════════════════════════════════════════════════════
-
-// GLOBAL DATE FILTER STATE
-let filterStart = null;
-let filterEnd = null;
-
-// POSTS DATA (Original)
+// ═════════════════════════════════════════════════
+// DATA: 11 Posts (Dec 2025 - Mar 2026)
+// ═════════════════════════════════════════════════
 const posts = [
-  { id: 1, caption: "Elegant living room setup with our premium sofa collection", date: "15/03/26", type: "Carousel", likes: 1966, comments: 18, shares: 45 },
-  { id: 2, caption: "Customer spotlight: Transform your space with Cityfurnish", date: "14/03/26", type: "Reel", likes: 9089, comments: 142, shares: 312 },
-  { id: 3, caption: "New collection launch: Scandinavian minimalism", date: "12/03/26", type: "Post", likes: 500, comments: 8, shares: 22 },
-  { id: 4, caption: "How to style a small bedroom on a budget", date: "10/03/26", type: "Reel", likes: 300, comments: 5, shares: 18 },
-  { id: 5, caption: "Behind the scenes: Our design process", date: "08/03/26", type: "Carousel", likes: 131, comments: 3, shares: 12 },
-  { id: 6, caption: "Customer testimonials: Real homes, real stories", date: "28/02/26", type: "Post", likes: 142, comments: 4, shares: 9 },
-  { id: 7, caption: "Spring collection preview: Fresh colors & designs", date: "25/02/26", type: "Reel", likes: 618, comments: 12, shares: 35 },
-  { id: 8, caption: "Interior design tips for modern apartments", date: "20/02/26", type: "Carousel", likes: 106, comments: 2, shares: 7 },
-  { id: 9, caption: "Limited offer: 30% off on bedroom furniture", date: "18/02/26", type: "Post", likes: 1033, comments: 21, shares: 68 },
-  { id: 10, caption: "Client interview: Designing the perfect home", date: "15/02/26", type: "Reel", likes: 143, comments: 6, shares: 19 },
-  { id: 11, caption: "Sustainability: Our eco-friendly furniture range", date: "10/02/26", type: "Post", likes: 850, comments: 12, shares: 42 },
-  { id: 12, caption: "New showroom opening in Bangalore", date: "28/01/26", type: "Carousel", likes: 620, comments: 14, shares: 31 },
+  { id:0, inf:"moreofkirankumar", handle:"@moreofkirankumar", channel:"Instagram Reel", date:"15/03/26", cpv:null, cpvType:"barter", views:0, likes:131, comments:8, shares:0, saves:0, reach:0, accountsEngaged:0, avgWatch:null, avgWatchSec:null, skipRate:null, utmClicks:null, conversions:null, reposts:0, utmLink:null, utm:null, postedLink:"https://www.instagram.com/p/DV3TSFqk7Yu/", color:"#e040fb", caption:"Moving to a new place? Skip the stress of buying furniture. Just rent it from Cityfurnish.", dataType:"Public Data Only" },
+  { id:1, inf:"krantiveer005", handle:"@krantiveer005", channel:"Instagram Reel", date:"28/02/26", cpv:null, cpvType:"paid", views:3420, likes:142, comments:17, shares:5, saves:8, reach:1867, accountsEngaged:159, avgWatch:null, avgWatchSec:null, skipRate:null, utmClicks:null, conversions:null, reposts:0, utmLink:null, utm:null, postedLink:"https://www.instagram.com/p/DVSf5VzATCl/", color:"#ff6b6b", caption:"Chhattisgarh se Delhi aaya sapne leke... (Paid partnership with View Insights)", dataType:"Full Insights" },
+  { id:2, inf:"littlethings_by_shruvi", handle:"@littlethings_by_shruvi", channel:"Instagram Reel", date:"21/02/26", cpv:null, cpvType:"barter", views:0, likes:618, comments:11, shares:0, saves:0, reach:0, accountsEngaged:0, avgWatch:null, avgWatchSec:null, skipRate:null, utmClicks:null, conversions:null, reposts:0, utmLink:null, utm:null, postedLink:"https://www.instagram.com/p/DVAaIvajPuV/", color:"#4ecdc4", caption:"Mumbai to Pune - buy or rent?", dataType:"Public Data Only" },
+  { id:3, inf:"shekartech93", handle:"@shekartech93", channel:"Instagram Reel", date:"14/02/26", cpv:null, cpvType:"barter", views:0, likes:106, comments:5, shares:0, saves:0, reach:0, accountsEngaged:0, avgWatch:null, avgWatchSec:null, skipRate:null, utmClicks:18, conversions:null, reposts:0, utmLink:"https://bit.ly/4qz5kJQ", utm:"https://cityfurnish.com/?utm_source=commonlink&utm_medium=allcommon&utm_campaign=commoon", postedLink:"https://www.instagram.com/p/DUvRZeiCWmJ/", color:"#95e1d3", caption:"Cityfurnish makes furniture affordable", dataType:"Public Data Only" },
+  { id:4, inf:"markyvichara", handle:"@markyvichara", channel:"Instagram Reel", date:"07/02/26", cpv:null, cpvType:"barter", views:0, likes:1033, comments:16, shares:0, saves:0, reach:0, accountsEngaged:0, avgWatch:null, avgWatchSec:null, skipRate:null, utmClicks:null, conversions:null, reposts:0, utmLink:null, utm:null, postedLink:"https://www.instagram.com/p/DUddsJhCXfI/", color:"#f38181", caption:"First salary → furniture EMI?", dataType:"Public Data Only" },
+  { id:5, inf:"behind_visions", handle:"@behind_visions", channel:"Instagram Reel", date:"28/01/26", cpv:null, cpvType:"barter", views:0, likes:143, comments:13, shares:0, saves:0, reach:0, accountsEngaged:0, avgWatch:null, avgWatchSec:null, skipRate:null, utmClicks:32, conversions:0, reposts:0, utmLink:"https://shorturl.at/cueeJ", utm:"https://cityfurnish.com/?utm_source=instagramstory&utm_medium=insta&utm_campaign=Aravind", postedLink:"https://www.instagram.com/p/DUDZetSCU2A/", color:"#aa96da", caption:"Turn empty spaces into effortless living", dataType:"Public Data Only" },
+  { id:6, inf:"ashitha__varma", handle:"@ashitha__varma", channel:"Instagram Reel", date:"27/01/26", cpv:null, cpvType:"barter", views:0, likes:1966, comments:15, shares:0, saves:0, reach:0, accountsEngaged:0, avgWatch:null, avgWatchSec:null, skipRate:null, utmClicks:27, conversions:null, reposts:0, utmLink:"https://url-shortener.me/9O54", utm:"https://cityfurnish.com/?utm_source=instagramstory&utm_medium=insta&utm_campaign=Ashithastory", postedLink:"https://www.instagram.com/p/DUBBY_Nkqun/", color:"#fcbad3", caption:"Why buy when you can rent & save BIG?", dataType:"Public Data Only" },
+  { id:7, inf:"gautamvigim", handle:"@gautamvigim", channel:"Instagram Carousel", date:"25/01/26", cpv:null, cpvType:"barter", views:0, likes:500, comments:10, shares:0, saves:0, reach:0, accountsEngaged:0, avgWatch:null, avgWatchSec:null, skipRate:null, utmClicks:null, conversions:null, reposts:0, utmLink:null, utm:null, postedLink:"https://www.instagram.com/p/DT77WtijJqY/", color:"#ffffd2", caption:"No buying furniture. No heavy investment.", dataType:"Public Data Only" },
+  { id:8, inf:"mayursanap_", handle:"@mayursanap_", channel:"Instagram Reel", date:"10/01/26", cpv:null, cpvType:"barter", views:0, likes:9089, comments:12, shares:0, saves:0, reach:0, accountsEngaged:0, avgWatch:null, avgWatchSec:null, skipRate:null, utmClicks:null, conversions:null, reposts:0, utmLink:null, utm:null, postedLink:"https://www.instagram.com/p/DTVcctiCf-S/", color:"#ffa502", caption:"Moving to Bangalore felt overwhelming", dataType:"Public Data Only" },
+  { id:9, inf:"upasanakochhar", handle:"@upasanakochhar", channel:"Instagram Carousel", date:"17/12/25", cpv:null, cpvType:"barter", views:0, likes:300, comments:6, shares:0, saves:0, reach:0, accountsEngaged:0, avgWatch:null, avgWatchSec:null, skipRate:null, utmClicks:null, conversions:null, reposts:0, utmLink:null, utm:null, postedLink:"https://www.instagram.com/p/DSXjyUrgeAz/", color:"#ffccb3", caption:"Belle Wardrobe by Cityfurnish", dataType:"Public Data Only" },
+  { id:10, inf:"gautamvigim", handle:"@gautamvigim", channel:"Instagram Reel", date:"29/11/25", cpv:null, cpvType:"barter", views:0, likes:400, comments:6, shares:0, saves:0, reach:0, accountsEngaged:0, avgWatch:null, avgWatchSec:null, skipRate:null, utmClicks:null, conversions:null, reposts:0, utmLink:null, utm:null, postedLink:"https://www.instagram.com/p/DRpTyG0ksdt/", color:"#ffffd2", caption:"Life gets way easier when you stop buying everything", dataType:"Public Data Only" },
+  { id:11, inf:"richa_mehta", handle:"@richa_mehta", channel:"Instagram Reel", date:"27/11/25", cpv:null, cpvType:"barter", views:0, likes:4050, comments:16, shares:0, saves:0, reach:0, accountsEngaged:0, avgWatch:null, avgWatchSec:null, skipRate:null, utmClicks:null, conversions:null, reposts:0, utmLink:null, utm:null, postedLink:"https://www.instagram.com/p/DRkNR7XE2bi/", color:"#a8d8d8", caption:"Why buy when you can live smarter?", dataType:"Public Data Only" },
 ];
 
-// UTM CAMPAIGNS DATA (Original)
 const utmCampaigns = [
-  { campaign: "Summer Sale 2026", clicks: 156, conversions: 8, conversionRate: 5.1 },
-  { campaign: "New Year Offers", clicks: 203, conversions: 12, conversionRate: 5.9 },
-  { campaign: "Brand Awareness", clicks: 89, conversions: 3, conversionRate: 3.4 },
-  { campaign: "Flash Deal", clicks: 178, conversions: 11, conversionRate: 6.2 },
+  { campaign:"Aravind", source:"instagramstory", medium:"insta", shortLink:"https://shorturl.at/cueeJ", fullUtm:"https://cityfurnish.com/?utm_source=instagramstory&utm_medium=insta&utm_campaign=Aravind", ga4Users:22, ga4Sessions:32, ga4Transactions:0, ga4Revenue:0, sheetClicks:27, influencer:"Aravind", matchPostId:5, color:"#aa96da" },
+  { campaign:"Aravind2", source:"instagramstory", medium:"insta", shortLink:"https://shorturl.at/TlGz9", fullUtm:"https://cityfurnish.com/?utm_source=instagramstory&utm_medium=insta&utm_campaign=Aravind2", ga4Users:16, ga4Sessions:58, ga4Transactions:0, ga4Revenue:0, sheetClicks:55, influencer:"Aravind (Story)", matchPostId:null, color:"#b39ddb" },
+  { campaign:"Ashithastory", source:"instagramstory", medium:"insta", shortLink:"https://url-shortener.me/9O54", fullUtm:"https://cityfurnish.com/?utm_source=instagramstory&utm_medium=insta&utm_campaign=Ashithastory", ga4Users:21, ga4Sessions:27, ga4Transactions:0, ga4Revenue:0, sheetClicks:27, influencer:"Ashitha", matchPostId:6, color:"#fcbad3" },
+  { campaign:"commoon", source:"commonlink", medium:"allcommon", shortLink:"https://bit.ly/4qz5kJQ", fullUtm:"https://cityfurnish.com/?utm_source=commonlink&utm_medium=allcommon&utm_campaign=commoon", ga4Users:7, ga4Sessions:18, ga4Transactions:0, ga4Revenue:0, sheetClicks:18, influencer:"Shekar", matchPostId:3, color:"#95e1d3" },
+  { campaign:"Vipul ", source:"instagram", medium:"story", shortLink:"https://bit.ly/4s2HHuj", fullUtm:"https://cityfurnish.com/?utm_source=instagram&utm_medium=story&utm_campaign=Vipul+&utm_id=influencer", ga4Users:111, ga4Sessions:130, ga4Transactions:0, ga4Revenue:0, sheetClicks:129, influencer:"Vipul", matchPostId:null, color:"#7c4dff" },
+  { campaign:"Sourav", source:"instagram", medium:"story", shortLink:"https://shorturl.at/VAleV", fullUtm:"https://cityfurnish.com/?utm_source=instagram&utm_medium=story&utm_campaign=Sourav", ga4Users:8, ga4Sessions:9, ga4Transactions:0, ga4Revenue:0, sheetClicks:6, influencer:"Sourav", matchPostId:null, color:"#26a69a" },
+  { campaign:"raghupaydaystory", source:"payday", medium:"storyinsta", shortLink:"https://shorturl.at/OOApu", fullUtm:"https://cityfurnish.com/?utm_source=payday&utm_medium=storyinsta&utm_campaign=raghupaydaystory", ga4Users:16, ga4Sessions:24, ga4Transactions:0, ga4Revenue:0, sheetClicks:18, influencer:"Raghu", matchPostId:null, color:"#ff7043" },
 ];
 
-// GA4 TRAFFIC DATA (Original)
-const ga4Traffic = [
-  { source: "Social Media (Instagram)", users: 4230, sessions: 5840, pageViews: 12450 },
-  { source: "Direct", users: 1840, sessions: 2100, pageViews: 3520 },
-  { source: "Organic Search", users: 2100, sessions: 2840, pageViews: 4920 },
-  { source: "Referral", users: 890, sessions: 1200, pageViews: 1890 },
-];
-
-// COMPETITORS DATA (FEATURE 1)
+// ═════════════════════════════════════════════════
+// COMPETITOR DATA
+// ═════════════════════════════════════════════════
 const competitors = [
-  { name: "Cityfurnish", handle: "@cityfurnish", posts: 673, followers: 13758, avgLikes: 850, avgComments: 12, engRate: 0.64, postFreq: "3-4/week", color: "#F6B704", recentLikes: [131,142,618,106,1033,143,1966,500,9089,300] },
-  { name: "Furlenco", handle: "@furlenco", posts: 538, followers: 83500, avgLikes: 120, avgComments: 8, engRate: 0.15, postFreq: "2/week", color: "#FF6B6B", recentLikes: [95,110,85,130,150,200,75,160,90,105] },
-  { name: "RentoMojo", handle: "@rentomojo", posts: 739, followers: 58000, avgLikes: 180, avgComments: 5, engRate: 0.32, postFreq: "4-5/week", color: "#4ECDC4", recentLikes: [1046,168,9,45,320,85,210,55,130,95] },
-  { name: "Rentickle", handle: "@rentickleindia", posts: 1782, followers: 40500, avgLikes: 12, avgComments: 1, engRate: 0.03, postFreq: "3/week", color: "#95E1D3", recentLikes: [18,7,3,15,8,22,5,12,9,6] },
+  { name:"Cityfurnish", handle:"@cityfurnish", posts:673, followers:13758, avgLikes:850, avgComments:12, engRate:0.64, postFreq:"3-4/week", color:"#F6B704" },
+  { name:"Furlenco", handle:"@furlenco", posts:538, followers:83500, avgLikes:120, avgComments:8, engRate:0.15, postFreq:"2/week", color:"#FF6B6B" },
+  { name:"RentoMojo", handle:"@rentomojo", posts:739, followers:58000, avgLikes:180, avgComments:5, engRate:0.32, postFreq:"4-5/week", color:"#4ECDC4" },
+  { name:"Rentickle", handle:"@rentickleindia", posts:1782, followers:40500, avgLikes:12, avgComments:1, engRate:0.03, postFreq:"3/week", color:"#95E1D3" },
 ];
 
-// GROWTH TARGETS DATA (FEATURE 4)
-const targets = {
-  monthlyEngagement: { target: 25000, label: "Monthly Engagement Target" },
-  monthlyUTMClicks: { target: 300, label: "Monthly UTM Clicks Target" },
-  monthlyConversions: { target: 10, label: "Monthly Conversions Target" },
-  followerGrowth: { target: 15000, current: 13758, label: "Follower Target" },
-  momEngGrowth: { target: 20, label: "MoM Engagement Growth %" },
-};
-
-// PAGE STATS DATA (FEATURE 5)
+// ═════════════════════════════════════════════════
+// PAGE PERFORMANCE DATA (Instagram Insights)
+// ═════════════════════════════════════════════════
 const pageStats = {
-  period: "Last 30 Days (Feb 18 - Mar 19, 2026)",
-  views: 580305,
-  accountsReached: 304629,
-  interactions: 3716,
-  accountsEngaged: 2570,
-  profileActivity: 4499,
-  profileVisits: 3759,
-  externalLinkTaps: 740,
-  totalFollowers: 13758,
-  followersPct: 1.7,
-  nonFollowersPct: 98.3,
-  contentBreakdown: { reels: 94.5, stories: 4.8, posts: 0.7 },
-  interactionBreakdown: { reels: 96.4, posts: 3.5, stories: 0.1 },
-  monthly: [
-    { month: "Nov 2025", views: 320000, reached: 180000, interactions: 2100, profileVisits: 2200, followers: 13100 },
-    { month: "Dec 2025", views: 380000, reached: 210000, interactions: 2600, profileVisits: 2800, followers: 13250 },
-    { month: "Jan 2026", views: 450000, reached: 260000, interactions: 3100, profileVisits: 3200, followers: 13400 },
-    { month: "Feb 2026", views: 520000, reached: 290000, interactions: 3500, profileVisits: 3600, followers: 13600 },
-    { month: "Mar 2026", views: 580305, reached: 304629, interactions: 3716, profileVisits: 3759, followers: 13758 },
+  period:"Last 30 Days (Feb 18 - Mar 19, 2026)",
+  views:580305, accountsReached:304629, interactions:3716,
+  accountsEngaged:2570, profileVisits:3759, externalLinkTaps:740,
+  totalFollowers:13758, followersPct:1.7, nonFollowersPct:98.3,
+  contentBreakdown:{reels:94.5,stories:4.8,posts:0.7,videos:0.0},
+  interactionBreakdown:{reels:96.4,posts:3.5,stories:0.1},
+  monthly:[
+    {month:"Nov 25",views:320000,reached:180000,interactions:2100,profileVisits:2200,followers:13100},
+    {month:"Dec 25",views:380000,reached:210000,interactions:2600,profileVisits:2800,followers:13250},
+    {month:"Jan 26",views:450000,reached:260000,interactions:3100,profileVisits:3200,followers:13400},
+    {month:"Feb 26",views:520000,reached:290000,interactions:3500,profileVisits:3600,followers:13600},
+    {month:"Mar 26",views:580305,reached:304629,interactions:3716,profileVisits:3759,followers:13758},
   ]
 };
 
-// Chart instances (for updates)
-let charts = {};
+// ═════════════════════════════════════════════════
+// GROWTH TARGETS
+// ═════════════════════════════════════════════════
+const targets = [
+  {label:"Monthly Engagement",target:25000,icon:"🎯"},
+  {label:"Monthly UTM Clicks",target:300,icon:"🔗"},
+  {label:"Monthly Conversions",target:10,icon:"💰"},
+  {label:"Follower Target",target:15000,icon:"👥"},
+  {label:"MoM Engagement Growth %",target:20,icon:"📈"},
+];
 
-// ═════════════════════════════════════════════════════════════
-// DATE FILTER FUNCTIONS (FEATURE 2)
-// ═════════════════════════════════════════════════════════════
-
-function setDateFilter(period) {
-  const today = new Date('2026-03-19');
-  let start = new Date(today);
-  
-  if (period === '7d') start.setDate(today.getDate() - 7);
-  else if (period === '30d') start.setDate(today.getDate() - 30);
-  else if (period === '60d') start.setDate(today.getDate() - 60);
-  
-  filterStart = start;
-  filterEnd = today;
-  
-  // Update button states
-  document.querySelectorAll('.filter-btn').forEach(btn => {
-    btn.classList.remove('active');
-  });
-  event.target.classList.add('active');
-  
-  document.getElementById('customDates').classList.remove('visible');
-  updateAllCharts();
+// ═════════════════════════════════════════════════
+// HELPER FUNCTIONS
+// ═════════════════════════════════════════════════
+function fmt(v){
+  if(v==null||v===0)return'—';
+  if(v>=1000000)return(v/1000000).toFixed(1)+'M';
+  if(v>=1000)return(v/1000).toFixed(1)+'K';
+  return v.toString();
 }
 
-function toggleCustomDates() {
-  document.getElementById('customDates').classList.toggle('visible');
-  document.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active'));
-  event.target.classList.add('active');
+function parseDate(dateStr){
+  const [d,m,y]=dateStr.split('/');
+  return new Date(2000+parseInt(y),parseInt(m)-1,parseInt(d));
 }
 
-function setCustomDateFilter() {
-  const fromStr = document.getElementById('dateFrom').value;
-  const toStr = document.getElementById('dateTo').value;
-  
-  if (fromStr && toStr) {
-    filterStart = new Date(fromStr);
-    filterEnd = new Date(toStr);
-    updateAllCharts();
-  }
+function isWithinRange(dateStr,days){
+  const postDate=parseDate(dateStr);
+  const today=new Date(2026,2,19);
+  const rangeStart=new Date(today);
+  rangeStart.setDate(today.getDate()-days);
+  return postDate>=rangeStart&&postDate<=today;
 }
 
-// Initialize with default 30-day filter
-function initDateFilter() {
-  const today = new Date('2026-03-19');
-  filterStart = new Date(today);
-  filterStart.setDate(today.getDate() - 30);
-  filterEnd = today;
+function totalEng(p){
+  return(p.likes||0)+(p.comments||0)+(p.shares||0)+(p.saves||0);
 }
 
-// ═════════════════════════════════════════════════════════════
+function engRate(p){
+  return p.views>0?((totalEng(p)/p.views)*100):0;
+}
+
+// ═════════════════════════════════════════════════
 // TAB SWITCHING
-// ═════════════════════════════════════════════════════════════
-
-function switchTab(tabName) {
-  // Hide all tabs
-  document.querySelectorAll('.tab-content').forEach(tab => {
-    tab.classList.remove('active');
-  });
-  
-  // Show selected tab
-  document.getElementById(tabName).classList.add('active');
-  
-  // Update button states
-  document.querySelectorAll('.tab-btn').forEach(btn => {
-    btn.classList.remove('active');
-  });
-  event.target.classList.add('active');
-  
-  // Trigger chart renders for the tab
-  setTimeout(() => {
-    if (tabName === 'aggregate') renderAggregateTab();
-    else if (tabName === 'competitor') renderCompetitorTab();
-    else if (tabName === 'page') renderPageTab();
-  }, 100);
-}
-
-// ═════════════════════════════════════════════════════════════
-// UTILITY FUNCTIONS
-// ═════════════════════════════════════════════════════════════
-
-function filterPostsByDate(postArray) {
-  return postArray.filter(post => {
-    const [d, m, y] = post.date.split('/');
-    const postDate = new Date(parseInt('20' + y), parseInt(m) - 1, parseInt(d));
-    return postDate >= filterStart && postDate <= filterEnd;
-  });
-}
-
-function getMonthKey(dateStr) {
-  const [d, m, y] = dateStr.split('/');
-  return `${m}/${y}`;
-}
-
-function formatNumber(n) {
-  if (n >= 1000000) return (n / 1000000).toFixed(1) + 'M';
-  if (n >= 1000) return (n / 1000).toFixed(1) + 'K';
-  return n.toString();
-}
-
-function calculateEngagementRate(likes, comments, followers) {
-  const engagement = likes + comments;
-  return ((engagement / followers) * 100).toFixed(2);
-}
-
-// ═════════════════════════════════════════════════════════════
-// AGGREGATE TAB RENDERING
-// ═════════════════════════════════════════════════════════════
-
-function renderAggregateTab() {
-  const filtered = filterPostsByDate(posts);
-  
-  // Calculate KPIs
-  const totalPosts = filtered.length;
-  const totalLikes = filtered.reduce((sum, p) => sum + p.likes, 0);
-  const totalComments = filtered.reduce((sum, p) => sum + p.comments, 0);
-  const avgLikes = totalPosts > 0 ? Math.round(totalLikes / totalPosts) : 0;
-  const engRate = calculateEngagementRate(totalLikes, totalComments, 13758);
-  
-  // Update KPI cards
-  document.getElementById('kpiTotalPosts').textContent = totalPosts;
-  document.getElementById('kpiTotalLikes').textContent = totalLikes.toLocaleString();
-  document.getElementById('kpiAvgLikes').textContent = avgLikes.toLocaleString();
-  document.getElementById('kpiTotalComments').textContent = totalComments;
-  document.getElementById('kpiEngRate').textContent = engRate + '%';
-  document.getElementById('kpiFollowers').textContent = '13.7K';
-
-  // Render targets (FEATURE 4)
-  renderTargets(filtered);
-  
-  // Render monthly summary (FEATURE 3)
-  renderMonthlySummary(filtered);
-  
-  // Render engagement charts
-  renderEngagementCharts(filtered);
-  
-  // Render UTM charts
-  renderUTMCharts(filtered);
-  
-  // Render GA4 chart
-  renderGA4Chart();
-}
-
-function renderTargets(filtered) {
-  const container = document.getElementById('targetsContainer');
-  
-  // Calculate actual values
-  const totalLikes = filtered.reduce((sum, p) => sum + p.likes, 0);
-  const totalComments = filtered.reduce((sum, p) => sum + p.comments, 0);
-  const monthlyEng = totalLikes + totalComments;
-  
-  const utmTotal = utmCampaigns.reduce((sum, c) => sum + c.clicks, 0);
-  const convTotal = utmCampaigns.reduce((sum, c) => sum + c.conversions, 0);
-  
-  // Monthly growth (estimate 15% growth from previous month)
-  const momGrowth = 15.3;
-  
-  const targetsList = [
-    { key: 'monthlyEngagement', actual: monthlyEng },
-    { key: 'monthlyUTMClicks', actual: utmTotal },
-    { key: 'monthlyConversions', actual: convTotal },
-    { key: 'momEngGrowth', actual: momGrowth },
-  ];
-  
-  let html = '';
-  targetsList.forEach(item => {
-    const target = targets[item.key];
-    const pct = (item.actual / target.target * 100).toFixed(0);
-    const status = pct >= 80 ? 'success' : 'warning';
-    const statusText = pct >= 80 ? 'ON TRACK' : 'BEHIND';
-    
-    html += `
-      <div class="progress-container">
-        <div class="progress-label">
-          <span>${target.label}</span>
-          <span><strong>${item.actual.toLocaleString()}</strong> / ${target.target.toLocaleString()} <span class="badge ${status}">${statusText}</span></span>
-        </div>
-        <div class="progress-bar">
-          <div class="progress-fill" style="width:${Math.min(pct, 100)}%;"></div>
-        </div>
-      </div>
-    `;
-  });
-  
-  container.innerHTML = html;
-}
-
-function renderMonthlySummary(filtered) {
-  const monthlyData = {};
-  
-  filtered.forEach(post => {
-    const monthKey = getMonthKey(post.date);
-    if (!monthlyData[monthKey]) {
-      monthlyData[monthKey] = {
-        month: monthKey,
-        posts: 0,
-        likes: 0,
-        comments: 0,
-        topLikes: 0,
-        dates: []
-      };
-    }
-    monthlyData[monthKey].posts++;
-    monthlyData[monthKey].likes += post.likes;
-    monthlyData[monthKey].comments += post.comments;
-    monthlyData[monthKey].topLikes = Math.max(monthlyData[monthKey].topLikes, post.likes);
-    monthlyData[monthKey].dates.push(post.date);
-  });
-  
-  // Ensure all months are present
-  const months = ['11/25', '12/25', '01/26', '02/26', '03/26'];
-  const monthLabels = ['Nov 2025', 'Dec 2025', 'Jan 2026', 'Feb 2026', 'Mar 2026'];
-  
-  months.forEach((m, idx) => {
-    if (!monthlyData[m]) {
-      monthlyData[m] = {
-        month: m,
-        posts: 0,
-        likes: 0,
-        comments: 0,
-        topLikes: 0
-      };
-    }
-  });
-  
-  // Build table
-  let tableHtml = '';
-  let chartLabels = [];
-  let chartData = [];
-  
-  months.forEach((m, idx) => {
-    const data = monthlyData[m];
-    const engagement = data.likes + data.comments;
-    const avgPerPost = data.posts > 0 ? Math.round(engagement / data.posts) : 0;
-    
-    chartLabels.push(monthLabels[idx]);
-    chartData.push(engagement);
-    
-    tableHtml += `
-      <tr>
-        <td>${monthLabels[idx]}</td>
-        <td>${data.posts}</td>
-        <td>${data.likes.toLocaleString()}</td>
-        <td>${data.comments}</td>
-        <td>${engagement.toLocaleString()}</td>
-        <td>${avgPerPost.toLocaleString()}</td>
-        <td>${data.topLikes > 0 ? data.topLikes.toLocaleString() : '-'}</td>
-      </tr>
-    `;
-  });
-  
-  document.getElementById('monthlySummaryBody').innerHTML = tableHtml;
-  
-  // Render chart
-  if (charts['monthlyEngagement']) charts['monthlyEngagement'].destroy();
-  charts['monthlyEngagement'] = new Chart(document.getElementById('monthlyEngagementChart'), {
-    type: 'line',
-    data: {
-      labels: chartLabels,
-      datasets: [{
-        label: 'Monthly Engagement',
-        data: chartData,
-        borderColor: '#F6B704',
-        backgroundColor: 'rgba(246,183,4,0.1)',
-        borderWidth: 3,
-        fill: true,
-        tension: 0.4,
-        pointRadius: 6,
-        pointBackgroundColor: '#F6B704',
-        pointBorderColor: '#FFFFFF',
-        pointBorderWidth: 2,
-      }]
-    },
-    options: {
-      responsive: true,
-      maintainAspectRatio: false,
-      plugins: {
-        legend: { display: false }
-      },
-      scales: {
-        y: {
-          beginAtZero: true,
-          ticks: { color: '#45454A', font: { size: 12 } },
-          grid: { color: '#E8E8E8' }
-        },
-        x: {
-          ticks: { color: '#45454A', font: { size: 12 } },
-          grid: { display: false }
-        }
-      }
-    }
-  });
-}
-
-function renderEngagementCharts(filtered) {
-  const typeData = {};
-  
-  filtered.forEach(post => {
-    if (!typeData[post.type]) {
-      typeData[post.type] = { likes: 0, comments: 0, count: 0 };
-    }
-    typeData[post.type].likes += post.likes;
-    typeData[post.type].comments += post.comments;
-    typeData[post.type].count++;
-  });
-  
-  const types = Object.keys(typeData);
-  const likes = types.map(t => typeData[t].likes);
-  const comments = types.map(t => typeData[t].comments);
-  
-  // Likes Distribution
-  if (charts['typeDistribution']) charts['typeDistribution'].destroy();
-  charts['typeDistribution'] = new Chart(document.getElementById('typeDistributionChart'), {
-    type: 'doughnut',
-    data: {
-      labels: types,
-      datasets: [{
-        data: likes,
-        backgroundColor: ['#F6B704', '#FF6B6B', '#4ECDC4'],
-        borderColor: '#FFFFFF',
-        borderWidth: 2
-      }]
-    },
-    options: {
-      responsive: true,
-      maintainAspectRatio: false,
-      plugins: {
-        legend: {
-          position: 'bottom',
-          labels: { color: '#45454A', font: { size: 12 }, padding: 16 }
-        }
-      }
-    }
-  });
-  
-  // Comments Distribution
-  if (charts['commentsDistribution']) charts['commentsDistribution'].destroy();
-  charts['commentsDistribution'] = new Chart(document.getElementById('commentsDistributionChart'), {
-    type: 'doughnut',
-    data: {
-      labels: types,
-      datasets: [{
-        data: comments,
-        backgroundColor: ['#4ECDC4', '#95E1D3', '#F6B704'],
-        borderColor: '#FFFFFF',
-        borderWidth: 2
-      }]
-    },
-    options: {
-      responsive: true,
-      maintainAspectRatio: false,
-      plugins: {
-        legend: {
-          position: 'bottom',
-          labels: { color: '#45454A', font: { size: 12 }, padding: 16 }
-        }
-      }
-    }
-  });
-}
-
-function renderUTMCharts(filtered) {
-  const campaigns = utmCampaigns;
-  
-  // Campaign clicks
-  if (charts['utmCampaign']) charts['utmCampaign'].destroy();
-  charts['utmCampaign'] = new Chart(document.getElementById('utmCampaignChart'), {
-    type: 'bar',
-    data: {
-      labels: campaigns.map(c => c.campaign),
-      datasets: [{
-        label: 'Clicks',
-        data: campaigns.map(c => c.clicks),
-        backgroundColor: '#F6B704',
-        borderRadius: 6
-      }]
-    },
-    options: {
-      indexAxis: 'y',
-      responsive: true,
-      maintainAspectRatio: false,
-      plugins: {
-        legend: { display: false }
-      },
-      scales: {
-        x: {
-          ticks: { color: '#45454A', font: { size: 12 } },
-          grid: { color: '#E8E8E8' }
-        },
-        y: {
-          ticks: { color: '#45454A', font: { size: 12 } },
-          grid: { display: false }
-        }
-      }
-    }
-  });
-  
-  // Conversion by source
-  if (charts['utmSource']) charts['utmSource'].destroy();
-  charts['utmSource'] = new Chart(document.getElementById('utmSourceChart'), {
-    type: 'bar',
-    data: {
-      labels: campaigns.map(c => c.campaign),
-      datasets: [{
-        label: 'Conversions',
-        data: campaigns.map(c => c.conversions),
-        backgroundColor: '#4ECDC4',
-        borderRadius: 6
-      }]
-    },
-    options: {
-      indexAxis: 'y',
-      responsive: true,
-      maintainAspectRatio: false,
-      plugins: {
-        legend: { display: false }
-      },
-      scales: {
-        x: {
-          ticks: { color: '#45454A', font: { size: 12 } },
-          grid: { color: '#E8E8E8' }
-        },
-        y: {
-          ticks: { color: '#45454A', font: { size: 12 } },
-          grid: { display: false }
-        }
-      }
-    }
-  });
-}
-
-function renderGA4Chart() {
-  const traffic = ga4Traffic;
-  
-  if (charts['ga4Traffic']) charts['ga4Traffic'].destroy();
-  charts['ga4Traffic'] = new Chart(document.getElementById('ga4TrafficChart'), {
-    type: 'bar',
-    data: {
-      labels: traffic.map(t => t.source),
-      datasets: [{
-        label: 'Users',
-        data: traffic.map(t => t.users),
-        backgroundColor: '#F6B704'
-      }, {
-        label: 'Sessions',
-        data: traffic.map(t => t.sessions),
-        backgroundColor: '#4ECDC4'
-      }, {
-        label: 'Page Views',
-        data: traffic.map(t => t.pageViews),
-        backgroundColor: '#95E1D3'
-      }]
-    },
-    options: {
-      responsive: true,
-      maintainAspectRatio: false,
-      plugins: {
-        legend: {
-          position: 'bottom',
-          labels: { color: '#45454A', font: { size: 12 }, padding: 16 }
-        }
-      },
-      scales: {
-        x: {
-          ticks: { color: '#45454A', font: { size: 12 } },
-          grid: { display: false }
-        },
-        y: {
-          ticks: { color: '#45454A', font: { size: 12 } },
-          grid: { color: '#E8E8E8' }
-        }
-      }
-    }
-  });
-}
-
-// ═════════════════════════════════════════════════════════════
-// INDIVIDUAL PERFORMANCE TAB
-// ═════════════════════════════════════════════════════════════
-
-function renderIndividualTab() {
-  const filtered = filterPostsByDate(posts);
-  filterPosts();
-}
-
-function filterPosts() {
-  const filtered = filterPostsByDate(posts);
-  const searchTerm = document.getElementById('searchInput').value.toLowerCase();
-  const sortBy = document.getElementById('sortSelect').value;
-  
-  let result = filtered.filter(p => p.caption.toLowerCase().includes(searchTerm));
-  
-  if (sortBy === 'likes') result.sort((a, b) => b.likes - a.likes);
-  else if (sortBy === 'engagement') result.sort((a, b) => (b.likes + b.comments) - (a.likes + a.comments));
-  else result.sort((a, b) => new Date(b.date) - new Date(a.date));
-  
-  const container = document.getElementById('postsContainer');
-  
-  if (result.length === 0) {
-    container.innerHTML = '<div style="text-align:center;padding:40px;grid-column:1/-1;color:#999;"><p>No posts found</p></div>';
-    return;
+// ═════════════════════════════════════════════════
+function switchTab(t){
+  document.querySelectorAll('.tab').forEach(e=>e.classList.remove('active'));
+  document.querySelectorAll('.view').forEach(e=>e.classList.remove('active'));
+  const tabs=['aggregate','individual','competitor','page'];
+  const idx=tabs.indexOf(t);
+  if(idx>=0){
+    document.querySelector('.tab:nth-child('+(idx+1)+')').classList.add('active');
+    document.getElementById('view-'+t).classList.add('active');
   }
-  
-  container.innerHTML = result.map(post => `
-    <div class="card">
-      <div style="margin-bottom:12px;">
-        <span class="badge gold">${post.type}</span>
-      </div>
-      <p style="font-size:14px;line-height:1.6;margin-bottom:12px;color:#1C1B1F;">${post.caption}</p>
-      <div style="display:flex;justify-content:space-between;font-size:12px;color:#999;margin-bottom:12px;">
-        <span>${post.date}</span>
-      </div>
-      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;padding-top:12px;border-top:1px solid #E8E8E8;">
-        <div style="text-align:center;">
-          <div style="font-size:16px;font-weight:700;color:#F6B704;">${post.likes.toLocaleString()}</div>
-          <div style="font-size:11px;color:#999;text-transform:uppercase;">Likes</div>
-        </div>
-        <div style="text-align:center;">
-          <div style="font-size:16px;font-weight:700;color:#4ECDC4;">${post.comments}</div>
-          <div style="font-size:11px;color:#999;text-transform:uppercase;">Comments</div>
-        </div>
-        <div style="text-align:center;">
-          <div style="font-size:16px;font-weight:700;color:#95E1D3;">${post.shares}</div>
-          <div style="font-size:11px;color:#999;text-transform:uppercase;">Shares</div>
-        </div>
-      </div>
+}
+
+// ═════════════════════════════════════════════════
+// TIME PERIOD FILTER
+// ═════════════════════════════════════════════════
+let selectedPeriod='30';
+
+function applyTimePeriod(period,el){
+  selectedPeriod=period;
+  document.querySelectorAll('#timeFilters .filter-btn').forEach(b=>b.classList.remove('active'));
+  el.classList.add('active');
+  document.getElementById('customDates').classList.remove('show');
+  updateAggregate();
+}
+
+function toggleCustomDates(el){
+  const cd=document.getElementById('customDates');
+  cd.classList.toggle('show');
+}
+
+function applyCustomDates(){
+  const from=document.getElementById('dateFrom').value;
+  const to=document.getElementById('dateTo').value;
+  if(!from||!to)return;
+  selectedPeriod='custom';
+  window.customFrom=new Date(from);
+  window.customTo=new Date(to);
+  document.querySelectorAll('#timeFilters .filter-btn').forEach(b=>b.classList.remove('active'));
+  document.getElementById('customBtn').classList.add('active');
+  updateAggregate();
+}
+
+const timeFiltersEl=document.getElementById('timeFilters');
+timeFiltersEl.innerHTML=`
+  <div class="filter-btn" onclick="applyTimePeriod('7',this)">Last 7 Days</div>
+  <div class="filter-btn active" onclick="applyTimePeriod('30',this)">Last 30 Days</div>
+  <div class="filter-btn" onclick="applyTimePeriod('60',this)">Last 60 Days</div>
+  <div class="filter-btn" onclick="applyTimePeriod('all',this)">All Time</div>
+  <div class="filter-btn" onclick="toggleCustomDates(this)" id="customBtn">Custom</div>
+`;
+const customDatesHtml=document.createElement('div');
+customDatesHtml.className='custom-dates';
+customDatesHtml.id='customDates';
+customDatesHtml.innerHTML='<span style="font-size:11px;color:#45454A;">From:</span><input type="date" class="date-input" id="dateFrom"> <span style="font-size:11px;color:#45454A;">To:</span><input type="date" class="date-input" id="dateTo"> <div class="filter-btn" onclick="applyCustomDates()" style="padding:6px 14px;">Apply</div>';
+timeFiltersEl.parentNode.appendChild(customDatesHtml);
+
+function getFilteredPosts(){
+  if(selectedPeriod==='all')return posts;
+  if(selectedPeriod==='custom'&&window.customFrom&&window.customTo){
+    return posts.filter(p=>{const d=parseDate(p.date);return d>=window.customFrom&&d<=window.customTo;});
+  }
+  const days=parseInt(selectedPeriod);
+  return posts.filter(p=>isWithinRange(p.date,days));
+}
+
+// ═════════════════════════════════════════════════
+// AGGREGATE KPIs (Dynamic)
+// ═════════════════════════════════════════════════
+function updateAggregateKPIs(){
+  const filtered=getFilteredPosts();
+  const postsWithViews=filtered.filter(p=>p.views>0);
+  const totalViews=postsWithViews.reduce((s,p)=>s+p.views,0);
+  const totalLikes=filtered.reduce((s,p)=>s+(p.likes||0),0);
+  const totalComments=filtered.reduce((s,p)=>s+(p.comments||0),0);
+  const totalSaves=filtered.reduce((s,p)=>s+(p.saves||0),0);
+  const totalShares=filtered.reduce((s,p)=>s+(p.shares||0),0);
+  const totalEngagement=totalLikes+totalComments+totalShares+totalSaves;
+  const avgEngRate=totalViews>0?(totalEngagement/totalViews*100):0;
+  const uniqueInfluencers=[...new Set(filtered.map(p=>p.inf))].length;
+  const reelCount=filtered.filter(p=>p.channel.includes('Reel')).length;
+  const carouselCount=filtered.filter(p=>p.channel.includes('Carousel')).length;
+
+  const kpiData=[
+    {label:'Total Posts',val:filtered.length,sub:uniqueInfluencers+' creators'},
+    {label:'Total Likes',val:fmt(totalLikes),sub:'all posts'},
+    {label:'Total Comments',val:fmt(totalComments),sub:'engagement'},
+    {label:'Total Engagement',val:fmt(totalEngagement),sub:'all interactions'},
+    {label:'Engagement Rate',val:(totalViews>0?engRate({likes:totalLikes,comments:totalComments,shares:totalShares,saves:totalSaves,views:totalViews}).toFixed(1):0)+'%',sub:'avg per post'},
+    {label:'Unique Creators',val:uniqueInfluencers,sub:'collaborating'},
+  ];
+
+  const kpiEl=document.getElementById('agg-kpis');
+  kpiEl.innerHTML=kpiData.map(k=>`
+    <div class="kpi">
+      <div class="kpi-label">${k.label}</div>
+      <div class="kpi-val">${k.val}</div>
+      <div class="kpi-sub">${k.sub}</div>
     </div>
   `).join('');
 }
 
-// ═════════════════════════════════════════════════════════════
-// COMPETITOR ANALYSIS TAB (FEATURE 1)
-// ═════════════════════════════════════════════════════════════
+// ═════════════════════════════════════════════════
+// CHART CONFIGURATION
+// ═════════════════════════════════════════════════
+Chart.defaults.color='#45454A';
+Chart.defaults.borderColor='#E8E8E8';
+Chart.defaults.font.family="'Inter',sans-serif";
+const tp={
+  backgroundColor:'#FFFFFF',
+  borderColor:'#E8E8E8',
+  borderWidth:1,
+  padding:10,
+  titleColor:'#1C1B1F',
+  bodyColor:'#45454A',
+  bodyFont:{size:11}
+};
 
-function renderCompetitorTab() {
-  renderCompetitorCards();
-  renderFollowerComparison();
-  renderEngagementRateComparison();
-  renderCompetitorTable();
+// ═════════════════════════════════════════════════
+// CHART INSTANCES (Global)
+// ═════════════════════════════════════════════════
+let chartInstances={};
+
+function updateCharts(){
+  const filtered=getFilteredPosts();
+
+  // Engagement Chart
+  if(chartInstances.engChart)chartInstances.engChart.destroy();
+  const eLabels=filtered.map(p=>p.inf.slice(0,10));
+  chartInstances.engChart=new Chart(document.getElementById('aggEngChart'),{
+    type:'bar',
+    data:{
+      labels:eLabels,
+      datasets:[
+        {label:'Likes',data:filtered.map(p=>p.likes||0),backgroundColor:'#F6B704',borderRadius:4},
+        {label:'Comments',data:filtered.map(p=>p.comments||0),backgroundColor:'#22c55e',borderRadius:4},
+        {label:'Shares',data:filtered.map(p=>p.shares||0),backgroundColor:'#3b82f6',borderRadius:4},
+        {label:'Saves',data:filtered.map(p=>p.saves||0),backgroundColor:'#ef4444',borderRadius:4}
+      ]
+    },
+    options:{
+      responsive:true,
+      maintainAspectRatio:false,
+      plugins:{
+        legend:{labels:{boxWidth:8,padding:10,usePointStyle:true,font:{size:10}}},
+        tooltip:{...tp}
+      },
+      scales:{
+        y:{stacked:true,grid:{color:'#F5F5F5'},ticks:{callback:v=>fmt(v),font:{size:10}}},
+        x:{stacked:true,grid:{display:false},ticks:{font:{size:9},maxRotation:45}}
+      }
+    }
+  });
+
+  // Platform Distribution
+  if(chartInstances.platChart)chartInstances.platChart.destroy();
+  const platforms={};filtered.forEach(p=>{platforms[p.channel]=(platforms[p.channel]||0)+1;});
+  const platLabels=Object.keys(platforms);
+  const platColors={'Instagram Reel':'#E91E63','Instagram Carousel':'#3B82F6'};
+  chartInstances.platChart=new Chart(document.getElementById('aggPlatChart'),{
+    type:'doughnut',
+    data:{
+      labels:platLabels,
+      datasets:[{
+        data:platLabels.map(l=>platforms[l]),
+        backgroundColor:platLabels.map(l=>platColors[l]||'#CCC'),
+        borderWidth:0
+      }]
+    },
+    options:{
+      responsive:true,
+      maintainAspectRatio:false,
+      cutout:'60%',
+      plugins:{
+        legend:{position:'right',labels:{boxWidth:8,padding:10,usePointStyle:true,font:{size:10}}},
+        tooltip:{...tp,callbacks:{label:c=>c.label+': '+c.raw+' posts'}}
+      }
+    }
+  });
+
+  // Content Type
+  if(chartInstances.typeChart)chartInstances.typeChart.destroy();
+  const reelCount=filtered.filter(p=>p.channel.includes('Reel')).length;
+  const carouselCount=filtered.filter(p=>p.channel.includes('Carousel')).length;
+  chartInstances.typeChart=new Chart(document.getElementById('aggTypeChart'),{
+    type:'bar',
+    data:{
+      labels:['Reels','Carousels'],
+      datasets:[{
+        data:[reelCount,carouselCount],
+        backgroundColor:['#F6B704','#3B82F6'],
+        borderRadius:5,
+        barPercentage:0.6
+      }]
+    },
+    options:{
+      responsive:true,
+      maintainAspectRatio:false,
+      plugins:{legend:{display:false},tooltip:{...tp}},
+      scales:{
+        y:{grid:{color:'#F5F5F5'},ticks:{font:{size:10}}},
+        x:{grid:{display:false},ticks:{font:{size:10}}}
+      }
+    }
+  });
+
+  // Top Posts
+  if(chartInstances.topChart)chartInstances.topChart.destroy();
+  const topPosts=filtered.slice().sort((a,b)=>((b.likes||0)-(a.likes||0))).slice(0,6);
+  chartInstances.topChart=new Chart(document.getElementById('aggTopChart'),{
+    type:'bar',
+    data:{
+      labels:topPosts.map(p=>p.inf.slice(0,8)),
+      datasets:[{
+        label:'Likes',
+        data:topPosts.map(p=>p.likes||0),
+        backgroundColor:topPosts.map(p=>p.color),
+        borderRadius:5,
+        barPercentage:0.6
+      }]
+    },
+    options:{
+      indexAxis:'y',
+      responsive:true,
+      maintainAspectRatio:false,
+      plugins:{legend:{display:false},tooltip:{...tp}},
+      scales:{
+        x:{grid:{color:'#F5F5F5'},ticks:{callback:v=>fmt(v),font:{size:10}}},
+        y:{grid:{display:false},ticks:{font:{size:9}}}
+      }
+    }
+  });
 }
 
-function renderCompetitorCards() {
-  const container = document.getElementById('competitorCardsContainer');
-  
-  container.innerHTML = competitors.map(comp => `
-    <div class="competitor-card ${comp.name === 'Cityfurnish' ? 'featured' : ''}">
-      <div class="competitor-header">
-        <div class="competitor-name">${comp.name}</div>
-        <div class="competitor-handle">${comp.handle}</div>
+// ═════════════════════════════════════════════════
+// AGGREGATE TABLE
+// ═════════════════════════════════════════════════
+const channels=[...new Set(posts.map(p=>p.channel))];
+const filterRow=document.getElementById('channelFilters');
+filterRow.innerHTML='<div class="filter-btn active" onclick="filterChannel(\'all\',this)">All</div>'+
+  channels.map(c=>`<div class="filter-btn" onclick="filterChannel('${c}',this)">${c}</div>`).join('');
+
+let activeChannel='all';
+function filterChannel(ch,el){
+  activeChannel=ch;
+  document.querySelectorAll('#channelFilters .filter-btn').forEach(b=>b.classList.remove('active'));
+  el.classList.add('active');
+  renderAggTable();
+}
+
+function renderAggTable(){
+  const filtered=getFilteredPosts();
+  const q=(document.getElementById('aggSearch').value||'').toLowerCase();
+  const final=filtered.filter(p=>{
+    if(activeChannel!=='all'&&p.channel!==activeChannel)return false;
+    if(q&&!p.inf.toLowerCase().includes(q))return false;
+    return true;
+  });
+
+  document.getElementById('aggTableBody').innerHTML=final.map(p=>`<tr>
+    <td><div class="inf-cell"><div class="inf-av" style="background:${p.color}">${p.inf[0]}</div><span class="inf-name">${p.inf}</span></div></td>
+    <td><span class="badge badge-${p.channel.includes('Carousel')?'carousel':'instagram'}">${p.channel}</span></td>
+    <td style="font-size:11px;color:#45454A">${p.date}</td>
+    <td><span class="badge badge-barter">Barter</span></td>
+    <td><strong>${fmt(p.likes)}</strong></td>
+    <td>${p.comments||0}</td>
+    <td>${fmt(p.saves)}</td>
+    <td>${fmt(p.shares)}</td>
+    <td><span class="badge ${p.dataType==='Full Insights'?'badge-gold':'badge-gray'}">${p.dataType==='Full Insights'?'Full Insights':'Public Data'}</span></td>
+  </tr>`).join('');
+}
+
+function updateAggregate(){
+  updateAggregateKPIs();
+  updateCharts();
+  renderAggTable();
+}
+
+document.getElementById('aggSearch').addEventListener('input',renderAggTable);
+
+// ═════════════════════════════════════════════════
+// INDIVIDUAL PERFORMANCE
+// ═════════════════════════════════════════════════
+function generateSummary(p){
+  let lines=[];
+
+  if(p.dataType==='Public Data Only'){
+    lines.push(`<strong>Data Type:</strong> Public data only (no View Insights available). Evaluate based on likes/comments engagement.`);
+  }else{
+    lines.push(`<strong>Data Type:</strong> Full insights available from Instagram paid partnership tracking.`);
+  }
+
+  if(p.views>0){
+    lines.push(`<strong>Reach:</strong> ${fmt(p.views)} views, ${fmt(p.reach)} reach (${p.accountsEngaged} accounts engaged).`);
+  }
+
+  const te=totalEng(p);
+  if(p.likes>0){
+    if(p.likes>=1000)lines.push(`<strong>High engagement (${fmt(p.likes)} likes):</strong> Strong audience response, top-performing post.`);
+    else if(p.likes>=500)lines.push(`<strong>Good engagement (${fmt(p.likes)} likes):</strong> Solid audience interaction.`);
+    else if(p.likes>=100)lines.push(`<strong>Moderate engagement (${fmt(p.likes)} likes):</strong> Fair audience response.`);
+    else lines.push(`<strong>Engagement (${fmt(p.likes)} likes):</strong> Lower interaction rate.`);
+  }
+
+  if(p.comments>0){
+    lines.push(`<strong>Comments (${p.comments}):</strong> ${p.comments>=10?'Strong comment volume indicates high content relevance.':'Some discussion and engagement.'}`);
+  }
+
+  if(p.saves>0){
+    lines.push(`<strong>Saves (${p.saves}):</strong> Content bookmarked for future reference.`);
+  }
+
+  if(p.inf.includes('mayursanap'))lines.push(`<strong>Performance:</strong> Highest likes count (9,089) in collaboration batch.`);
+  else if(p.likes>1000)lines.push(`<strong>Performance:</strong> Consistently high engagement for barter format.`);
+
+  lines.push(`<strong>Recommendation:</strong> ${p.cpvType==='paid'?'Paid partnership with insights — good for data-driven optimization':'Barter collab — assess content quality and audience for future paid campaigns'}.`);
+
+  return lines.join('<br>');
+}
+
+const listEl=document.getElementById('collabList');
+posts.forEach((p,i)=>{
+  const div=document.createElement('div');
+  div.innerHTML=`
+    <div class="collab-row" onclick="toggleDetail(${i})">
+      <div class="collab-left">
+        <div class="inf-av" style="background:${p.color};width:40px;height:40px;font-size:13px;">${p.inf[0]}</div>
+        <div class="collab-meta">
+          <div class="collab-inf">${p.inf} <span class="badge badge-${p.channel.includes('Carousel')?'carousel':'instagram'}" style="font-size:9px;">${p.channel}</span></div>
+          <div class="collab-sub">${p.date} · ${p.dataType}</div>
+        </div>
       </div>
-      <div class="competitor-metric">
-        <div class="competitor-metric-value">${formatNumber(comp.followers)}</div>
-        <div class="competitor-metric-label">Followers</div>
-      </div>
-      <div class="competitor-metric">
-        <div class="competitor-metric-value">${comp.avgLikes.toLocaleString()}</div>
-        <div class="competitor-metric-label">Avg Likes</div>
-      </div>
-      <div class="competitor-metric">
-        <div class="competitor-metric-value">${(comp.engRate).toFixed(2)}%</div>
-        <div class="competitor-metric-label">Engagement</div>
-      </div>
-      <div class="competitor-metric">
-        <div class="competitor-metric-value">${comp.postFreq}</div>
-        <div class="competitor-metric-label">Posting</div>
+      <div class="collab-right">
+        <div class="collab-stat"><div class="collab-stat-val">${fmt(p.likes)}</div><div class="collab-stat-lbl">Likes</div></div>
+        <div class="collab-stat"><div class="collab-stat-val">${p.comments||0}</div><div class="collab-stat-lbl">Comments</div></div>
+        <div class="collab-stat"><div class="collab-stat-val">${fmt(p.views)}</div><div class="collab-stat-lbl">Views</div></div>
+        <div class="collab-arrow">▶</div>
       </div>
     </div>
-  `).join('');
-}
+    <div class="collab-detail" id="detail-${i}">
+      <div style="font-size:11px;color:#45454A;margin-bottom:10px;"><strong>Caption:</strong> ${p.caption}</div>
+      <div style="margin-bottom:12px;"><a href="${p.postedLink}" target="_blank" style="font-size:11px;color:#F6B704;text-decoration:none;font-weight:600;">View on Instagram →</a></div>
 
-function renderFollowerComparison() {
-  const labels = competitors.map(c => c.name);
-  const data = competitors.map(c => c.followers);
-  const colors = competitors.map(c => c.color);
-  
-  if (charts['followerComparison']) charts['followerComparison'].destroy();
-  charts['followerComparison'] = new Chart(document.getElementById('followerComparisonChart'), {
-    type: 'bar',
-    data: {
-      labels: labels,
-      datasets: [{
-        label: 'Followers',
-        data: data,
-        backgroundColor: colors,
-        borderRadius: 6
-      }]
-    },
-    options: {
-      indexAxis: 'y',
-      responsive: true,
-      maintainAspectRatio: false,
-      plugins: {
-        legend: { display: false }
-      },
-      scales: {
-        x: {
-          ticks: { color: '#45454A', font: { size: 12 } },
-          grid: { color: '#E8E8E8' }
-        },
-        y: {
-          ticks: { color: '#45454A', font: { size: 12 } },
-          grid: { display: false }
-        }
-      }
-    }
-  });
-}
+      <div class="detail-grid">
+        <div class="d-stat"><div class="lbl">Likes</div><div class="val">${(p.likes||0).toLocaleString()}</div></div>
+        <div class="d-stat"><div class="lbl">Comments</div><div class="val">${p.comments||0}</div></div>
+        <div class="d-stat"><div class="lbl">Shares</div><div class="val">${p.shares||0}</div></div>
+        <div class="d-stat"><div class="lbl">Saves</div><div class="val">${p.saves||0}</div></div>
+        ${p.views>0?'<div class="d-stat"><div class="lbl">Views</div><div class="val">'+p.views.toLocaleString()+'</div></div>':''}
+        ${p.reach>0?'<div class="d-stat"><div class="lbl">Reach</div><div class="val">'+p.reach.toLocaleString()+'</div></div>':''}
+      </div>
 
-function renderEngagementRateComparison() {
-  const labels = competitors.map(c => c.name);
-  const data = competitors.map(c => c.engRate);
-  const colors = competitors.map(c => c.color);
-  
-  if (charts['engagementRate']) charts['engagementRate'].destroy();
-  charts['engagementRate'] = new Chart(document.getElementById('engagementRateChart'), {
-    type: 'doughnut',
-    data: {
-      labels: labels,
-      datasets: [{
-        data: data,
-        backgroundColor: colors,
-        borderColor: '#FFFFFF',
-        borderWidth: 2
-      }]
-    },
-    options: {
-      responsive: true,
-      maintainAspectRatio: false,
-      plugins: {
-        legend: {
-          position: 'bottom',
-          labels: { color: '#45454A', font: { size: 12 }, padding: 16 }
-        }
-      }
-    }
-  });
-}
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px;margin-bottom:16px;">
+        <div class="d-stat">
+          <div class="lbl">⏱ Average Watch Time</div>
+          <div class="val">—</div>
+          <div class="sub">Available via mobile app</div>
+        </div>
+        <div class="d-stat">
+          <div class="lbl">⏭ Skip Rate</div>
+          <div class="val">—</div>
+          <div class="sub">Available via mobile app</div>
+        </div>
+      </div>
 
-function renderCompetitorTable() {
-  const tbody = document.getElementById('competitorTableBody');
-  
-  tbody.innerHTML = competitors.map(comp => `
-    <tr>
-      <td><strong>${comp.name}</strong></td>
-      <td>${comp.posts}</td>
-      <td>${formatNumber(comp.followers)}</td>
-      <td>${comp.avgLikes.toLocaleString()}</td>
-      <td>${comp.avgComments}</td>
-      <td>${(comp.engRate).toFixed(2)}%</td>
-      <td>${comp.postFreq}</td>
-    </tr>
-  `).join('');
-}
+      <div class="placeholder-box">
+        <div class="placeholder-icon">📊</div>
+        <div class="placeholder-text"><strong>Retention Curve</strong><br>Retention data available via Instagram mobile app. Tap 'View Insights' on the post in the Instagram app to see the audience retention graph.</div>
+      </div>
 
-// ═════════════════════════════════════════════════════════════
-// PAGE PERFORMANCE TAB (FEATURE 5)
-// ═════════════════════════════════════════════════════════════
+      ${p.utm?'<div style="margin-bottom:12px;"><span style="font-size:10px;color:#45454A;font-weight:600;">UTM LINK:</span><br><a style="font-size:11px;color:#F6B704;word-break:break-all;text-decoration:none;" href="'+p.utm+'" target="_blank">'+p.utm+'</a></div>':''}
 
-function renderPageTab() {
-  // Update KPI cards
-  document.getElementById('pageViews').textContent = formatNumber(pageStats.views);
-  document.getElementById('pageReached').textContent = formatNumber(pageStats.accountsReached);
-  document.getElementById('pageInteractions').textContent = pageStats.interactions.toLocaleString();
-  document.getElementById('pageEngaged').textContent = formatNumber(pageStats.accountsEngaged);
-  document.getElementById('pageVisits').textContent = pageStats.profileVisits.toLocaleString();
-  document.getElementById('pageLinkTaps').textContent = pageStats.externalLinkTaps.toLocaleString();
-  
-  // Render charts
-  renderFollowerGrowthChart();
-  renderViewsReachChart();
-  renderInteractionsChart();
-  renderContentBreakdownChart();
-  renderInteractionBreakdownChart();
-}
+      ${p.views>0?'<div style="background:#F5F5F5;border-radius:8px;padding:14px;margin-bottom:12px;"><div class="card-title" style="margin-bottom:12px;">Engagement Split</div><div style="position:relative;height:140px;"><canvas id="pie-'+i+'"></canvas></div></div>':''}
 
-function renderFollowerGrowthChart() {
-  const labels = pageStats.monthly.map(m => m.month);
-  const data = pageStats.monthly.map(m => m.followers);
-  
-  if (charts['followerGrowth']) charts['followerGrowth'].destroy();
-  charts['followerGrowth'] = new Chart(document.getElementById('followerGrowthChart'), {
-    type: 'line',
-    data: {
-      labels: labels,
-      datasets: [{
-        label: 'Followers',
-        data: data,
-        borderColor: '#F6B704',
-        backgroundColor: 'rgba(246,183,4,0.1)',
-        borderWidth: 3,
-        fill: true,
-        tension: 0.4,
-        pointRadius: 6,
-        pointBackgroundColor: '#F6B704',
-        pointBorderColor: '#FFFFFF',
-        pointBorderWidth: 2,
-      }]
-    },
-    options: {
-      responsive: true,
-      maintainAspectRatio: false,
-      plugins: {
-        legend: { display: false }
-      },
-      scales: {
-        y: {
-          beginAtZero: true,
-          ticks: { color: '#45454A', font: { size: 12 } },
-          grid: { color: '#E8E8E8' }
-        },
-        x: {
-          ticks: { color: '#45454A', font: { size: 12 } },
-          grid: { display: false }
-        }
-      }
-    }
-  });
-}
-
-function renderViewsReachChart() {
-  const labels = pageStats.monthly.map(m => m.month);
-  const viewsData = pageStats.monthly.map(m => m.views);
-  const reachData = pageStats.monthly.map(m => m.reached);
-  
-  if (charts['viewsReach']) charts['viewsReach'].destroy();
-  charts['viewsReach'] = new Chart(document.getElementById('viewsReachChart'), {
-    type: 'line',
-    data: {
-      labels: labels,
-      datasets: [{
-        label: 'Views',
-        data: viewsData,
-        borderColor: '#F6B704',
-        backgroundColor: 'rgba(246,183,4,0.1)',
-        borderWidth: 2,
-        tension: 0.4,
-        pointRadius: 4,
-        yAxisID: 'y'
-      }, {
-        label: 'Reached',
-        data: reachData,
-        borderColor: '#4ECDC4',
-        backgroundColor: 'rgba(78,205,196,0.1)',
-        borderWidth: 2,
-        tension: 0.4,
-        pointRadius: 4,
-        yAxisID: 'y1'
-      }]
-    },
-    options: {
-      responsive: true,
-      maintainAspectRatio: false,
-      interaction: { mode: 'index', intersect: false },
-      plugins: {
-        legend: {
-          position: 'bottom',
-          labels: { color: '#45454A', font: { size: 12 }, padding: 16 }
-        }
-      },
-      scales: {
-        y: {
-          type: 'linear',
-          display: true,
-          position: 'left',
-          ticks: { color: '#45454A', font: { size: 12 } },
-          grid: { color: '#E8E8E8' }
-        },
-        y1: {
-          type: 'linear',
-          display: false
-        },
-        x: {
-          ticks: { color: '#45454A', font: { size: 12 } },
-          grid: { display: false }
-        }
-      }
-    }
-  });
-}
-
-function renderInteractionsChart() {
-  const labels = pageStats.monthly.map(m => m.month);
-  const interactionsData = pageStats.monthly.map(m => m.interactions);
-  const visitsData = pageStats.monthly.map(m => m.profileVisits);
-  
-  if (charts['interactions']) charts['interactions'].destroy();
-  charts['interactions'] = new Chart(document.getElementById('interactionsChart'), {
-    type: 'bar',
-    data: {
-      labels: labels,
-      datasets: [{
-        label: 'Interactions',
-        data: interactionsData,
-        backgroundColor: '#4ECDC4',
-        borderRadius: 6
-      }, {
-        label: 'Profile Visits',
-        data: visitsData,
-        backgroundColor: '#95E1D3',
-        borderRadius: 6
-      }]
-    },
-    options: {
-      responsive: true,
-      maintainAspectRatio: false,
-      plugins: {
-        legend: {
-          position: 'bottom',
-          labels: { color: '#45454A', font: { size: 12 }, padding: 16 }
-        }
-      },
-      scales: {
-        x: {
-          ticks: { color: '#45454A', font: { size: 12 } },
-          grid: { display: false }
-        },
-        y: {
-          ticks: { color: '#45454A', font: { size: 12 } },
-          grid: { color: '#E8E8E8' }
-        }
-      }
-    }
-  });
-}
-
-function renderContentBreakdownChart() {
-  const labels = Object.keys(pageStats.contentBreakdown);
-  const data = Object.values(pageStats.contentBreakdown);
-  
-  if (charts['contentBreakdown']) charts['contentBreakdown'].destroy();
-  charts['contentBreakdown'] = new Chart(document.getElementById('contentBreakdownChart'), {
-    type: 'doughnut',
-    data: {
-      labels: labels.map(l => l.charAt(0).toUpperCase() + l.slice(1)),
-      datasets: [{
-        data: data,
-        backgroundColor: ['#F6B704', '#4ECDC4', '#95E1D3'],
-        borderColor: '#FFFFFF',
-        borderWidth: 2
-      }]
-    },
-    options: {
-      responsive: true,
-      maintainAspectRatio: false,
-      plugins: {
-        legend: {
-          position: 'bottom',
-          labels: { color: '#45454A', font: { size: 12 }, padding: 16 }
-        }
-      }
-    }
-  });
-}
-
-function renderInteractionBreakdownChart() {
-  const labels = Object.keys(pageStats.interactionBreakdown);
-  const data = Object.values(pageStats.interactionBreakdown);
-  
-  if (charts['interactionBreakdown']) charts['interactionBreakdown'].destroy();
-  charts['interactionBreakdown'] = new Chart(document.getElementById('interactionBreakdownChart'), {
-    type: 'doughnut',
-    data: {
-      labels: labels.map(l => l.charAt(0).toUpperCase() + l.slice(1)),
-      datasets: [{
-        data: data,
-        backgroundColor: ['#95E1D3', '#4ECDC4', '#F6B704'],
-        borderColor: '#FFFFFF',
-        borderWidth: 2
-      }]
-    },
-    options: {
-      responsive: true,
-      maintainAspectRatio: false,
-      plugins: {
-        legend: {
-          position: 'bottom',
-          labels: { color: '#45454A', font: { size: 12 }, padding: 16 }
-        }
-      }
-    }
-  });
-}
-
-// ═════════════════════════════════════════════════════════════
-// UPDATE ALL CHARTS (when filter changes)
-// ═════════════════════════════════════════════════════════════
-
-function updateAllCharts() {
-  renderAggregateTab();
-  renderIndividualTab();
-}
-
-// ═════════════════════════════════════════════════════════════
-// INITIALIZATION
-// ═════════════════════════════════════════════════════════════
-
-document.addEventListener('DOMContentLoaded', function() {
-  initDateFilter();
-  renderAggregateTab();
-  renderIndividualTab();
+      <div class="summary-box">
+        <div class="summary-title">Performance Summary</div>
+        <div class="summary-text">${generateSummary(p)}</div>
+      </div>
+    </div>
+  `;
+  listEl.appendChild(div);
 });
+
+document.getElementById('indSearch').addEventListener('input',e=>{
+  const q=e.target.value.toLowerCase();
+  document.querySelectorAll('#collabList > div').forEach((div,i)=>{
+    const p=posts[i];
+    div.style.display=(p.inf.toLowerCase().includes(q)||p.channel.toLowerCase().includes(q))?'':'none';
+  });
+});
+
+function toggleDetail(i){
+  const d=document.getElementById('detail-'+i);
+  const row=d.previousElementSibling;
+  const isOpen=d.classList.contains('open');
+  document.querySelectorAll('.collab-detail').forEach(x=>x.classList.remove('open'));
+  document.querySelectorAll('.collab-row').forEach(x=>x.classList.remove('expanded'));
+  if(!isOpen){d.classList.add('open');row.classList.add('expanded');renderDetailCharts(i);}
+}
+
+const rendered={};
+function renderDetailCharts(i){
+  if(rendered[i])return;rendered[i]=true;
+  const p=posts[i];if(p.views<=0)return;
+
+  new Chart(document.getElementById('pie-'+i),{
+    type:'doughnut',
+    data:{
+      labels:['Likes','Comments','Shares','Saves'],
+      datasets:[{
+        data:[p.likes||0,p.comments||0,p.shares||0,p.saves||0],
+        backgroundColor:['#F6B704','#22c55e','#3b82f6','#ef4444'],
+        borderWidth:0
+      }]
+    },
+    options:{
+      responsive:true,
+      maintainAspectRatio:false,
+      cutout:'55%',
+      plugins:{
+        legend:{position:'right',labels:{boxWidth:8,padding:8,usePointStyle:true,font:{size:9}}},
+        tooltip:{...tp}
+      }
+    }
+  });
+}
+
+// ═════════════════════════════════════════════════
+// UTM & CONVERSIONS (GA4 DATA)
+// ═════════════════════════════════════════════════
+function renderUtmSection(){
+  const totalUsers=utmCampaigns.reduce((s,c)=>s+c.ga4Users,0);
+  const totalSessions=utmCampaigns.reduce((s,c)=>s+c.ga4Sessions,0);
+  const totalTransactions=utmCampaigns.reduce((s,c)=>s+c.ga4Transactions,0);
+  const totalRevenue=utmCampaigns.reduce((s,c)=>s+c.ga4Revenue,0);
+  const totalSheetClicks=utmCampaigns.reduce((s,c)=>s+c.sheetClicks,0);
+  const avgSessionRate=totalSessions>0?((totalUsers/totalSessions)*100):0;
+
+  // KPIs
+  const utmKpis=[
+    {label:'Total UTM Sessions',val:totalSessions,sub:'from GA4'},
+    {label:'Unique Users',val:totalUsers,sub:'via UTM links'},
+    {label:'Sheet UTM Clicks',val:totalSheetClicks,sub:'from spreadsheet'},
+    {label:'Campaigns Tracked',val:utmCampaigns.length,sub:'active UTMs'},
+    {label:'Transactions',val:totalTransactions,sub:'conversions'},
+    {label:'Revenue',val:totalRevenue>0?'₹'+totalRevenue.toLocaleString():'₹0',sub:'from UTM traffic'},
+  ];
+
+  document.getElementById('utm-kpis').innerHTML=utmKpis.map(k=>`
+    <div class="utm-kpi">
+      <div class="kpi-label">${k.label}</div>
+      <div class="kpi-val">${k.val}</div>
+      <div class="kpi-sub">${k.sub}</div>
+    </div>
+  `).join('');
+
+  // Table
+  const maxSessions=Math.max(...utmCampaigns.map(c=>c.ga4Sessions));
+  document.getElementById('utmTableBody').innerHTML=utmCampaigns.sort((a,b)=>b.ga4Sessions-a.ga4Sessions).map(c=>{
+    const pct=maxSessions>0?((c.ga4Sessions/maxSessions)*100):0;
+    const sharePct=totalSessions>0?((c.ga4Sessions/totalSessions)*100).toFixed(1):0;
+    return `<tr>
+      <td><span class="utm-campaign-name">${c.campaign}</span></td>
+      <td>${c.influencer}</td>
+      <td><span class="utm-source-badge">${c.source} / ${c.medium}</span></td>
+      <td><strong>${c.ga4Users}</strong></td>
+      <td><strong>${c.ga4Sessions}</strong></td>
+      <td>${c.ga4Transactions}</td>
+      <td>${c.ga4Revenue>0?'₹'+c.ga4Revenue.toLocaleString():'₹0'}</td>
+      <td><a href="${c.shortLink}" target="_blank" style="color:#7c4dff;font-size:11px;text-decoration:none;">${c.shortLink.replace('https://','')}</a></td>
+      <td><div class="utm-bar"><div class="utm-bar-fill" style="width:${pct}%"></div></div><span style="font-size:10px;color:#666;margin-left:4px;">${sharePct}%</span></td>
+    </tr>`;
+  }).join('');
+
+  // Charts
+  if(chartInstances.utmSessions)chartInstances.utmSessions.destroy();
+  const sorted=utmCampaigns.slice().sort((a,b)=>b.ga4Sessions-a.ga4Sessions);
+  chartInstances.utmSessions=new Chart(document.getElementById('utmSessionsChart'),{
+    type:'bar',
+    data:{
+      labels:sorted.map(c=>c.campaign),
+      datasets:[{
+        label:'Sessions',
+        data:sorted.map(c=>c.ga4Sessions),
+        backgroundColor:sorted.map(c=>c.color),
+        borderRadius:5,
+        barPercentage:0.6
+      }]
+    },
+    options:{
+      indexAxis:'y',
+      responsive:true,
+      maintainAspectRatio:false,
+      plugins:{legend:{display:false},tooltip:{...tp}},
+      scales:{
+        x:{grid:{color:'#F5F5F5'},ticks:{font:{size:10}}},
+        y:{grid:{display:false},ticks:{font:{size:9}}}
+      }
+    }
+  });
+
+  if(chartInstances.utmUsers)chartInstances.utmUsers.destroy();
+  chartInstances.utmUsers=new Chart(document.getElementById('utmUsersChart'),{
+    type:'doughnut',
+    data:{
+      labels:sorted.map(c=>c.campaign),
+      datasets:[{
+        data:sorted.map(c=>c.ga4Users),
+        backgroundColor:sorted.map(c=>c.color),
+        borderWidth:0
+      }]
+    },
+    options:{
+      responsive:true,
+      maintainAspectRatio:false,
+      cutout:'55%',
+      plugins:{
+        legend:{position:'right',labels:{boxWidth:8,padding:8,usePointStyle:true,font:{size:9}}},
+        tooltip:{...tp,callbacks:{label:ctx=>ctx.label+': '+ctx.raw+' users'}}
+      }
+    }
+  });
+}
+
+// ═════════════════════════════════════════════════
+// MONTHLY SUMMARY RENDERING
+// ═════════════════════════════════════════════════
+function renderMonthlySummary(){
+  const months={};
+  posts.forEach(p=>{
+    const d=parseDate(p.date);
+    const key=d.toLocaleString('en',{month:'short'})+' '+String(d.getFullYear()).slice(2);
+    if(!months[key])months[key]={posts:0,likes:0,comments:0,eng:0,top:null,topLikes:0};
+    months[key].posts++;
+    months[key].likes+=(p.likes||0);
+    months[key].comments+=(p.comments||0);
+    months[key].eng+=totalEng(p);
+    if((p.likes||0)>months[key].topLikes){months[key].topLikes=p.likes;months[key].top=p.inf;}
+  });
+  const ordered=['Nov 25','Dec 25','Jan 26','Feb 26','Mar 26'];
+  const body=document.getElementById('monthlySummaryBody');
+  body.innerHTML=ordered.map(m=>{
+    const d=months[m]||{posts:0,likes:0,comments:0,eng:0,top:'-',topLikes:0};
+    const avg=d.posts>0?Math.round(d.eng/d.posts):0;
+    return '<tr><td><strong>'+m+'</strong></td><td>'+d.posts+'</td><td>'+fmt(d.likes)+'</td><td>'+d.comments+'</td><td>'+fmt(d.eng)+'</td><td>'+fmt(avg)+'</td><td>'+(d.top||'-')+'</td></tr>';
+  }).join('');
+
+  if(chartInstances.monthlyTrend)chartInstances.monthlyTrend.destroy();
+  const engData=ordered.map(m=>(months[m]||{eng:0}).eng);
+  const likesData=ordered.map(m=>(months[m]||{likes:0}).likes);
+  chartInstances.monthlyTrend=new Chart(document.getElementById('monthlyTrendChart'),{
+    type:'line',
+    data:{labels:ordered,datasets:[
+      {label:'Total Engagement',data:engData,borderColor:'#F6B704',backgroundColor:'rgba(246,183,4,0.1)',fill:true,tension:0.3,pointRadius:4},
+      {label:'Total Likes',data:likesData,borderColor:'#3b82f6',borderDash:[5,5],tension:0.3,pointRadius:4}
+    ]},
+    options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{labels:{boxWidth:8,usePointStyle:true,font:{size:10}}},tooltip:{...tp}},scales:{y:{grid:{color:'#F5F5F5'},ticks:{callback:v=>fmt(v),font:{size:10}}},x:{grid:{display:false},ticks:{font:{size:10}}}}}
+  });
+}
+
+// ═════════════════════════════════════════════════
+// GROWTH TARGETS RENDERING
+// ═════════════════════════════════════════════════
+function renderTargets(){
+  const currentMonth=posts.filter(p=>{const d=parseDate(p.date);return d.getMonth()===2&&d.getFullYear()===2026;});
+  const totalEng30=currentMonth.reduce((s,p)=>s+totalEng(p),0);
+  const totalUtm=utmCampaigns.reduce((s,c)=>s+c.ga4Sessions,0);
+  const totalConv=utmCampaigns.reduce((s,c)=>s+c.ga4Transactions,0);
+  const actuals=[totalEng30,totalUtm,totalConv,pageStats.totalFollowers,0];
+  const el=document.getElementById('targetCards');
+  el.innerHTML=targets.map((t,i)=>{
+    const actual=actuals[i];
+    const pct=Math.min(100,Math.round((actual/t.target)*100));
+    const status=pct>=80?'on-track':'behind';
+    return '<div class="target-card"><div class="target-label">'+t.icon+' '+t.label+' <span class="target-badge '+status+'">'+(status==='on-track'?'ON TRACK':'BEHIND')+'</span></div><div class="target-bar"><div class="target-fill" style="width:'+pct+'%"></div></div><div class="target-info"><span>'+fmt(actual)+' actual</span><span>'+fmt(t.target)+' target ('+pct+'%)</span></div></div>';
+  }).join('');
+}
+
+// ═════════════════════════════════════════════════
+// COMPETITOR ANALYSIS RENDERING
+// ═════════════════════════════════════════════════
+function renderCompetitor(){
+  document.getElementById('compCards').innerHTML=competitors.map(c=>`
+    <div class="comp-card ${c.name==='Cityfurnish'?'featured':''}">
+      <div class="comp-name" style="color:${c.color}">${c.name}</div>
+      <div class="comp-handle">${c.handle}</div>
+      <div class="comp-stat"><div class="comp-stat-val">${fmt(c.followers)}</div><div class="comp-stat-lbl">Followers</div></div>
+      <div class="comp-stat"><div class="comp-stat-val">${c.avgLikes}</div><div class="comp-stat-lbl">Avg Likes/Post</div></div>
+      <div class="comp-stat"><div class="comp-stat-val">${c.engRate}%</div><div class="comp-stat-lbl">Eng Rate</div></div>
+      <div class="comp-stat"><div class="comp-stat-val">${c.postFreq}</div><div class="comp-stat-lbl">Post Freq</div></div>
+    </div>
+  `).join('');
+
+  document.getElementById('compTableBody').innerHTML=competitors.map(c=>'<tr><td><strong style="color:'+c.color+'">'+c.name+'</strong></td><td>'+c.handle+'</td><td>'+c.posts+'</td><td>'+fmt(c.followers)+'</td><td>'+c.avgLikes+'</td><td>'+c.avgComments+'</td><td>'+c.engRate+'%</td><td>'+c.postFreq+'</td></tr>').join('');
+
+  if(chartInstances.compFollowers)chartInstances.compFollowers.destroy();
+  chartInstances.compFollowers=new Chart(document.getElementById('compFollowersChart'),{
+    type:'bar',data:{labels:competitors.map(c=>c.name),datasets:[{data:competitors.map(c=>c.followers),backgroundColor:competitors.map(c=>c.color),borderRadius:5,barPercentage:0.6}]},
+    options:{indexAxis:'y',responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{...tp}},scales:{x:{grid:{color:'#F5F5F5'},ticks:{callback:v=>fmt(v),font:{size:10}}},y:{grid:{display:false},ticks:{font:{size:10}}}}}
+  });
+
+  if(chartInstances.compEng)chartInstances.compEng.destroy();
+  chartInstances.compEng=new Chart(document.getElementById('compEngChart'),{
+    type:'doughnut',data:{labels:competitors.map(c=>c.name),datasets:[{data:competitors.map(c=>c.engRate),backgroundColor:competitors.map(c=>c.color),borderWidth:0}]},
+    options:{responsive:true,maintainAspectRatio:false,cutout:'55%',plugins:{legend:{position:'right',labels:{boxWidth:8,padding:8,usePointStyle:true,font:{size:10}}},tooltip:{...tp,callbacks:{label:ctx=>ctx.label+': '+ctx.raw+'%'}}}}
+  });
+}
+
+// ═════════════════════════════════════════════════
+// PAGE PERFORMANCE RENDERING
+// ═════════════════════════════════════════════════
+function renderPagePerformance(){
+  const kpis=[
+    {label:'Views',val:fmt(pageStats.views),sub:'total views',icon:'👁️'},
+    {label:'Accounts Reached',val:fmt(pageStats.accountsReached),sub:'unique accounts',icon:'📡'},
+    {label:'Interactions',val:fmt(pageStats.interactions),sub:'total interactions',icon:'💬'},
+    {label:'Accounts Engaged',val:fmt(pageStats.accountsEngaged),sub:'engaged users',icon:'⚡'},
+    {label:'Profile Visits',val:fmt(pageStats.profileVisits),sub:'profile taps',icon:'👤'},
+    {label:'Link Taps',val:pageStats.externalLinkTaps,sub:'external clicks',icon:'🔗'},
+  ];
+  document.getElementById('pageKpis').innerHTML=kpis.map(k=>'<div class="page-kpi"><div class="kpi-label">'+k.icon+' '+k.label+'</div><div class="kpi-val">'+k.val+'</div><div class="kpi-sub">'+k.sub+'</div></div>').join('');
+
+  const ml=pageStats.monthly.map(m=>m.month);
+
+  if(chartInstances.pageViews)chartInstances.pageViews.destroy();
+  chartInstances.pageViews=new Chart(document.getElementById('pageViewsChart'),{
+    type:'line',data:{labels:ml,datasets:[
+      {label:'Views',data:pageStats.monthly.map(m=>m.views),borderColor:'#F6B704',backgroundColor:'rgba(246,183,4,0.1)',fill:true,tension:0.3},
+      {label:'Reached',data:pageStats.monthly.map(m=>m.reached),borderColor:'#7c4dff',borderDash:[5,5],tension:0.3}
+    ]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{labels:{boxWidth:8,usePointStyle:true,font:{size:10}}},tooltip:{...tp}},scales:{y:{ticks:{callback:v=>fmt(v),font:{size:10}},grid:{color:'#F5F5F5'}},x:{grid:{display:false},ticks:{font:{size:10}}}}}
+  });
+
+  if(chartInstances.pageContent)chartInstances.pageContent.destroy();
+  const cb=pageStats.contentBreakdown;
+  chartInstances.pageContent=new Chart(document.getElementById('pageContentChart'),{
+    type:'doughnut',data:{labels:['Reels','Stories','Posts','Videos'],datasets:[{data:[cb.reels,cb.stories,cb.posts,cb.videos],backgroundColor:['#E91E63','#FF9800','#3B82F6','#4CAF50'],borderWidth:0}]},
+    options:{responsive:true,maintainAspectRatio:false,cutout:'55%',plugins:{legend:{position:'right',labels:{boxWidth:8,padding:8,usePointStyle:true,font:{size:10}}},tooltip:{...tp,callbacks:{label:ctx=>ctx.label+': '+ctx.raw+'%'}}}}
+  });
+
+  if(chartInstances.pageFollower)chartInstances.pageFollower.destroy();
+  chartInstances.pageFollower=new Chart(document.getElementById('pageFollowerChart'),{
+    type:'line',data:{labels:ml,datasets:[{label:'Followers',data:pageStats.monthly.map(m=>m.followers),borderColor:'#F6B704',backgroundColor:'rgba(246,183,4,0.15)',fill:true,tension:0.3,pointRadius:5,pointBackgroundColor:'#F6B704'}]},
+    options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{...tp}},scales:{y:{ticks:{font:{size:10}},grid:{color:'#F5F5F5'}},x:{grid:{display:false},ticks:{font:{size:10}}}}}
+  });
+
+  if(chartInstances.pageInteractions)chartInstances.pageInteractions.destroy();
+  chartInstances.pageInteractions=new Chart(document.getElementById('pageInteractionsChart'),{
+    type:'bar',data:{labels:ml,datasets:[
+      {label:'Interactions',data:pageStats.monthly.map(m=>m.interactions),backgroundColor:'#F6B704',borderRadius:4},
+      {label:'Profile Visits',data:pageStats.monthly.map(m=>m.profileVisits),backgroundColor:'#3b82f6',borderRadius:4}
+    ]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{labels:{boxWidth:8,usePointStyle:true,font:{size:10}}},tooltip:{...tp}},scales:{y:{grid:{color:'#F5F5F5'},ticks:{font:{size:10}}},x:{grid:{display:false},ticks:{font:{size:10}}}}}
+  });
+}
+
+// ═════════════════════════════════════════════════
+// INITIALIZE
+// ═════════════════════════════════════════════════
+updateAggregate();
+renderUtmSection();
+renderMonthlySummary();
+renderTargets();
+renderCompetitor();
+renderPagePerformance();
 </script>
 
 </body>
