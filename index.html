@@ -1660,7 +1660,7 @@
         if (containerHtml) {
           const parentId = elementId + 'Parent';
           if (!document.getElementById(parentId)) {
-            const container = document.querySelector(`#${elementId} || .charts-grid || .utm-charts || .chart-container`);
+            const container = document.querySelector('.charts-grid') || document.querySelector('.utm-charts') || document.querySelector('.chart-container');
             if (container) {
               container.innerHTML += containerHtml;
             }
