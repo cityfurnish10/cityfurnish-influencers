@@ -1,1764 +1,1115 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Cityfurnish Influencer Dashboard</title>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.js"></script>
-  <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-
-    body {
-      font-family: 'Inter', sans-serif;
-      background-color: #FAFAFA;
-      color: #333;
-    }
-
-    .container {
-      max-width: 1400px;
-      margin: 0 auto;
-      padding: 20px;
-    }
-
-    /* Header */
-    .header {
-      background-color: #222222;
-      color: white;
-      padding: 20px;
-      border-bottom: 4px solid #F6B704;
-      margin-bottom: 30px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      border-radius: 8px;
-    }
-
-    .header-left h1 {
-      font-size: 28px;
-      font-weight: 700;
-      margin-bottom: 5px;
-    }
-
-    .header-left p {
-      font-size: 14px;
-      color: #ccc;
-    }
-
-    .header-right {
-      text-align: right;
-    }
-
-    .header-right p {
-      font-size: 13px;
-      color: #999;
-    }
-
-    /* Loading Overlay */
-    .loading-overlay {
-      position: fixed;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      background-color: rgba(255, 255, 255, 0.95);
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      z-index: 9999;
-    }
-
-    .loading-overlay.hidden {
-      display: none;
-    }
-
-    .spinner {
-      border: 4px solid #F6B704;
-      border-top: 4px solid #222222;
-      border-radius: 50%;
-      width: 50px;
-      height: 50px;
-      animation: spin 0.8s linear infinite;
-      margin-right: 20px;
-    }
-
-    .spinner-container {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-
-    .spinner-text {
-      font-size: 16px;
-      color: #333;
-    }
-
-    @keyframes spin {
-      0% { transform: rotate(0deg); }
-      100% { transform: rotate(360deg); }
-    }
-
-    /* Error Message */
-    .error-container {
-      background-color: #ffebee;
-      color: #c62828;
-      padding: 20px;
-      border-radius: 8px;
-      margin-bottom: 20px;
-      display: none;
-    }
-
-    .error-container.show {
-      display: block;
-    }
-
-    .error-container button {
-      background-color: #c62828;
-      color: white;
-      border: none;
-      padding: 8px 16px;
-      border-radius: 4px;
-      cursor: pointer;
-      margin-top: 10px;
-      font-family: 'Inter', sans-serif;
-      font-size: 14px;
-    }
-
-    .error-container button:hover {
-      background-color: #ad1457;
-    }
-
-    /* Tabs */
-    .tabs {
-      display: flex;
-      gap: 30px;
-      border-bottom: 1px solid #e0e0e0;
-      margin-bottom: 30px;
-      padding-bottom: 0;
-    }
-
-    .tab {
-      padding: 15px 0;
-      cursor: pointer;
-      font-size: 16px;
-      font-weight: 500;
-      color: #666;
-      border-bottom: 3px solid transparent;
-      transition: all 0.3s ease;
-    }
-
-    .tab:hover {
-      color: #333;
-    }
-
-    .tab.active {
-      color: #F6B704;
-      border-bottom-color: #F6B704;
-    }
-
-    .tab-content {
-      display: none;
-    }
-
-    .tab-content.active {
-      display: block;
-    }
-
-    /* KPI Row */
-    .kpi-row {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-      gap: 20px;
-      margin-bottom: 30px;
-    }
-
-    .kpi-card {
-      background: white;
-      padding: 20px;
-      border-radius: 8px;
-      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-    }
-
-    .kpi-card h3 {
-      font-size: 13px;
-      color: #999;
-      font-weight: 500;
-      margin-bottom: 10px;
-      text-transform: uppercase;
-    }
-
-    .kpi-card .value {
-      font-size: 32px;
-      font-weight: 700;
-      color: #222;
-    }
-
-    .kpi-card .subtext {
-      font-size: 12px;
-      color: #999;
-      margin-top: 5px;
-    }
-
-    /* Charts Section */
-    .charts-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
-      gap: 20px;
-      margin-bottom: 30px;
-    }
-
-    .chart-card {
-      background: white;
-      padding: 20px;
-      border-radius: 8px;
-      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-    }
-
-    .chart-card h3 {
-      font-size: 16px;
-      font-weight: 600;
-      margin-bottom: 20px;
-      color: #222;
-    }
-
-    .chart-container {
-      position: relative;
-      height: 300px;
-    }
-
-    /* Period Filter */
-    .period-filter {
-      display: flex;
-      gap: 10px;
-      margin-bottom: 20px;
-      flex-wrap: wrap;
-      align-items: center;
-    }
-
-    .period-btn {
-      padding: 8px 16px;
-      border: 1px solid #ddd;
-      background: white;
-      color: #333;
-      border-radius: 4px;
-      cursor: pointer;
-      font-size: 13px;
-      font-weight: 500;
-      transition: all 0.3s ease;
-      font-family: 'Inter', sans-serif;
-    }
-
-    .period-btn:hover {
-      border-color: #F6B704;
-      color: #F6B704;
-    }
-
-    .period-btn.active {
-      background-color: #F6B704;
-      color: white;
-      border-color: #F6B704;
-    }
-
-    /* Posts Table */
-    .table-wrapper {
-      background: white;
-      border-radius: 8px;
-      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-      margin-bottom: 30px;
-      overflow: hidden;
-    }
-
-    .table-header {
-      padding: 20px;
-      border-bottom: 1px solid #e0e0e0;
-    }
-
-    .table-header h3 {
-      font-size: 16px;
-      font-weight: 600;
-      margin-bottom: 15px;
-      color: #222;
-    }
-
-    .table-filters {
-      display: flex;
-      gap: 15px;
-      flex-wrap: wrap;
-    }
-
-    .filter-group {
-      display: flex;
-      gap: 8px;
-    }
-
-    .filter-group label {
-      font-size: 13px;
-      font-weight: 500;
-      color: #666;
-      display: flex;
-      align-items: center;
-    }
-
-    .filter-group select,
-    .filter-group input {
-      padding: 6px 10px;
-      border: 1px solid #ddd;
-      border-radius: 4px;
-      font-family: 'Inter', sans-serif;
-      font-size: 13px;
-    }
-
-    .filter-group select:focus,
-    .filter-group input:focus {
-      outline: none;
-      border-color: #F6B704;
-    }
-
-    table {
-      width: 100%;
-      border-collapse: collapse;
-    }
-
-    thead {
-      background-color: #f5f5f5;
-    }
-
-    th {
-      padding: 12px 15px;
-      text-align: left;
-      font-size: 12px;
-      font-weight: 600;
-      color: #666;
-      text-transform: uppercase;
-    }
-
-    td {
-      padding: 12px 15px;
-      border-top: 1px solid #f0f0f0;
-      font-size: 13px;
-    }
-
-    tr:hover {
-      background-color: #fafafa;
-    }
-
-    .influencer-cell {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-
-    .influencer-avatar {
-      width: 32px;
-      height: 32px;
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: white;
-      font-weight: 600;
-      font-size: 12px;
-    }
-
-    .influencer-info {
-      display: flex;
-      flex-direction: column;
-      gap: 2px;
-    }
-
-    .influencer-name {
-      font-weight: 600;
-      color: #222;
-    }
-
-    .influencer-handle {
-      font-size: 11px;
-      color: #999;
-    }
-
-    .channel-badge {
-      display: inline-block;
-      padding: 4px 10px;
-      border-radius: 12px;
-      font-size: 11px;
-      font-weight: 600;
-      background-color: #f0f0f0;
-      color: #666;
-    }
-
-    .metric-value {
-      font-weight: 600;
-      color: #222;
-    }
-
-    /* Collaborator Cards */
-    .collab-cards {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-      gap: 20px;
-      margin-bottom: 30px;
-    }
-
-    .collab-card {
-      background: white;
-      border-radius: 8px;
-      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-      overflow: hidden;
-      cursor: pointer;
-      transition: all 0.3s ease;
-    }
-
-    .collab-card:hover {
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-    }
-
-    .collab-card-header {
-      padding: 20px;
-      background: linear-gradient(135deg, #F6B704 0%, #F6B704 100%);
-      color: white;
-      display: flex;
-      justify-content: space-between;
-      align-items: start;
-    }
-
-    .collab-card-title {
-      display: flex;
-      flex-direction: column;
-      gap: 5px;
-    }
-
-    .collab-card-name {
-      font-size: 18px;
-      font-weight: 700;
-    }
-
-    .collab-card-handle {
-      font-size: 12px;
-      opacity: 0.9;
-    }
-
-    .expand-btn {
-      background: rgba(255, 255, 255, 0.3);
-      border: none;
-      color: white;
-      width: 30px;
-      height: 30px;
-      border-radius: 50%;
-      cursor: pointer;
-      font-size: 18px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      transition: all 0.3s ease;
-    }
-
-    .expand-btn:hover {
-      background: rgba(255, 255, 255, 0.5);
-    }
-
-    .collab-card-body {
-      padding: 20px;
-    }
-
-    .collab-stat {
-      display: flex;
-      justify-content: space-between;
-      margin-bottom: 15px;
-      padding-bottom: 15px;
-      border-bottom: 1px solid #f0f0f0;
-    }
-
-    .collab-stat:last-child {
-      margin-bottom: 0;
-      border-bottom: none;
-    }
-
-    .collab-stat-label {
-      font-size: 12px;
-      color: #999;
-      font-weight: 500;
-      text-transform: uppercase;
-    }
-
-    .collab-stat-value {
-      font-size: 16px;
-      font-weight: 700;
-      color: #222;
-    }
-
-    .collab-detail {
-      display: none;
-      padding-top: 15px;
-      border-top: 1px solid #f0f0f0;
-      margin-top: 15px;
-    }
-
-    .collab-detail.active {
-      display: block;
-    }
-
-    .detail-chart {
-      position: relative;
-      height: 200px;
-      margin-bottom: 15px;
-    }
-
-    .insta-link {
-      display: inline-block;
-      padding: 8px 16px;
-      background-color: #F6B704;
-      color: white;
-      text-decoration: none;
-      border-radius: 4px;
-      font-size: 13px;
-      font-weight: 600;
-      transition: all 0.3s ease;
-      text-align: center;
-    }
-
-    .insta-link:hover {
-      background-color: #e0a500;
-    }
-
-    /* Competitor Cards */
-    .competitor-cards {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-      gap: 20px;
-      margin-bottom: 30px;
-    }
-
-    .competitor-card {
-      background: white;
-      border-radius: 8px;
-      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-      padding: 20px;
-    }
-
-    .competitor-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: start;
-      margin-bottom: 20px;
-      padding-bottom: 20px;
-      border-bottom: 1px solid #f0f0f0;
-    }
-
-    .competitor-info h3 {
-      font-size: 18px;
-      font-weight: 700;
-      color: #222;
-      margin-bottom: 3px;
-    }
-
-    .competitor-info p {
-      font-size: 12px;
-      color: #999;
-    }
-
-    .follower-badge {
-      background-color: #F6B704;
-      color: white;
-      padding: 8px 12px;
-      border-radius: 4px;
-      font-size: 12px;
-      font-weight: 600;
-    }
-
-    .competitor-stats {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 15px;
-    }
-
-    .stat-item {
-      display: flex;
-      flex-direction: column;
-      gap: 5px;
-    }
-
-    .stat-label {
-      font-size: 11px;
-      color: #999;
-      font-weight: 500;
-      text-transform: uppercase;
-    }
-
-    .stat-value {
-      font-size: 18px;
-      font-weight: 700;
-      color: #222;
-    }
-
-    /* Comparison Table */
-    .comparison-table {
-      width: 100%;
-      background: white;
-      border-radius: 8px;
-      overflow: hidden;
-      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-    }
-
-    /* UTM Section */
-    .utm-section {
-      background: white;
-      border-radius: 8px;
-      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-      padding: 20px;
-      margin-bottom: 30px;
-    }
-
-    .utm-section h3 {
-      font-size: 16px;
-      font-weight: 600;
-      margin-bottom: 20px;
-      color: #222;
-    }
-
-    .utm-kpi-row {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-      gap: 15px;
-      margin-bottom: 30px;
-    }
-
-    .utm-kpi-card {
-      background: #f5f5f5;
-      padding: 15px;
-      border-radius: 8px;
-      border-left: 4px solid #7c4dff;
-    }
-
-    .utm-kpi-card h4 {
-      font-size: 12px;
-      color: #999;
-      font-weight: 500;
-      text-transform: uppercase;
-      margin-bottom: 8px;
-    }
-
-    .utm-kpi-card .value {
-      font-size: 24px;
-      font-weight: 700;
-      color: #222;
-    }
-
-    .utm-charts {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
-      gap: 20px;
-      margin-bottom: 30px;
-    }
-
-    .utm-chart-card {
-      background: white;
-      padding: 20px;
-      border-radius: 8px;
-      border: 1px solid #f0f0f0;
-    }
-
-    .utm-chart-card h4 {
-      font-size: 14px;
-      font-weight: 600;
-      margin-bottom: 15px;
-      color: #222;
-    }
-
-    /* Monthly Summary */
-    .monthly-section {
-      background: white;
-      border-radius: 8px;
-      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-      padding: 20px;
-      margin-bottom: 30px;
-    }
-
-    .monthly-section h3 {
-      font-size: 16px;
-      font-weight: 600;
-      margin-bottom: 20px;
-      color: #222;
-    }
-
-    /* Growth Targets */
-    .targets-section {
-      background: white;
-      border-radius: 8px;
-      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-      padding: 20px;
-      margin-bottom: 30px;
-    }
-
-    .targets-section h3 {
-      font-size: 16px;
-      font-weight: 600;
-      margin-bottom: 20px;
-      color: #222;
-    }
-
-    .targets-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-      gap: 20px;
-    }
-
-    .target-card {
-      background: #f9f9f9;
-      padding: 20px;
-      border-radius: 8px;
-      border-left: 4px solid #F6B704;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-
-    .target-label {
-      font-size: 14px;
-      font-weight: 600;
-      color: #222;
-      margin-right: 15px;
-    }
-
-    .target-input {
-      font-size: 18px;
-      font-weight: 700;
-      border: none;
-      background: transparent;
-      text-align: right;
-      width: 120px;
-      color: #222;
-      padding: 4px 8px;
-      border-bottom: 2px solid #F6B704;
-    }
-
-    .target-input:focus {
-      outline: none;
-      border-bottom-color: #222;
-    }
-
-    /* Footer */
-    .footer {
-      text-align: center;
-      padding: 30px;
-      color: #999;
-      font-size: 13px;
-      border-top: 1px solid #e0e0e0;
-      margin-top: 50px;
-    }
-
-    /* Responsive */
-    @media (max-width: 768px) {
-      .header {
-        flex-direction: column;
-        text-align: center;
-        gap: 15px;
-      }
-
-      .header-right {
-        text-align: center;
-      }
-
-      .tabs {
-        gap: 15px;
-        overflow-x: auto;
-      }
-
-      .kpi-row {
-        grid-template-columns: 1fr;
-      }
-
-      .charts-grid {
-        grid-template-columns: 1fr;
-      }
-
-      .collab-cards {
-        grid-template-columns: 1fr;
-      }
-
-      .competitor-cards {
-        grid-template-columns: 1fr;
-      }
-
-      .table-filters {
-        flex-direction: column;
-      }
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CityFurnish Influencer Marketing Dashboard</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800;900&family=Montserrat:wght@400;500&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.min.js"></script>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: #F5F5F7;
+            color: #222222;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 14px;
+            line-height: 1.6;
+        }
+
+        /* ==================== HEADER ==================== */
+        .header {
+            background-color: #6C5CE7;
+            color: white;
+            padding: 30px 20px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .header-left {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+
+        .header-title {
+            font-family: 'Poppins', sans-serif;
+            font-size: 32px;
+            font-weight: 700;
+            margin: 0;
+        }
+
+        .header-tagline {
+            font-size: 12px;
+            opacity: 0.95;
+            font-weight: 500;
+        }
+
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 30px;
+            flex-wrap: wrap;
+        }
+
+        .last-refresh {
+            font-size: 12px;
+            opacity: 0.9;
+            text-align: right;
+        }
+
+        .refresh-btn {
+            background-color: #F5C518;
+            color: #222222;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 6px;
+            font-family: 'Poppins', sans-serif;
+            font-weight: 600;
+            font-size: 13px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            white-space: nowrap;
+        }
+
+        .refresh-btn:hover {
+            background-color: #E6B800;
+        }
+
+        .refresh-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        /* ==================== LOADING STATE ==================== */
+        .loading-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 60vh;
+            gap: 20px;
+        }
+
+        .spinner {
+            border: 4px solid rgba(108, 92, 231, 0.1);
+            border-top-color: #6C5CE7;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        .loading-text {
+            font-family: 'Poppins', sans-serif;
+            font-size: 16px;
+            color: #6C5CE7;
+            font-weight: 600;
+        }
+
+        /* ==================== ERROR STATE ==================== */
+        .error-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 50vh;
+            margin: 40px 20px;
+        }
+
+        .error-box {
+            background-color: #f8d7da;
+            border: 1px solid #f5c6cb;
+            border-radius: 8px;
+            padding: 30px;
+            max-width: 500px;
+            text-align: center;
+        }
+
+        .error-title {
+            font-family: 'Poppins', sans-serif;
+            font-size: 18px;
+            font-weight: 700;
+            color: #DC3545;
+            margin-bottom: 10px;
+        }
+
+        .error-message {
+            color: #721c24;
+            font-size: 14px;
+            margin-bottom: 20px;
+        }
+
+        .retry-btn {
+            background-color: #DC3545;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 6px;
+            font-family: 'Poppins', sans-serif;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .retry-btn:hover {
+            background-color: #c82333;
+        }
+
+        /* ==================== MAIN CONTAINER ==================== */
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 30px 20px;
+        }
+
+        /* ==================== SUMMARY CARDS ==================== */
+        .summary-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 40px;
+        }
+
+        .card {
+            background-color: white;
+            border-radius: 8px;
+            padding: 25px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+            border-left: 4px solid #6C5CE7;
+            transition: box-shadow 0.3s ease, transform 0.3s ease;
+        }
+
+        .card:hover {
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            transform: translateY(-2px);
+        }
+
+        .card-value {
+            font-family: 'Poppins', sans-serif;
+            font-size: 32px;
+            font-weight: 700;
+            color: #6C5CE7;
+            margin-bottom: 8px;
+        }
+
+        .card-label {
+            font-family: 'Poppins', sans-serif;
+            font-size: 13px;
+            font-weight: 600;
+            color: #666666;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        /* ==================== SECTION HEADERS ==================== */
+        .section-header {
+            font-family: 'Poppins', sans-serif;
+            font-size: 22px;
+            font-weight: 700;
+            color: #222222;
+            margin-bottom: 25px;
+            margin-top: 50px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #6C5CE7;
+        }
+
+        /* ==================== INFLUENCER TABLE ==================== */
+        .table-wrapper {
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+            overflow-x: auto;
+            margin-bottom: 40px;
+        }
+
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 13px;
+        }
+
+        .data-table thead {
+            background-color: #6C5CE7;
+            color: white;
+        }
+
+        .data-table thead th {
+            padding: 16px;
+            text-align: left;
+            font-family: 'Poppins', sans-serif;
+            font-weight: 600;
+            cursor: pointer;
+            user-select: none;
+            white-space: nowrap;
+            position: relative;
+            padding-right: 25px;
+        }
+
+        .data-table thead th:hover {
+            background-color: #5A4BD6;
+        }
+
+        .sort-indicator {
+            position: absolute;
+            right: 8px;
+            font-size: 11px;
+            opacity: 0.6;
+        }
+
+        .data-table tbody tr {
+            border-bottom: 1px solid #e8e8ea;
+            transition: background-color 0.2s ease;
+        }
+
+        .data-table tbody tr:nth-child(odd) {
+            background-color: #fafafa;
+        }
+
+        .data-table tbody tr:hover {
+            background-color: #F0EAFF;
+        }
+
+        .data-table tbody td {
+            padding: 14px 16px;
+            text-align: left;
+        }
+
+        .data-table .link-icon {
+            display: inline-block;
+            width: 24px;
+            height: 24px;
+            background-color: #6C5CE7;
+            color: white;
+            border-radius: 4px;
+            text-align: center;
+            line-height: 24px;
+            font-size: 12px;
+            cursor: pointer;
+            text-decoration: none;
+            transition: background-color 0.2s ease;
+        }
+
+        .data-table .link-icon:hover {
+            background-color: #5A4BD6;
+        }
+
+        /* ==================== CHARTS CONTAINER ==================== */
+        .charts-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+
+        .chart-container {
+            background-color: white;
+            border-radius: 8px;
+            padding: 25px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+            position: relative;
+        }
+
+        .chart-title {
+            font-family: 'Poppins', sans-serif;
+            font-size: 16px;
+            font-weight: 600;
+            color: #222222;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .chart-inner {
+            position: relative;
+            height: 300px;
+        }
+
+        /* ==================== SEARCH & FILTER ==================== */
+        .filter-row {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+
+        .search-input {
+            flex: 1;
+            min-width: 200px;
+            padding: 10px 15px;
+            border: 1px solid #d0d0d0;
+            border-radius: 6px;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 13px;
+            transition: border-color 0.3s ease;
+        }
+
+        .search-input:focus {
+            outline: none;
+            border-color: #6C5CE7;
+            box-shadow: 0 0 0 3px rgba(108, 92, 231, 0.1);
+        }
+
+        /* ==================== FOOTER ==================== */
+        .footer {
+            background-color: #6C5CE7;
+            color: white;
+            text-align: center;
+            padding: 20px;
+            margin-top: 60px;
+            font-size: 12px;
+        }
+
+        .footer-text {
+            margin: 5px 0;
+        }
+
+        /* ==================== RESPONSIVE ==================== */
+        @media (max-width: 1024px) {
+            .summary-cards {
+                grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+                gap: 15px;
+            }
+
+            .charts-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .header {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .header-left {
+                align-items: center;
+                width: 100%;
+            }
+
+            .header-right {
+                justify-content: center;
+                width: 100%;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .header-title {
+                font-size: 24px;
+            }
+
+            .summary-cards {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .card-value {
+                font-size: 24px;
+            }
+
+            .card-label {
+                font-size: 11px;
+            }
+
+            .section-header {
+                font-size: 18px;
+            }
+
+            .data-table {
+                font-size: 12px;
+            }
+
+            .data-table thead th,
+            .data-table tbody td {
+                padding: 10px 8px;
+            }
+
+            .filter-row {
+                flex-direction: column;
+            }
+
+            .search-input {
+                min-width: 100%;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .summary-cards {
+                grid-template-columns: 1fr;
+            }
+
+            .card {
+                padding: 15px;
+            }
+
+            .card-value {
+                font-size: 20px;
+            }
+
+            .header {
+                padding: 15px 10px;
+            }
+
+            .header-title {
+                font-size: 20px;
+            }
+
+            .container {
+                padding: 15px 10px;
+            }
+        }
+
+        /* ==================== PRINT STYLES ==================== */
+        @media print {
+            .header,
+            .refresh-btn,
+            .filter-row,
+            .footer {
+                display: none;
+            }
+
+            body {
+                background-color: white;
+            }
+
+            .card,
+            .table-wrapper,
+            .chart-container {
+                box-shadow: none;
+                border: 1px solid #ddd;
+                page-break-inside: avoid;
+            }
+
+            .section-header {
+                page-break-after: avoid;
+            }
+        }
+
+        /* ==================== UTILITY ==================== */
+        .hidden {
+            display: none !important;
+        }
+
+        .text-center {
+            text-align: center;
+        }
+    </style>
 </head>
 <body>
-  <div class="loading-overlay" id="loadingOverlay">
-    <div class="spinner-container">
-      <div class="spinner"></div>
-      <div class="spinner-text">Loading dashboard...</div>
-    </div>
-  </div>
-
-  <div class="error-container" id="errorContainer">
-    <div id="errorMessage"></div>
-    <button onclick="retryFetch()">Retry</button>
-  </div>
-
-  <div class="container">
-    <div class="header">
-      <div class="header-left">
-        <h1>cityfurnish</h1>
-        <p>Influencer Collaborations</p>
-      </div>
-      <div class="header-right">
-        <p id="lastUpdated">Last updated: Loading...</p>
-      </div>
-    </div>
-
-    <!-- Tabs -->
-    <div class="tabs">
-      <div class="tab active" onclick="switchTab('overview')">Aggregate Overview</div>
-      <div class="tab" onclick="switchTab('individual')">Individual Performance</div>
-      <div class="tab" onclick="switchTab('competitor')">Competitor Analysis</div>
-      <div class="tab" onclick="switchTab('pageStats')">Page Performance</div>
-    </div>
-
-    <!-- Tab: Aggregate Overview -->
-    <div id="overview" class="tab-content active">
-      <div class="period-filter" id="periodFilter"></div>
-
-      <div class="kpi-row" id="overviewKPIs"></div>
-
-      <div class="charts-grid" id="overviewCharts"></div>
-
-      <div class="table-wrapper">
-        <div class="table-header">
-          <h3>Posts Performance</h3>
-          <div class="table-filters">
-            <div class="filter-group">
-              <label>Channel:</label>
-              <select id="channelFilter" onchange="filterPostsTable()">
-                <option value="">All Channels</option>
-              </select>
-            </div>
-            <div class="filter-group">
-              <label>Search:</label>
-              <input type="text" id="searchInput" placeholder="Search posts..." onkeyup="filterPostsTable()">
-            </div>
-          </div>
+    <!-- HEADER -->
+    <header class="header">
+        <div class="header-left">
+            <h1 class="header-title">CityFurnish</h1>
+            <p class="header-tagline">Influencer Marketing Dashboard</p>
         </div>
-        <table id="postsTable">
-          <thead>
-            <tr>
-              <th>Influencer</th>
-              <th>Channel</th>
-              <th>Date</th>
-              <th>Views</th>
-              <th>Likes</th>
-              <th>Comments</th>
-              <th>Reach</th>
-              <th>Engagement</th>
-              <th>Link</th>
-            </tr>
-          </thead>
-          <tbody id="postsTableBody">
-          </tbody>
-        </table>
-      </div>
+        <div class="header-right">
+            <div class="last-refresh">
+                <div style="font-size: 11px; opacity: 0.8;">Last updated</div>
+                <div id="lastRefresh">Loading...</div>
+            </div>
+            <button class="refresh-btn" id="refreshBtn" onclick="refreshData()">â» Refresh Data</button>
+        </div>
+    </header>
 
-      <div class="utm-section">
-        <h3>UTM & Conversions</h3>
-        <div class="utm-kpi-row" id="utmKPIs"></div>
-        <div class="utm-charts" id="utmCharts"></div>
+    <!-- MAIN CONTENT -->
+    <div id="mainContent" class="container hidden">
+        <!-- SUMMARY CARDS -->
+        <div class="summary-cards">
+            <div class="card">
+                <div class="card-value" id="totalViews">0</div>
+                <div class="card-label">Total Views</div>
+            </div>
+            <div class="card">
+                <div class="card-value" id="totalLikes">0</div>
+                <div class="card-label">Total Likes</div>
+            </div>
+            <div class="card">
+                <div class="card-value" id="totalComments">0</div>
+                <div class="card-label">Total Comments</div>
+            </div>
+            <div class="card">
+                <div class="card-value" id="totalUTMClicks">0</div>
+                <div class="card-label">UTM Clicks</div>
+            </div>
+            <div class="card">
+                <div class="card-value" id="totalGA4Sessions">0</div>
+                <div class="card-label">GA4 Sessions</div>
+            </div>
+            <div class="card">
+                <div class="card-value" id="totalKeyEvents">0</div>
+                <div class="card-label">Key Events</div>
+            </div>
+        </div>
+
+        <!-- INFLUENCER PERFORMANCE TABLE -->
+        <h2 class="section-header">Influencer Performance</h2>
         <div class="table-wrapper">
-          <div class="table-header">
-            <h3>Campaign Performance</h3>
-          </div>
-          <table id="utmTable">
-            <thead>
-              <tr>
-                <th>Campaign</th>
-                <th>Source</th>
-                <th>Medium</th>
-                <th>GA4 Users</th>
-                <th>GA4 Sessions</th>
-                <th>GA4 Transactions</th>
-                <th>Sheet Clicks</th>
-                <th>Influencer</th>
-              </tr>
-            </thead>
-            <tbody id="utmTableBody">
-            </tbody>
-          </table>
+            <table class="data-table" id="influencerTable">
+                <thead>
+                    <tr>
+                        <th onclick="sortTable('influencerTable', 0)">Influencer <span class="sort-indicator"></span></th>
+                        <th onclick="sortTable('influencerTable', 1)">Posts <span class="sort-indicator"></span></th>
+                        <th onclick="sortTable('influencerTable', 2)">Views <span class="sort-indicator"></span></th>
+                        <th onclick="sortTable('influencerTable', 3)">Likes <span class="sort-indicator"></span></th>
+                        <th onclick="sortTable('influencerTable', 4)">Comments <span class="sort-indicator"></span></th>
+                        <th onclick="sortTable('influencerTable', 5)">UTM Clicks <span class="sort-indicator"></span></th>
+                        <th onclick="sortTable('influencerTable', 6)">GA4 Sessions <span class="sort-indicator"></span></th>
+                        <th onclick="sortTable('influencerTable', 7)">GA4 Users <span class="sort-indicator"></span></th>
+                        <th onclick="sortTable('influencerTable', 8)">Key Events <span class="sort-indicator"></span></th>
+                        <th onclick="sortTable('influencerTable', 9)">Avg CPV <span class="sort-indicator"></span></th>
+                    </tr>
+                </thead>
+                <tbody id="influencerTableBody">
+                </tbody>
+            </table>
         </div>
-      </div>
 
-      <div class="monthly-section">
-        <h3>Monthly Summary</h3>
-        <div class="chart-container" id="monthlySummaryChart" style="height: 300px; margin-bottom: 20px;"></div>
+        <!-- CHARTS -->
+        <h2 class="section-header">Performance Analytics</h2>
+        <div class="charts-grid">
+            <div class="chart-container">
+                <h3 class="chart-title">Views by Influencer</h3>
+                <div class="chart-inner">
+                    <canvas id="viewsChart"></canvas>
+                </div>
+            </div>
+            <div class="chart-container">
+                <h3 class="chart-title">GA4 Sessions by Influencer</h3>
+                <div class="chart-inner">
+                    <canvas id="ga4SessionsChart"></canvas>
+                </div>
+            </div>
+            <div class="chart-container">
+                <h3 class="chart-title">Channel Distribution</h3>
+                <div class="chart-inner">
+                    <canvas id="channelChart"></canvas>
+                </div>
+            </div>
+            <div class="chart-container">
+                <h3 class="chart-title">UTM Clicks vs GA4 Sessions</h3>
+                <div class="chart-inner">
+                    <canvas id="utmVsGA4Chart"></canvas>
+                </div>
+            </div>
+        </div>
+
+        <!-- DETAILED POSTS TABLE -->
+        <h2 class="section-header">Detailed Posts</h2>
+        <div class="filter-row">
+            <input type="text" class="search-input" id="postsSearch" placeholder="Search posts by influencer, campaign, or channel..." onkeyup="filterPostsTable()">
+        </div>
         <div class="table-wrapper">
-          <table id="monthlyTable">
-            <thead>
-              <tr>
-                <th>Month</th>
-                <th>Views</th>
-                <th>Reached</th>
-                <th>Interactions</th>
-                <th>Profile Visits</th>
-                <th>Followers</th>
-              </tr>
-            </thead>
-            <tbody id="monthlyTableBody">
-            </tbody>
-          </table>
+            <table class="data-table" id="postsTable">
+                <thead>
+                    <tr>
+                        <th onclick="sortTable('postsTable', 0)">Influencer <span class="sort-indicator"></span></th>
+                        <th onclick="sortTable('postsTable', 1)">Channel <span class="sort-indicator"></span></th>
+                        <th onclick="sortTable('postsTable', 2)">Date <span class="sort-indicator"></span></th>
+                        <th onclick="sortTable('postsTable', 3)">Views <span class="sort-indicator"></span></th>
+                        <th onclick="sortTable('postsTable', 4)">Likes <span class="sort-indicator"></span></th>
+                        <th onclick="sortTable('postsTable', 5)">Comments <span class="sort-indicator"></span></th>
+                        <th onclick="sortTable('postsTable', 6)">UTM Clicks <span class="sort-indicator"></span></th>
+                        <th onclick="sortTable('postsTable', 7)">Skip Rate <span class="sort-indicator"></span></th>
+                        <th onclick="sortTable('postsTable', 8)">Campaign <span class="sort-indicator"></span></th>
+                        <th>Link</th>
+                    </tr>
+                </thead>
+                <tbody id="postsTableBody">
+                </tbody>
+            </table>
         </div>
-      </div>
 
-      <div class="targets-section">
-        <h3>Growth Targets</h3>
-        <div class="targets-grid" id="targetsGrid"></div>
-      </div>
-    </div>
-
-    <!-- Tab: Individual Performance -->
-    <div id="individual" class="tab-content">
-      <div class="collab-cards" id="collabCards"></div>
-    </div>
-
-    <!-- Tab: Competitor Analysis -->
-    <div id="competitor" class="tab-content">
-      <div class="competitor-cards" id="competitorCards"></div>
-      <div class="charts-grid">
-        <div class="chart-card">
-          <h3>Follower Comparison</h3>
-          <div class="chart-container" id="followerComparisonChart"></div>
+        <!-- UTM CAMPAIGNS TABLE -->
+        <h2 class="section-header">UTM Campaigns Performance</h2>
+        <div class="table-wrapper">
+            <table class="data-table" id="campaignsTable">
+                <thead>
+                    <tr>
+                        <th onclick="sortTable('campaignsTable', 0)">Campaign <span class="sort-indicator"></span></th>
+                        <th onclick="sortTable('campaignsTable', 1)">Influencer <span class="sort-indicator"></span></th>
+                        <th onclick="sortTable('campaignsTable', 2)">Channel <span class="sort-indicator"></span></th>
+                        <th onclick="sortTable('campaignsTable', 3)">Date <span class="sort-indicator"></span></th>
+                        <th onclick="sortTable('campaignsTable', 4)">GA4 Sessions <span class="sort-indicator"></span></th>
+                        <th onclick="sortTable('campaignsTable', 5)">GA4 Users <span class="sort-indicator"></span></th>
+                        <th onclick="sortTable('campaignsTable', 6)">Key Events <span class="sort-indicator"></span></th>
+                        <th onclick="sortTable('campaignsTable', 7)">UTM Clicks <span class="sort-indicator"></span></th>
+                        <th onclick="sortTable('campaignsTable', 8)">Conversions <span class="sort-indicator"></span></th>
+                    </tr>
+                </thead>
+                <tbody id="campaignsTableBody">
+                </tbody>
+            </table>
         </div>
-        <div class="chart-card">
-          <h3>Engagement Rate Comparison</h3>
-          <div class="chart-container" id="engagementRateChart"></div>
+    </div>
+
+    <!-- LOADING STATE -->
+    <div id="loadingState" class="loading-container">
+        <div class="spinner"></div>
+        <div class="loading-text">Loading dashboard...</div>
+    </div>
+
+    <!-- ERROR STATE -->
+    <div id="errorState" class="error-container hidden">
+        <div class="error-box">
+            <div class="error-title">Error Loading Data</div>
+            <div class="error-message" id="errorMessage">Unable to fetch data from the API. Please check your connection and try again.</div>
+            <button class="retry-btn" onclick="refreshData()">Retry</button>
         </div>
-      </div>
-      <div class="table-wrapper">
-        <div class="table-header">
-          <h3>Full Comparison</h3>
-        </div>
-        <table id="competitorTable">
-          <thead>
-            <tr>
-              <th>Account</th>
-              <th>Posts</th>
-              <th>Followers</th>
-              <th>Avg Likes</th>
-              <th>Avg Comments</th>
-              <th>Engagement Rate</th>
-              <th>Post Frequency</th>
-            </tr>
-          </thead>
-          <tbody id="competitorTableBody">
-          </tbody>
-        </table>
-      </div>
     </div>
 
-    <!-- Tab: Page Performance -->
-    <div id="pageStats" class="tab-content">
-      <div class="period-filter" id="pageStatsPeriodFilter"></div>
-      <div class="kpi-row" id="pageStatsKPIs"></div>
-      <div class="charts-grid" id="pageStatsCharts"></div>
-    </div>
+    <!-- FOOTER -->
+    <footer class="footer">
+        <div class="footer-text">Powered by CityFurnish</div>
+        <div class="footer-text" id="footerTimestamp">Dashboard generated on loading...</div>
+    </footer>
 
-    <div class="footer">
-      Powered by Cityfurnish Analytics
-    </div>
-  </div>
+    <script>
+        // ==================== CONFIGURATION ====================
+        const API_ENDPOINT = 'https://script.google.com/macros/s/AKfycbzgOAt6rzf8UnrHbSLsVyPu8YEkxaTAbZ55-LZRM91s-25yKBSOoU5_McKTCLLGvL6m/exec';
 
-  <script>
-    // Configuration
-    const API_URL = 'https://script.google.com/macros/s/AKfycbxfGp3rZHk8L3Vf-vqH2nU075GG9fm8bwnM3GWLOuN8mlZpi3kRBSbCD5-9LCyC8QU9/exec';
-    let dashboardData = null;
-    let charts = {};
+        // ==================== STATE ====================
+        let globalData = {
+            posts: [],
+            campaigns: [],
+            summary: [],
+            config: [],
+            lastRefresh: null
+        };
 
-    // Safe number formatter
-    function fmt(v) { return (v == null || isNaN(v)) ? '0' : Number(v).toLocaleString(); }
+        let charts = {};
+        let sortState = {};
 
-    // Initialize
-    document.addEventListener('DOMContentLoaded', () => {
-      fetchDashboardData();
-    });
+        // ==================== UTILITY FUNCTIONS ====================
+        function fmt(v) {
+            return (v == null || isNaN(v)) ? '0' : Number(v).toLocaleString();
+        }
 
-    // Fetch data from Google Apps Script
-    function fetchDashboardData() {
-      fetch(API_URL)
-        .then(response => {
-          if (!response.ok) {
-            throw new Error(`HTTP error! status: ${response.status}`);
-          }
-          return response.json();
-        })
-        .then(data => {
-          dashboardData = data;
-          hiddenLoading();
-          renderDashboard();
-        })
-        .catch(error => {
-          showError(`Failed to load dashboard data: ${error.message}`);
+        function formatDate(dateStr) {
+            if (!dateStr) return '-';
+            try {
+                const date = new Date(dateStr);
+                return date.toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' });
+            } catch {
+                return dateStr;
+            }
+        }
+
+        function formatPercent(v) {
+            return (v == null || isNaN(v)) ? '0%' : (Number(v).toFixed(1) + '%');
+        }
+
+        function showLoading() {
+            document.getElementById('loadingState').classList.remove('hidden');
+            document.getElementById('mainContent').classList.add('hidden');
+            document.getElementById('errorState').classList.add('hidden');
+        }
+
+        function showError(message) {
+            document.getElementById('errorMessage').textContent = message;
+            document.getElementById('errorState').classList.remove('hidden');
+            document.getElementById('mainContent').classList.add('hidden');
+            document.getElementById('loadingState').classList.add('hidden');
+        }
+
+        function showContent() {
+            document.getElementById('mainContent').classList.remove('hidden');
+            document.getElementById('loadingState').classList.add('hidden');
+            document.getElementById('errorState').classList.add('hidden');
+        }
+
+        // ==================== DATA FETCHING ====================
+        async function fetchData() {
+            try {
+                showLoading();
+                document.getElementById('refreshBtn').disabled = true;
+
+                const response = await fetch(API_ENDPOINT + '?v=' + Date.now(), {
+                    method: 'GET',
+                    redirect: 'follow'
+                });
+
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+
+                const data = await response.json();
+
+                if (!data.posts || !data.campaigns || !data.summary) {
+                    throw new Error('Invalid API response structure');
+                }
+
+                globalData = data;
+                renderDashboard();
+                showContent();
+            } catch (error) {
+                console.error('Fetch error:', error);
+                showError('Failed to load data: ' + error.message);
+            } finally {
+                document.getElementById('refreshBtn').disabled = false;
+            }
+        }
+
+        function refreshData() {
+            fetchData();
+        }
+
+        // ==================== RENDER FUNCTIONS ====================
+        function renderDashboard() {
+            updateSummaryCards();
+            renderInfluencerTable();
+            renderPostsTable();
+            renderCampaignsTable();
+            renderCharts();
+            updateTimestamp();
+        }
+
+        function updateSummaryCards() {
+            let totals = {
+                views: 0,
+                likes: 0,
+                comments: 0,
+                utmClicks: 0,
+                ga4Sessions: 0,
+                keyEvents: 0
+            };
+
+            globalData.summary.forEach(row => {
+                totals.views += Number(row.Total_Views) || 0;
+                totals.likes += Number(row.Total_Likes) || 0;
+                totals.comments += Number(row.Total_Comments) || 0;
+                totals.utmClicks += Number(row.Total_UTM_Clicks) || 0;
+                totals.ga4Sessions += Number(row.GA4_Total_Sessions) || 0;
+                totals.keyEvents += Number(row.GA4_Total_KeyEvents) || 0;
+            });
+
+            document.getElementById('totalViews').textContent = fmt(totals.views);
+            document.getElementById('totalLikes').textContent = fmt(totals.likes);
+            document.getElementById('totalComments').textContent = fmt(totals.comments);
+            document.getElementById('totalUTMClicks').textContent = fmt(totals.utmClicks);
+            document.getElementById('totalGA4Sessions').textContent = fmt(totals.ga4Sessions);
+            document.getElementById('totalKeyEvents').textContent = fmt(totals.keyEvents);
+        }
+
+        function renderInfluencerTable() {
+            const tbody = document.getElementById('influencerTableBody');
+            tbody.innerHTML = '';
+
+            globalData.summary.forEach(row => {
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td>${row.Influencer || '-'}</td>
+                    <td>${fmt(row.Total_Posts)}</td>
+                    <td>${fmt(row.Total_Views)}</td>
+                    <td>${fmt(row.Total_Likes)}</td>
+                    <td>${fmt(row.Total_Comments)}</td>
+                    <td>${fmt(row.Total_UTM_Clicks)}</td>
+                    <td>${fmt(row.GA4_Total_Sessions)}</td>
+                    <td>${fmt(row.GA4_Total_Users)}</td>
+                    <td>${fmt(row.GA4_Total_KeyEvents)}</td>
+                    <td>$${(Number(row.Avg_CPV) || 0).toFixed(2)}</td>
+                `;
+                tbody.appendChild(tr);
+            });
+
+            sortState['influencerTable'] = { column: -1, direction: 'asc' };
+        }
+
+        function renderPostsTable() {
+            const tbody = document.getElementById('postsTableBody');
+            tbody.innerHTML = '';
+
+            globalData.posts.forEach(row => {
+                const tr = document.createElement('tr');
+                const linkHtml = row.Posted_Link ?
+                    `<a href="${row.Posted_Link}" target="_blank" class="link-icon" title="Open post">ð</a>` :
+                    '<span style="opacity: 0.3;">-</span>';
+
+                tr.innerHTML = `
+                    <td>${row.Influencer || '-'}</td>
+                    <td>${row.Channel || '-'}</td>
+                    <td>${formatDate(row.Date)}</td>
+                    <td>${fmt(row.Views)}</td>
+                    <td>${fmt(row.Likes)}</td>
+                    <td>${fmt(row.Comments)}</td>
+                    <td>${fmt(row.UTM_Clicks)}</td>
+                    <td>${formatPercent(row.Skip_Rate)}</td>
+                    <td>${row.UTM_Campaign || '-'}</td>
+                    <td>${linkHtml}</td>
+                `;
+                tbody.appendChild(tr);
+            });
+
+            sortState['postsTable'] = { column: -1, direction: 'asc' };
+        }
+
+        function renderCampaignsTable() {
+            const tbody = document.getElementById('campaignsTableBody');
+            tbody.innerHTML = '';
+
+            globalData.campaigns.forEach(row => {
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td>${row.UTM_Campaign || '-'}</td>
+                    <td>${row.Influencer || '-'}</td>
+                    <td>${row.Channel || '-'}</td>
+                    <td>${formatDate(row.Date)}</td>
+                    <td>${fmt(row.GA4_Sessions)}</td>
+                    <td>${fmt(row.GA4_Users)}</td>
+                    <td>${fmt(row.GA4_KeyEvents)}</td>
+                    <td>${fmt(row.Sheet_UTM_Clicks)}</td>
+                    <td>${fmt(row.Sheet_UTM_Conversion)}</td>
+                `;
+                tbody.appendChild(tr);
+            });
+
+            sortState['campaignsTable'] = { column: -1, direction: 'asc' };
+        }
+
+        function renderCharts() {
+            const ctx = document.getElementById;
+
+            // 1. Views by Influencer
+            const viewsData = {};
+            globalData.summary.forEach(row => {
+                viewsData[row.Influencer] = Number(row.Total_Views) || 0;
+            });
+
+            const viewsLabels = Object.keys(viewsData);
+            const viewsValues = Object.values(viewsData);
+
+            if (charts.viewsChart) charts.viewsChart.destroy();
+            charts.viewsChart = new Chart(ctx('viewsChart'), {
+                type: 'bar',
+                data: {
+                    labels: viewsLabels,
+                    datasets: [{
+                        label: 'Views',
+                        data: viewsValues,
+                        backgroundColor: '#6C5CE7',
+                        borderColor: '#5A4BD6',
+                        borderWidth: 1,
+                        borderRadius: 6
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { display: false }
+                    },
+                    scales: {
+                        y: { beginAtZero: true, ticks: { callback: v => fmt(v) } }
+                    }
+                }
+            });
+
+            // 2. GA4 Sessions by Influencer
+            const ga4Data = {};
+            globalData.summary.forEach(row => {
+                ga4Data[row.Influencer] = Number(row.GA4_Total_Sessions) || 0;
+            });
+
+            const ga4Labels = Object.keys(ga4Data);
+            const ga4Values = Object.values(ga4Data);
+
+            if (charts.ga4SessionsChart) charts.ga4SessionsChart.destroy();
+            charts.ga4SessionsChart = new Chart(ctx('ga4SessionsChart'), {
+                type: 'bar',
+                data: {
+                    labels: ga4Labels,
+                    datasets: [{
+                        label: 'GA4 Sessions',
+                        data: ga4Values,
+                        backgroundColor: '#7D6DEC',
+                        borderColor: '#5A4BD6',
+                        borderWidth: 1,
+                        borderRadius: 6
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { display: false }
+                    },
+                    scales: {
+                        y: { beginAtZero: true, ticks: { callback: v => fmt(v) } }
+                    }
+                }
+            });
+
+            // 3. Channel Distribution (Doughnut)
+            const channelData = {};
+            globalData.posts.forEach(row => {
+                channelData[row.Channel] = (channelData[row.Channel] || 0) + 1;
+            });
+
+            const channelLabels = Object.keys(channelData);
+            const channelValues = Object.values(channelData);
+            const colors = ['#6C5CE7', '#7D6DEC', '#8E7EED', '#9F8FEE', '#B0A0EF', '#C1B1F0', '#D2C2F1', '#E3D3F2'];
+
+            if (charts.channelChart) charts.channelChart.destroy();
+            charts.channelChart = new Chart(ctx('channelChart'), {
+                type: 'doughnut',
+                data: {
+                    labels: channelLabels,
+                    datasets: [{
+                        data: channelValues,
+                        backgroundColor: colors.slice(0, channelLabels.length),
+                        borderColor: '#fff',
+                        borderWidth: 2
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { position: 'bottom' }
+                    }
+                }
+            });
+
+            // 4. UTM Clicks vs GA4 Sessions
+            const utmVsGA4Data = {};
+            globalData.summary.forEach(row => {
+                utmVsGA4Data[row.Influencer] = {
+                    utm: Number(row.Total_UTM_Clicks) || 0,
+                    ga4: Number(row.GA4_Total_Sessions) || 0
+                };
+            });
+
+            const utmVsGA4Labels = Object.keys(utmVsGA4Data);
+            const utmValues = utmVsGA4Labels.map(inf => utmVsGA4Data[inf].utm);
+            const ga4ValuesComp = utmVsGA4Labels.map(inf => utmVsGA4Data[inf].ga4);
+
+            if (charts.utmVsGA4Chart) charts.utmVsGA4Chart.destroy();
+            charts.utmVsGA4Chart = new Chart(ctx('utmVsGA4Chart'), {
+                type: 'bar',
+                data: {
+                    labels: utmVsGA4Labels,
+                    datasets: [
+                        {
+                            label: 'UTM Clicks',
+                            data: utmValues,
+                            backgroundColor: '#6C5CE7',
+                            borderRadius: 6
+                        },
+                        {
+                            label: 'GA4 Sessions',
+                            data: ga4ValuesComp,
+                            backgroundColor: '#F5C518',
+                            borderRadius: 6
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { position: 'bottom' }
+                    },
+                    scales: {
+                        y: { beginAtZero: true, ticks: { callback: v => fmt(v) } }
+                    }
+                }
+            });
+        }
+
+        function updateTimestamp() {
+            const lastRefresh = globalData.lastRefresh;
+            if (lastRefresh) {
+                try {
+                    const date = new Date(lastRefresh);
+                    const formatted = date.toLocaleString('en-US', {
+                        year: 'numeric',
+                        month: 'short',
+                        day: 'numeric',
+                        hour: '2-digit',
+                        minute: '2-digit',
+                        second: '2-digit'
+                    });
+                    document.getElementById('lastRefresh').textContent = formatted;
+                    document.getElementById('footerTimestamp').textContent = 'Last updated: ' + formatted;
+                } catch (e) {
+                    document.getElementById('lastRefresh').textContent = 'Just now';
+                }
+            }
+        }
+
+        // ==================== TABLE INTERACTIONS ====================
+        function sortTable(tableId, columnIndex) {
+            const table = document.getElementById(tableId);
+            const tbody = table.querySelector('tbody');
+            const rows = Array.from(tbody.querySelectorAll('tr'));
+
+            if (!sortState[tableId]) {
+                sortState[tableId] = { column: -1, direction: 'asc' };
+            }
+
+            const currentSort = sortState[tableId];
+            const isAsc = currentSort.column === columnIndex && currentSort.direction === 'asc';
+            const direction = isAsc ? 'desc' : 'asc';
+
+            rows.sort((a, b) => {
+                const aValue = a.children[columnIndex].textContent.trim();
+                const bValue = b.children[columnIndex].textContent.trim();
+
+                const aNum = parseFloat(aValue.replace(/[^0-9.-]/g, ''));
+                const bNum = parseFloat(bValue.replace(/[^0-9.-]/g, ''));
+
+                let aComp = isNaN(aNum) ? aValue : aNum;
+                let bComp = isNaN(bNum) ? bValue : bNum;
+
+                if (typeof aComp === 'string') {
+                    aComp = aComp.toLowerCase();
+                    bComp = bComp.toLowerCase();
+                }
+
+                let comparison = 0;
+                if (aComp < bComp) comparison = -1;
+                if (aComp > bComp) comparison = 1;
+
+                return direction === 'asc' ? comparison : -comparison;
+            });
+
+            tbody.innerHTML = '';
+            rows.forEach(row => tbody.appendChild(row));
+
+            // Update sort indicators
+            table.querySelectorAll('th .sort-indicator').forEach(el => el.textContent = '');
+            const headers = table.querySelectorAll('thead th');
+            if (headers[columnIndex]) {
+                headers[columnIndex].querySelector('.sort-indicator').textContent = direction === 'asc' ? 'â²' : 'â¼';
+            }
+
+            sortState[tableId] = { column: columnIndex, direction: direction };
+        }
+
+        function filterPostsTable() {
+            const searchInput = document.getElementById('postsSearch').value.toLowerCase();
+            const rows = document.getElementById('postsTableBody').querySelectorAll('tr');
+
+            rows.forEach(row => {
+                const text = row.textContent.toLowerCase();
+                row.style.display = text.includes(searchInput) ? '' : 'none';
+            });
+        }
+
+        // ==================== INITIALIZATION ====================
+        document.addEventListener('DOMContentLoaded', function() {
+            fetchData();
+            // Auto-refresh every 5 minutes
+            setInterval(fetchData, 5 * 60 * 1000);
         });
-    }
-
-    function hiddenLoading() {
-      document.getElementById('loadingOverlay').classList.add('hidden');
-    }
-
-    function showError(message) {
-      document.getElementById('loadingOverlay').classList.add('hidden');
-      const errorContainer = document.getElementById('errorContainer');
-      document.getElementById('errorMessage').textContent = message;
-      errorContainer.classList.add('show');
-    }
-
-    function retryFetch() {
-      document.getElementById('errorContainer').classList.remove('show');
-      document.getElementById('loadingOverlay').classList.remove('hidden');
-      fetchDashboardData();
-    }
-
-    // Main render function
-    function renderDashboard() {
-      if (!dashboardData) return;
-
-      document.getElementById('lastUpdated').textContent = `Last updated: ${dashboardData.lastUpdated}`;
-      renderOverviewTab();
-      renderIndividualTab();
-      renderCompetitorTab();
-      renderPageStatsTab();
-    }
-
-    // Tab switching
-    function switchTab(tabName) {
-      document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
-      document.querySelectorAll('.tab').forEach(el => el.classList.remove('active'));
-
-      document.getElementById(tabName).classList.add('active');
-      event.target.classList.add('active');
-    }
-
-    // Helper function to parse DD/MM/YY dates
-    function parseDate(dateStr) {
-      const [d, m, y] = dateStr.split('/');
-      return new Date(2000 + parseInt(y), parseInt(m) - 1, parseInt(d));
-    }
-
-    // Check if date is within range
-    function isWithinRange(dateStr, daysBack) {
-      const today = new Date();
-      const targetDate = parseDate(dateStr);
-      const daysDiff = Math.floor((today - targetDate) / (1000 * 60 * 60 * 24));
-      return daysDiff <= daysBack;
-    }
-
-    // ============ AGGREGATE OVERVIEW TAB ============
-    function renderOverviewTab() {
-      renderPeriodFilter();
-      renderOverviewKPIs();
-      renderOverviewCharts();
-      renderPostsTable();
-      renderUTMSection();
-      renderMonthlySummary();
-      renderTargets();
-    }
-
-    function renderPeriodFilter() {
-      const periods = [
-        { label: '7 Days', days: 7 },
-        { label: '30 Days', days: 30 },
-        { label: '60 Days', days: 60 },
-        { label: 'All Time', days: null }
-      ];
-
-      let html = '<div style="display: flex; gap: 10px; flex-wrap: wrap; align-items: center;">';
-      periods.forEach(p => {
-        const active = p.days === 30 ? 'active' : '';
-        html += `<button class="period-btn ${active}" onclick="changePeriod(${p.days})">${p.label}</button>`;
-      });
-      html += '</div>';
-
-      document.getElementById('periodFilter').innerHTML = html;
-    }
-
-    let currentPeriod = 30;
-
-    function changePeriod(days) {
-      currentPeriod = days;
-      document.querySelectorAll('#periodFilter .period-btn').forEach(btn => btn.classList.remove('active'));
-      event.target.classList.add('active');
-      renderOverviewKPIs();
-      renderOverviewCharts();
-      filterPostsTable();
-    }
-
-    function getFilteredStats() {
-      if (!dashboardData || !dashboardData.pageStats) return null;
-
-      if (currentPeriod === null) {
-        return dashboardData.pageStats;
-      }
-
-      const key = currentPeriod.toString();
-      return dashboardData.pageStats.periodData?.[key] || dashboardData.pageStats;
-    }
-
-    function renderOverviewKPIs() {
-      const stats = getFilteredStats();
-      if (!stats) return;
-
-      const kpis = [
-        { label: 'Total Views', value: stats.views },
-        { label: 'Accounts Reached', value: stats.reached || stats.accountsReached },
-        { label: 'Total Interactions', value: stats.interactions },
-        { label: 'Accounts Engaged', value: stats.engaged || stats.accountsEngaged }
-      ];
-
-      let html = '';
-      kpis.forEach(kpi => {
-        html += `
-          <div class="kpi-card">
-            <h3>${kpi.label}</h3>
-            <div class="value">${fmt(kpi.value)}</div>
-          </div>
-        `;
-      });
-
-      document.getElementById('overviewKPIs').innerHTML = html;
-    }
-
-    function renderOverviewCharts() {
-      if (!dashboardData || !dashboardData.pageStats) return;
-
-      const stats = dashboardData.pageStats;
-
-      // Engagement Breakdown Bar Chart
-      if (stats.contentBreakdown) {
-        renderChart('engagementBreakdownChart', 'Engagement Breakdown', 'bar',
-          Object.keys(stats.contentBreakdown),
-          [Object.values(stats.contentBreakdown)],
-          ['#F6B704'],
-          `
-          <div class="chart-card">
-            <h3>Engagement Breakdown</h3>
-            <div class="chart-container" id="engagementBreakdownChart"></div>
-          </div>
-          `
-        );
-      }
-
-      // Content Type Doughnut
-      if (stats.contentBreakdown) {
-        renderChart('contentTypeChart', 'Content Type Distribution', 'doughnut',
-          Object.keys(stats.contentBreakdown),
-          [Object.values(stats.contentBreakdown)],
-          ['#F6B704', '#7c4dff', '#ff6b6b', '#00a86b'],
-          `
-          <div class="chart-card">
-            <h3>Content Type Distribution</h3>
-            <div class="chart-container" id="contentTypeChart"></div>
-          </div>
-          `
-        );
-      }
-
-      // Top Posts Chart (if available)
-      const topPosts = dashboardData.posts
-        ?.sort((a, b) => (b.likes || 0) - (a.likes || 0))
-        .slice(0, 5);
-
-      if (topPosts && topPosts.length > 0) {
-        renderChart('topPostsChart', 'Top 5 Posts by Likes', 'bar',
-          topPosts.map(p => p.inf.substring(0, 10) + '...'),
-          [{label: 'Likes', data: topPosts.map(p => p.likes || 0)}],
-          ['#F6B704'],
-          `
-          <div class="chart-card">
-            <h3>Top 5 Posts by Likes</h3>
-            <div class="chart-container" id="topPostsChart"></div>
-          </div>
-          `
-        );
-      }
-    }
-
-    function renderPostsTable() {
-      if (!dashboardData || !dashboardData.posts) return;
-
-      // Populate channel filter
-      const channels = [...new Set(dashboardData.posts.map(p => p.channel))];
-      let channelOptions = '<option value="">All Channels</option>';
-      channels.forEach(ch => {
-        channelOptions += `<option value="${ch}">${ch}</option>`;
-      });
-      document.getElementById('channelFilter').innerHTML = channelOptions;
-
-      filterPostsTable();
-    }
-
-    function filterPostsTable() {
-      if (!dashboardData || !dashboardData.posts) return;
-
-      const channel = document.getElementById('channelFilter').value;
-      const search = document.getElementById('searchInput').value.toLowerCase();
-      const periodDays = currentPeriod;
-
-      let filtered = dashboardData.posts.filter(post => {
-        const matchChannel = !channel || post.channel === channel;
-        const matchSearch = !search || post.caption.toLowerCase().includes(search) ||
-                           post.inf.toLowerCase().includes(search);
-        const matchPeriod = !periodDays || isWithinRange(post.date, periodDays);
-        return matchChannel && matchSearch && matchPeriod;
-      });
-
-      let html = '';
-      filtered.forEach(post => {
-        const engagement = post.likes + post.comments + post.shares;
-        html += `
-          <tr>
-            <td>
-              <div class="influencer-cell">
-                <div class="influencer-avatar" style="background-color: ${post.color}">
-                  ${post.inf.substring(0, 2).toUpperCase()}
-                </div>
-                <div class="influencer-info">
-                  <div class="influencer-name">${post.inf}</div>
-                  <div class="influencer-handle">${post.handle}</div>
-                </div>
-              </div>
-            </td>
-            <td><span class="channel-badge">${post.channel}</span></td>
-            <td>${post.date}</td>
-            <td><span class="metric-value">${fmt(post.views)}</span></td>
-            <td><span class="metric-value">${post.likes}</span></td>
-            <td><span class="metric-value">${post.comments}</span></td>
-            <td><span class="metric-value">${fmt(post.reach)}</span></td>
-            <td><span class="metric-value">${engagement}</span></td>
-            <td><a href="${post.postedLink}" target="_blank" style="color: #F6B704; text-decoration: none;">View</a></td>
-          </tr>
-        `;
-      });
-
-      document.getElementById('postsTableBody').innerHTML = html;
-    }
-
-    function renderUTMSection() {
-      if (!dashboardData || !dashboardData.utmCampaigns) return;
-
-      const campaigns = dashboardData.utmCampaigns;
-
-      // KPIs
-      const totalUsers = campaigns.reduce((sum, c) => sum + c.ga4Users, 0);
-      const totalTransactions = campaigns.reduce((sum, c) => sum + c.ga4Transactions, 0);
-      const totalRevenue = campaigns.reduce((sum, c) => sum + c.ga4Revenue, 0);
-
-      let kpiHtml = `
-        <div class="utm-kpi-card">
-          <h4>Total GA4 Users</h4>
-          <div class="value">${totalUsers}</div>
-        </div>
-        <div class="utm-kpi-card">
-          <h4>Total Transactions</h4>
-          <div class="value">${totalTransactions}</div>
-        </div>
-        <div class="utm-kpi-card">
-          <h4>Total Revenue</h4>
-          <div class="value">â¹${fmt(totalRevenue)}</div>
-        </div>
-        <div class="utm-kpi-card">
-          <h4>Total Sheet Clicks</h4>
-          <div class="value">${campaigns.reduce((sum, c) => sum + c.sheetClicks, 0)}</div>
-        </div>
-      `;
-      document.getElementById('utmKPIs').innerHTML = kpiHtml;
-
-      // Charts
-      let chartsHtml = `
-        <div class="utm-chart-card">
-          <h4>GA4 Users by Campaign</h4>
-          <div class="chart-container" id="utmUsersChart"></div>
-        </div>
-        <div class="utm-chart-card">
-          <h4>GA4 Transactions by Campaign</h4>
-          <div class="chart-container" id="utmTransactionsChart"></div>
-        </div>
-      `;
-      document.getElementById('utmCharts').innerHTML = chartsHtml;
-
-      renderChart('utmUsersChart', 'GA4 Users by Campaign', 'bar',
-        campaigns.map(c => c.campaign),
-        [{label: 'Users', data: campaigns.map(c => c.ga4Users)}],
-        ['#7c4dff']
-      );
-
-      renderChart('utmTransactionsChart', 'GA4 Transactions by Campaign', 'bar',
-        campaigns.map(c => c.campaign),
-        [{label: 'Transactions', data: campaigns.map(c => c.ga4Transactions)}],
-        ['#F6B704']
-      );
-
-      // Table
-      let tableHtml = '';
-      campaigns.forEach(campaign => {
-        tableHtml += `
-          <tr>
-            <td><strong>${campaign.campaign}</strong></td>
-            <td>${campaign.source}</td>
-            <td>${campaign.medium}</td>
-            <td>${campaign.ga4Users}</td>
-            <td>${campaign.ga4Sessions}</td>
-            <td>${campaign.ga4Transactions}</td>
-            <td>${campaign.sheetClicks}</td>
-            <td>${campaign.influencer}</td>
-          </tr>
-        `;
-      });
-      document.getElementById('utmTableBody').innerHTML = tableHtml;
-    }
-
-    function renderMonthlySummary() {
-      if (!dashboardData || !dashboardData.pageStats || !dashboardData.pageStats.monthly) return;
-
-      const monthly = dashboardData.pageStats.monthly;
-
-      renderChart('monthlySummaryChart', 'Monthly Trends', 'line',
-        monthly.map(m => m.month),
-        [
-          {label: 'Views', data: monthly.map(m => m.views), borderColor: '#F6B704'},
-          {label: 'Reached', data: monthly.map(m => m.reached), borderColor: '#7c4dff'},
-          {label: 'Interactions', data: monthly.map(m => m.interactions), borderColor: '#ff6b6b'}
-        ],
-        ['#F6B704', '#7c4dff', '#ff6b6b']
-      );
-
-      let tableHtml = '';
-      monthly.forEach(m => {
-        tableHtml += `
-          <tr>
-            <td><strong>${m.month}</strong></td>
-            <td>${fmt(m.views)}</td>
-            <td>${fmt(m.reached)}</td>
-            <td>${fmt(m.interactions)}</td>
-            <td>${fmt(m.profileVisits)}</td>
-            <td>${fmt(m.followers)}</td>
-          </tr>
-        `;
-      });
-      document.getElementById('monthlyTableBody').innerHTML = tableHtml;
-    }
-
-    function renderTargets() {
-      if (!dashboardData || !dashboardData.targets) return;
-
-      const targets = dashboardData.targets;
-      let html = '';
-
-      targets.forEach((target, idx) => {
-        html += `
-          <div class="target-card">
-            <div class="target-label">${target.label}</div>
-            <input
-              type="number"
-              class="target-input"
-              value="${target.target}"
-              data-index="${idx}"
-              onchange="updateTarget(${idx}, this.value)"
-            >
-          </div>
-        `;
-      });
-
-      document.getElementById('targetsGrid').innerHTML = html;
-    }
-
-    function updateTarget(index, value) {
-      if (dashboardData && dashboardData.targets && dashboardData.targets[index]) {
-        dashboardData.targets[index].target = parseInt(value) || 0;
-      }
-    }
-
-    // ============ INDIVIDUAL PERFORMANCE TAB ============
-    function renderIndividualTab() {
-      if (!dashboardData || !dashboardData.posts) return;
-
-      const influencers = {};
-      dashboardData.posts.forEach(post => {
-        if (!influencers[post.inf]) {
-          influencers[post.inf] = {
-            name: post.inf,
-            handle: post.handle,
-            color: post.color,
-            posts: []
-          };
-        }
-        influencers[post.inf].posts.push(post);
-      });
-
-      let html = '';
-      Object.values(influencers).forEach((inf, idx) => {
-        const totalLikes = inf.posts.reduce((sum, p) => sum + p.likes, 0);
-        const totalComments = inf.posts.reduce((sum, p) => sum + p.comments, 0);
-        const totalViews = inf.posts.reduce((sum, p) => sum + p.views, 0);
-        const avgEngagement = inf.posts.length > 0
-          ? ((totalLikes + totalComments) / inf.posts.length).toFixed(0)
-          : 0;
-
-        html += `
-          <div class="collab-card">
-            <div class="collab-card-header" style="background: linear-gradient(135deg, ${inf.color} 0%, ${inf.color}88 100%);">
-              <div class="collab-card-title">
-                <div class="collab-card-name">${inf.name}</div>
-                <div class="collab-card-handle">${inf.handle}</div>
-              </div>
-              <button class="expand-btn" onclick="toggleDetail(${idx})">â¼</button>
-            </div>
-            <div class="collab-card-body">
-              <div class="collab-stat">
-                <div class="collab-stat-label">Posts</div>
-                <div class="collab-stat-value">${inf.posts.length}</div>
-              </div>
-              <div class="collab-stat">
-                <div class="collab-stat-label">Total Views</div>
-                <div class="collab-stat-value">${fmt(totalViews)}</div>
-              </div>
-              <div class="collab-stat">
-                <div class="collab-stat-label">Total Likes</div>
-                <div class="collab-stat-value">${totalLikes}</div>
-              </div>
-              <div class="collab-stat">
-                <div class="collab-stat-label">Avg Engagement</div>
-                <div class="collab-stat-value">${avgEngagement}</div>
-              </div>
-              <div class="collab-detail" id="detail-${idx}">
-                <div class="detail-chart" id="chart-${idx}"></div>
-                <a href="${inf.posts[0]?.postedLink || '#'}" target="_blank" class="insta-link">View on Instagram</a>
-              </div>
-            </div>
-          </div>
-        `;
-      });
-
-      document.getElementById('collabCards').innerHTML = html;
-
-      // Render detail charts after DOM is ready
-      setTimeout(() => {
-        Object.values(influencers).forEach((inf, idx) => {
-          renderChart(`chart-${idx}`, 'Post Performance', 'doughnut',
-            ['Likes', 'Comments', 'Shares'],
-            [{data: [
-              inf.posts.reduce((sum, p) => sum + p.likes, 0),
-              inf.posts.reduce((sum, p) => sum + p.comments, 0),
-              inf.posts.reduce((sum, p) => sum + p.shares, 0)
-            ]}],
-            ['#F6B704', '#7c4dff', '#ff6b6b']
-          );
-        });
-      }, 100);
-    }
-
-    function toggleDetail(idx) {
-      const detail = document.getElementById(`detail-${idx}`);
-      if (detail) {
-        detail.classList.toggle('active');
-      }
-    }
-
-    // ============ COMPETITOR ANALYSIS TAB ============
-    function renderCompetitorTab() {
-      if (!dashboardData || !dashboardData.competitors) return;
-
-      const competitors = dashboardData.competitors;
-
-      // Competitor Cards
-      let cardHtml = '';
-      competitors.forEach(comp => {
-        cardHtml += `
-          <div class="competitor-card">
-            <div class="competitor-header">
-              <div class="competitor-info">
-                <h3>${comp.name}</h3>
-                <p>${comp.handle}</p>
-              </div>
-              <div class="follower-badge">${fmt(comp.followers)} Followers</div>
-            </div>
-            <div class="competitor-stats">
-              <div class="stat-item">
-                <div class="stat-label">Posts</div>
-                <div class="stat-value">${comp.posts}</div>
-              </div>
-              <div class="stat-item">
-                <div class="stat-label">Avg Likes</div>
-                <div class="stat-value">${comp.avgLikes}</div>
-              </div>
-              <div class="stat-item">
-                <div class="stat-label">Avg Comments</div>
-                <div class="stat-value">${comp.avgComments}</div>
-              </div>
-              <div class="stat-item">
-                <div class="stat-label">Engagement Rate</div>
-                <div class="stat-value">${comp.engRate}%</div>
-              </div>
-              <div class="stat-item">
-                <div class="stat-label">Post Frequency</div>
-                <div class="stat-value">${comp.postFreq}</div>
-              </div>
-            </div>
-          </div>
-        `;
-      });
-      document.getElementById('competitorCards').innerHTML = cardHtml;
-
-      // Comparison Charts
-      setTimeout(() => {
-        renderChart('followerComparisonChart', 'Follower Comparison', 'bar',
-          competitors.map(c => c.name),
-          [{label: 'Followers', data: competitors.map(c => c.followers)}],
-          ['#F6B704']
-        );
-
-        renderChart('engagementRateChart', 'Engagement Rate', 'doughnut',
-          competitors.map(c => c.name),
-          [{data: competitors.map(c => c.engRate)}],
-          ['#F6B704', '#7c4dff', '#ff6b6b', '#00a86b']
-        );
-      }, 100);
-
-      // Comparison Table
-      let tableHtml = '';
-      competitors.forEach(comp => {
-        tableHtml += `
-          <tr>
-            <td><strong>${comp.name}</strong></td>
-            <td>${comp.posts}</td>
-            <td>${fmt(comp.followers)}</td>
-            <td>${comp.avgLikes}</td>
-            <td>${comp.avgComments}</td>
-            <td>${comp.engRate}%</td>
-            <td>${comp.postFreq}</td>
-          </tr>
-        `;
-      });
-      document.getElementById('competitorTableBody').innerHTML = tableHtml;
-    }
-
-    // ============ PAGE PERFORMANCE TAB ============
-    function renderPageStatsTab() {
-      if (!dashboardData || !dashboardData.pageStats) return;
-
-      renderPageStatsPeriodFilter();
-      renderPageStatsKPIs();
-      renderPageStatsCharts();
-    }
-
-    let pageStatsPeriod = 30;
-
-    function renderPageStatsPeriodFilter() {
-      const periods = [
-        { label: '7 Days', days: 7 },
-        { label: '30 Days', days: 30 },
-        { label: '60 Days', days: 60 },
-        { label: '90 Days', days: 90 }
-      ];
-
-      let html = '<div style="display: flex; gap: 10px; flex-wrap: wrap; align-items: center;">';
-      periods.forEach(p => {
-        const active = p.days === 30 ? 'active' : '';
-        html += `<button class="period-btn ${active}" onclick="changePageStatsPeriod(${p.days})">${p.label}</button>`;
-      });
-      html += '</div>';
-
-      document.getElementById('pageStatsPeriodFilter').innerHTML = html;
-    }
-
-    function changePageStatsPeriod(days) {
-      pageStatsPeriod = days;
-      document.querySelectorAll('#pageStatsPeriodFilter .period-btn').forEach(btn => btn.classList.remove('active'));
-      event.target.classList.add('active');
-      renderPageStatsKPIs();
-      renderPageStatsCharts();
-    }
-
-    function getPageStats() {
-      if (!dashboardData || !dashboardData.pageStats) return null;
-      const key = pageStatsPeriod.toString();
-      return dashboardData.pageStats.periodData?.[key] || dashboardData.pageStats;
-    }
-
-    function renderPageStatsKPIs() {
-      const stats = getPageStats();
-      if (!stats) return;
-
-      const kpis = [
-        { label: 'Views', value: stats.views },
-        { label: 'Reached', value: stats.reached || stats.accountsReached },
-        { label: 'Interactions', value: stats.interactions },
-        { label: 'Engaged', value: stats.engaged || stats.accountsEngaged },
-        { label: 'Profile Visits', value: stats.profileVisits },
-        { label: 'Link Taps', value: stats.linkTaps || stats.externalLinkTaps }
-      ];
-
-      let html = '';
-      kpis.forEach(kpi => {
-        html += `
-          <div class="kpi-card">
-            <h3>${kpi.label}</h3>
-            <div class="value">${fmt(kpi.value)}</div>
-          </div>
-        `;
-      });
-
-      document.getElementById('pageStatsKPIs').innerHTML = html;
-    }
-
-    function renderPageStatsCharts() {
-      if (!dashboardData || !dashboardData.pageStats) return;
-
-      const stats = dashboardData.pageStats;
-
-      // Views and Reach Trend
-      if (stats.monthly) {
-        renderChart('viewsReachTrendChart', 'Views & Reach Trend', 'line',
-          stats.monthly.map(m => m.month),
-          [
-            {label: 'Views', data: stats.monthly.map(m => m.views), borderColor: '#F6B704'},
-            {label: 'Reached', data: stats.monthly.map(m => m.reached), borderColor: '#7c4dff'}
-          ],
-          ['#F6B704', '#7c4dff']
-        );
-      }
-
-      // Content Breakdown
-      if (stats.contentBreakdown) {
-        renderChart('contentBreakdownDoughnutChart', 'Content Type Distribution', 'doughnut',
-          Object.keys(stats.contentBreakdown),
-          [{data: Object.values(stats.contentBreakdown)}],
-          ['#F6B704', '#7c4dff', '#ff6b6b', '#00a86b']
-        );
-      }
-
-      // Follower Growth
-      if (stats.monthly) {
-        renderChart('followerGrowthChart', 'Follower Growth', 'line',
-          stats.monthly.map(m => m.month),
-          [{label: 'Followers', data: stats.monthly.map(m => m.followers), borderColor: '#F6B704'}],
-          ['#F6B704']
-        );
-      }
-
-      // Interactions Bar Chart
-      if (stats.monthly) {
-        renderChart('interactionsBarChart', 'Monthly Interactions', 'bar',
-          stats.monthly.map(m => m.month),
-          [{label: 'Interactions', data: stats.monthly.map(m => m.interactions)}],
-          ['#7c4dff']
-        );
-      }
-    }
-
-    // ============ CHART RENDERING ============
-    function renderChart(elementId, title, type, labels, datasets, colors, containerHtml = '') {
-      if (!document.getElementById(elementId)) {
-        if (containerHtml) {
-          const parentId = elementId + 'Parent';
-          if (!document.getElementById(parentId)) {
-            const container = document.querySelector('.charts-grid') || document.querySelector('.utm-charts') || document.querySelector('.chart-container');
-            if (container) {
-              container.innerHTML += containerHtml;
-            }
-          }
-        } else {
-          return;
-        }
-      }
-
-      const ctx = document.getElementById(elementId);
-      if (!ctx) return;
-
-      // Destroy existing chart
-      if (charts[elementId]) {
-        charts[elementId].destroy();
-      }
-
-      const chartData = {
-        labels: labels,
-        datasets: datasets.map((ds, idx) => ({
-          label: ds.label || 'Data',
-          data: ds.data,
-          borderColor: ds.borderColor || colors[idx] || '#F6B704',
-          backgroundColor: type === 'doughnut' || type === 'pie'
-            ? colors
-            : (ds.backgroundColor || colors[idx] || '#F6B704'),
-          borderWidth: type === 'line' ? 2 : (type === 'doughnut' || type === 'pie' ? 0 : 1),
-          fill: false,
-          tension: 0.4
-        }))
-      };
-
-      charts[elementId] = new Chart(ctx, {
-        type: type,
-        data: chartData,
-        options: {
-          responsive: true,
-          maintainAspectRatio: false,
-          plugins: {
-            legend: {
-              position: type === 'line' ? 'top' : 'bottom',
-              labels: {
-                font: {
-                  family: "'Inter', sans-serif",
-                  size: 12
-                },
-                padding: 15,
-                usePointStyle: true
-              }
-            },
-            tooltip: {
-              backgroundColor: 'rgba(0, 0, 0, 0.8)',
-              padding: 12,
-              titleFont: {
-                size: 13,
-                family: "'Inter', sans-serif"
-              },
-              bodyFont: {
-                size: 12,
-                family: "'Inter', sans-serif"
-              },
-              borderColor: '#F6B704',
-              borderWidth: 1
-            }
-          },
-          scales: type === 'line' || type === 'bar' ? {
-            x: {
-              ticks: {
-                font: {
-                  family: "'Inter', sans-serif",
-                  size: 11
-                },
-                color: '#999'
-              },
-              grid: {
-                display: false
-              }
-            },
-            y: {
-              ticks: {
-                font: {
-                  family: "'Inter', sans-serif",
-                  size: 11
-                },
-                color: '#999'
-              },
-              grid: {
-                color: '#f0f0f0'
-              },
-              beginAtZero: true
-            }
-          } : {}
-        }
-      });
-    }
-  </script>
+    </script>
 </body>
 </html>
