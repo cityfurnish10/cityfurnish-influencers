@@ -976,6 +976,9 @@
     let dashboardData = null;
     let charts = {};
 
+    // Safe number formatter
+    function fmt(v) { return (v == null || isNaN(v)) ? '0' : Number(v).toLocaleString(); }
+
     // Initialize
     document.addEventListener('DOMContentLoaded', () => {
       fetchDashboardData();
